@@ -1,0 +1,131 @@
+body {
+    background: none;
+    font-size: 14px;
+}
+
+.am-form {
+    margin-top: 50px;
+}
+
+.am-form .am-form-group {
+    overflow: auto;
+}
+
+.am-form .am-form-group label {
+    text-align: right;
+    font-weight: 400;
+    color: #323232;
+    height: 30px;
+    line-height: 30px;
+}
+
+.am-form .am-form-group .am-form-field {
+    display: inline-block;
+    width: 30%;
+    height: 30px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+	line-height: 15px!important;
+    font-size:12px;
+}
+
+.am-form p .am-btn {
+    border-radius: 4px;
+}
+
+.z_editor {
+    color: #23527c;
+    font-size: 16px;
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.z_editor:hover {
+    color: #4c88f5;
+}
+
+.z_cz_tab {
+    margin-top: 25px;
+    height: 36px;
+    border-bottom: 1px solid #ddd;
+}
+
+.z_cz_tab li.active {
+    height: 36px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    color: #4c88f5;
+}
+
+.z_cz_tab li {
+    float: left;
+    height: 35px;
+    background-color: #fff;
+    padding: 0px 15px;
+    line-height: 35px;
+    cursor: pointer;
+    color: #A7B1C2;
+    margin-right: 3px;
+    border-radius: 3px 3px 0 0;
+    font-size: 14px;
+}
+
+button.am-btn-default,
+.am-btn {
+    width: 120px;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #F37B1D!important;
+    line-height: 19px;
+    color: #fff!important;
+}
+
+.am-btn-default:hover,
+.am-btn:hover {
+    background: rgba(28, 104, 242, 1);
+    color: #fff;
+}
+
+.am-btn-default:checked,
+.am-btn:visited {
+    background: rgba(28, 104, 242, 1);
+    color: #fff;
+}
+
+.z_yzm {
+    height: 30px;
+    line-height: 15px!important;
+    margin-left: 10px;
+}
+
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #f00;
+    font-size: 12px;
+}
+
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #f00;
+    font-size: 12px;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #f00;
+    font-size: 12px;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #f00;
+    font-size: 12px;
+}
+
+.z_warn {
+    font-size: 12px;
+    color: red;
+    line-height: 28px;
+    padding-left: 12px;
+}

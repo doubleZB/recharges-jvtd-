@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="10" />
+        <property name="maxTotal" value="50" />
+        <property name="maxWaitMillis" value="5000" />
+        <property name="testOnBorrow" value="true" />
+    </bean>
+
+    <!--号段缓存redis数据源 db-3 -->
+    <bean id="commJedisPool" class="redis.clients.jedis.JedisPool"  scope="singleton">
+        <constructor-arg name="poolConfig" ref="poolConfig"/>
+        <constructor-arg name="host" value="${redis.host}"/>
+        <constructor-arg name="port" value="${redis.port}" type="int"/>
+        <constructor-arg name="timeout" value="2000"/>
+        <constructor-arg name="password" value="${redis.password}"/>
+        <constructor-arg name="database" value="${redis.comm.db}"/>
+    </bean>
+
+    <bean id="commRedisTemplate" class="com.jtd.recharge.base.cache.redis.RedisTemplate">
+        <property name="jedisPool" ref="commJedisPool"/>
+    </bean>
+</beans>

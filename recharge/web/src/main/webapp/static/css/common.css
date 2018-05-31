@@ -1,0 +1,170 @@
+@charset "utf-8";
+
+/*公共css*/
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+img {
+    border: none;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: '微软雅黑';
+    font-size: 14px;
+}
+
+i {
+    font-style: normal;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.col-margin-bottom-box {
+    margin-bottom: 10px;
+}
+
+.col-margin-top-box {
+    margin-top: 10px;
+}
+
+.auto_center {
+    display: table;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.col-border {
+    background: #fff;
+    padding-bottom: 10px;
+}
+
+button {
+    cursor: pointer;
+    margin: 0px;
+}
+
+.m-box {
+    background-color: #fff;
+    display: block;
+    overflow: auto;
+}
+
+.m-box .box-content {
+    padding: 6px 14px 20px 20px !important;
+    overflow: auto;
+}
+
+.m-box .box-title {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    color: #333;
+    padding-left: 5px;
+    font-size: 16px;
+    margin-bottom: 6px;
+    padding: 0 15px 0 20px;
+    background-color: #f7f9fa;
+}
+
+.table>tbody>tr.odd td {
+    color: #4c88f5;
+}
+.texttable > thead > tr{
+	background:#ddd!important;
+}
+.texttable > thead > tr > th {
+    padding: 15px 8px !important;
+}
+
+.table>tbody>tr>td {
+    padding: 10px 8px;
+    text-align: left;
+    text-indent: 70px;
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>td {
+    border: 0;
+    word-break: break-all;
+    text-indent: 70px;
+    /* white-space: nowrap; */
+    /* text-overflow: ellipsis; */
+    /* -moz-text-overflow: ellipsis; */
+    /* -o-text-overflow: ellipsis; */
+    /* overflow: hidden; */
+}
+
+.form-element {
+    display: inline-block;
+    vertical-align: top;
+    border-bottom: 1px solid #dbdbdb;
+    position: relative;
+    min-height: 36px;
+    font-size: 14px;
+    letter-spacing: normal;
+    word-spacing: normal;
+}
+
+.select {
+    border: none;
+    background-color: #fff;
+    width: 100%;
+}
+
+.container {
+    width: inherit;
+    padding: 13px 23px;
+    width: 100%\0 !important;
+    overflow: hidden;
+}
+
+.z_red {
+    color: red;
+}
+.table-striped>tbody>tr:nth-child(odd){
+	background:#fff!important;
+}
+.table-striped>tbody>tr:nth-child(even){
+	background:#f9f9f9!important;
+}

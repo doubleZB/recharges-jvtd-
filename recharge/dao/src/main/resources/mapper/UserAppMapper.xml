@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserAppMapper">
+    <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.UserApp">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="app_type" property="appType" jdbcType="INTEGER"/>
+        <result column="group_id" property="groupId" jdbcType="INTEGER"/>
+        <result column="is_cache" property="isCache" jdbcType="INTEGER"/>
+        <result column="user_cn_name" property="userCnName" jdbcType="VARCHAR"/>
+        <result column="charge_type" property="chargeType" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, app_type, group_id, is_cache, charge_type, update_time
+  </sql>
+
+
+    <!--查询商户应用表-->
+    <select id="selectUserAppList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT a.<include refid="Base_Column_List"/>,b.user_cn_name FROM user_app a LEFT JOIN USER b ON a.user_id=b.id
+        WHERE b.p_id IS NULL
+        <if test="userId!= null and userId!=''">and a.user_id=#{userId}</if>
+        <if test="userCnName!= null and userCnName!=''">and b.user_cn_name LIKE CONCAT('%',#{userCnName},'%')</if>
+        <if test="appType!= null and appType!=''">and a.app_type=#{appType}</if>
+        <if test="groupIds!=null">
+            AND a.group_id IN
+            <foreach collection="groupIds" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+        </if>
+    </select>
+
+    <!--新增商户应用表-->
+    <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.UserApp">
+    insert into user_app set user_id=#{userId},app_type=#{appType},group_id=#{groupId},is_cache=#{isCache},charge_type=#{chargeType},update_time=now()
+  </insert>
+
+    <!--根据应用表中的id查询表中基本内容-->
+    <select id="selectUserAppListById" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.UserApp">
+        SELECT a.<include refid="Base_Column_List"/>,b.user_cn_name FROM user_app a LEFT JOIN USER b ON a.user_id=b.id
+        where a.id=#{id}
+    </select>
+
+    <!--修改商户应用表-->
+    <update id="updateApp" parameterType="com.jtd.recharge.dao.po.UserApp">
+        update user_app
+        <set>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=INTEGER},
+            </if>
+            <if test="appType != null">
+                app_type = #{appType,jdbcType=INTEGER},
+            </if>
+            <if test="isCache != null">
+                is_cache = #{isCache,jdbcType=INTEGER},
+            </if>
+            <if test="chargeType!= null">
+                charge_type = #{chargeType,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time=now()
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--根据userId查询应用-->
+    <select id="selectUserAppByUserId" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.UserApp">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user_app where user_id=#{userId}
+        <if test="appType!= null and appType!=''">and app_type=#{appType}</if>
+    </select>
+
+    <select id="selectUserAppByUserAppType" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.UserApp">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user_app where user_id=#{userId} and app_type = #{appType}
+    </select>
+
+
+    <!--刘晨浩-->
+    <!--根据userid查询货架id -->
+    <select id="getGroupIds" resultType="java.lang.Integer">
+        SELECT group_id FROM user_app
+        <where>
+            user_id=#{seltype} and app_type=#{businessType}
+        </where>
+    </select>
+</mapper>

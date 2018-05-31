@@ -1,0 +1,159 @@
+body {
+    background: none;
+    font-size: 14px;
+}
+
+.am-form-group {
+    overflow: auto;
+}
+
+.z_jl_tab {
+    margin-top: 25px;
+    height: 36px;
+    border-bottom: 1px solid #ddd;
+}
+
+.z_jl_tab li.active {
+    height: 36px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    color: #4c88f5;
+}
+
+.z_jl_tab li {
+    float: left;
+    height: 35px;
+    background-color: #fff;
+    padding: 0px 15px;
+    line-height: 35px;
+    cursor: pointer;
+    color: #A7B1C2;
+    margin-right: 3px;
+    border-radius: 3px 3px 0 0;
+}
+
+.z_allCount span i {
+    font-style: normal;
+}
+
+.am-form fieldset {
+    padding: 0;
+    margin: 0;
+}
+
+.am-form .am-form-group input {
+    border-radius: 4px;
+    width: 20%;
+    float: left;
+    margin-right: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.am-form .am-form-group select {
+    border-radius: 4px;
+    width: 20%;
+    line-height: 1.4;
+    float: left;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.am-form .am-form-group button {
+    border-radius: 4px;
+    font-size: 14px;
+    background: rgba(28, 104, 242, .8);
+    line-height: 19px;
+    color: #fff;
+}
+
+.am-form .am-form-group button:hover {
+    background: rgba(28, 104, 242, 1);
+}
+
+.z_shu p {
+    line-height: 50px;
+    font-size: 14px;
+}
+
+.z_shu p a {
+    color: #a8a8a8;
+    margin-right: 30px;
+}
+
+.z_shu p button {
+    border-radius: 4px!important;
+    font-size: 14px;
+    background: rgba(28, 104, 242, .8)!important;
+    line-height: 15px;
+    color: #fff!important;
+}
+
+.z_shu p button:hover {
+    background: rgba(28, 104, 242, 1);
+    color: #fff;
+}
+
+
+/*分页*/
+
+.am-pagination {
+    margin: 0;
+}
+
+.am-pagination li a {
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+.z_allCount {
+    font-size: 12px;
+}
+
+.am-pagination>li>a {
+    border: none;
+    margin: 0;
+}
+
+.am-table {
+    border: 1px solid #ccc;
+}
+
+.am-table th {
+    text-align: center!important;
+}
+
+.am-table tr {
+    border-top: 1px solid #ddd!important;
+}
+
+.am-table td {
+    text-align: center!important;
+    border-top: 1px solid #ddd!important;
+}
+
+.z_ddh {
+    display: inline-block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    cursor: pointer;
+}
+
+.z_number {
+    width: 100px;
+}
+
+.layui-layer-tips,
+.layui-layer-content {
+    display: block;
+    -webkit-user-select: all;
+    -moz-user-select: all;
+    -ms-user-select: all;
+    -o-user-select: all;
+    user-select: all;
+    word-wrap: break-word;
+    border-collapse: collapse;
+}

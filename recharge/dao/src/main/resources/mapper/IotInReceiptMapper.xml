@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.IotInReceiptMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.IotInReceipt" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="serial_num" property="serialNum" jdbcType="VARCHAR" />
+    <result column="purchase_id" property="purchaseId" jdbcType="INTEGER" />
+    <result column="in_receipt_status" property="inReceiptStatus" jdbcType="INTEGER" />
+    <result column="creater_id" property="createrId" jdbcType="INTEGER" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="error_desc" property="errorDesc" jdbcType="VARCHAR" />
+    <result column="cost_discount" property="costDiscount" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, serial_num, purchase_id, creater_id, total, error_desc, in_receipt_status, cost_discount, cost, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from iot_in_receipt
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySerialNum" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from iot_in_receipt
+    where serial_num = #{serialNum,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPurchaseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from iot_in_receipt
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap"  parameterType="com.jtd.recharge.dao.po.IotInReceipt">
+    SELECT inr.id, inr.serial_num, inr.purchase_id, inr.creater_id, inr.total, inr.error_desc, inr.in_receipt_status,
+    inr.cost_discount, inr.cost, inr.create_time, inr.update_time,
+    u.name as createrName, s.name as supplyName, pr.name as productName, p.cost_discount as costDiscount,
+    p.cost as cost,pr.name as productName, p.serial_num as purchaseSerialNum, p.card_size as cardSize
+    FROM iot_in_receipt inr LEFT JOIN admin_user u ON inr.creater_id=u.id
+    LEFT JOIN iot_purchase p ON inr.purchase_id=p.id
+    LEFT JOIN iot_supply s ON p.supply_id=s.id LEFT JOIN iot_product pr ON p.flow_product_id=pr.id
+    <where>
+    <if test="serialNum!= null and serialNum!=''">  and inr.serial_num=#{serialNum}</if>
+    <if test="createrName!= null and createrName!=''">  and u.name LIKE CONCAT('%',#{createrName},'%')</if>
+    <if test="inReceiptStatus!= null and inReceiptStatus!=''">  and inr.in_receipt_status=#{inReceiptStatus}</if>
+    <if test="purchaseSerialNum!= null and purchaseSerialNum!=''">  and p.serial_num=#{purchaseSerialNum}</if>
+    <if test="cardSize!= null">  and p.card_size=#{cardSize}</if>
+    <if test="supplyId!= null">  and p.supply_id=#{supplyId}</if>
+    <if test="productId!= null">  and p.flow_product_id=#{productId}</if>
+    <if test="purchaseId!= null">  and inr.purchase_id=#{purchaseId}</if>
+    <if test="operator!= null">  and pr.operator=#{operator}</if>
+      <if test="beginTime!=null and beginTime!=''">
+        and inr.create_time &gt;=#{beginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        and inr.create_time &lt;=#{endTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <update id="changeStatus" parameterType="com.jtd.recharge.dao.po.IotInReceipt" >
+    update iot_in_receipt set
+    in_receipt_status = #{inReceiptStatus,jdbcType=INTEGER},
+    update_time = now()
+    where id = #{id} and in_receipt_status = #{currentInReceiptStatus,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from iot_in_receipt
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.IotInReceipt" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_in_receipt (id, serial_num, purchase_id, 
+      creater_id, total, error_desc, in_receipt_status, cost_discount, cost,  create_time,update_time)
+    values (#{id,jdbcType=INTEGER}, #{serialNum,jdbcType=VARCHAR}, #{purchaseId,jdbcType=INTEGER}, 
+      #{createrId,jdbcType=INTEGER}, #{total,jdbcType=INTEGER}, #{errorDesc,jdbcType=INTEGER},#{inReceiptStatus,jdbcType=INTEGER},
+      now(),
+      now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.IotInReceipt" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_in_receipt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serialNum != null" >
+        serial_num,
+      </if>
+      <if test="purchaseId != null" >
+        purchase_id,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="errorDesc != null" >
+        error_desc,
+      </if>
+      <if test="inReceiptStatus != null" >
+        in_receipt_status,
+      </if>
+      <if test="costDiscount != null" >
+        cost_discount,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      create_time,
+      update_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="serialNum != null" >
+        #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null" >
+        #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="errorDesc != null" >
+        #{errorDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="inReceiptStatus != null" >
+        #{inReceiptStatus,jdbcType=INTEGER},
+      </if>
+      <if test="costDiscount != null" >
+        #{costDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      now(),
+      now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.IotInReceipt" >
+    update iot_in_receipt
+    <set >
+      <if test="serialNum != null" >
+        serial_num = #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null" >
+        purchase_id = #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="errorDesc != null" >
+        error_desc = #{errorDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="inReceiptStatus != null" >
+        in_receipt_status = #{inReceiptStatus,jdbcType=INTEGER},
+      </if>
+      <if test="costDiscount != null" >
+        cost_discount = #{costDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      update_time = now()
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.IotInReceipt" >
+    update iot_in_receipt
+    set serial_num = #{serialNum,jdbcType=VARCHAR},
+      purchase_id = #{purchaseId,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      total = #{total,jdbcType=INTEGER},
+      error_desc = #{errorDesc,jdbcType=VARCHAR},
+      in_receipt_status = #{inReceiptStatus,jdbcType=INTEGER},
+      cost_discount = #{costDiscount,jdbcType=DECIMAL},
+      cost = #{cost,jdbcType=DECIMAL},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

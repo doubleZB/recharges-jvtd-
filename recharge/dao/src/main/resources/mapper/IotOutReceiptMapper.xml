@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.IotOutReceiptMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.IotOutReceipt" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="serial_num" property="serialNum" jdbcType="VARCHAR" />
+    <result column="cost_discount" property="costDiscount" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="price_discount" property="priceDiscount" jdbcType="DECIMAL" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="sub_order_id" property="subOrderId" jdbcType="INTEGER" />
+    <result column="out_receipt_status" property="outReceiptStatus" jdbcType="INTEGER" />
+    <result column="creater_id" property="createrId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, serial_num, cost_discount, cost, price_discount, price, amount, total, sub_order_id,
+    out_receipt_status, creater_id, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from iot_out_receipt
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySubOrderId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from iot_out_receipt
+    where sub_order_id = #{subOrderId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.IotOutReceipt" >
+    select
+    ou.id, ou.serial_num, ou.cost_discount, ou.cost, ou.price_discount, ou.price, ou.amount, ou.total, ou.sub_order_id, ou.out_receipt_status,
+    ou.creater_id, ou.create_time, ou.update_time, sub.serial_num as subOrderSerialNum, ord.serial_num as orderSerialNum,
+    ord.user_id as customerId, ip.name as productName, u.user_cn_name as customerName, au.name as createrName,sub.size AS cardSize
+    from iot_out_receipt ou
+    left join iot_sub_order sub on ou.sub_order_id = sub.id
+    left join iot_order ord on sub.parent_id = ord.id
+    left join iot_product ip on sub.flow_product_id = ip.id
+    left join user u on ord.user_id = u.id
+    left join admin_user au on ou.creater_id = au.id
+    <where>
+    <if test="serialNum!= null and serialNum!=''">  and ou.serial_num=#{serialNum}</if>
+    <if test="orderSerialNum!= null and orderSerialNum!=''">  and ord.serial_num=#{orderSerialNum}</if>
+    <if test="subOrderSerialNum!= null and subOrderSerialNum!=''">  and sub.serial_num=#{subOrderSerialNum}</if>
+    <if test="customerName!= null and customerName!=''">  and u.user_cn_name=#{customerName}</if>
+    <if test="cardSize!= null">  and sub.size=#{cardSize}</if>
+    <if test="operator!= null">  and sub.operator=#{operator}</if>
+    <if test="outReceiptStatus!= null">  and ou.out_receipt_status=#{outReceiptStatus}</if>
+    <if test="productId!= null">  and sub.flow_product_id=#{productId}</if>
+    <if test="createrName!= null and createrName!=''">  and au.name LIKE CONCAT('%',#{createrName},'%')</if>
+      <if test="beginTime!=null and beginTime!=''">
+        and ou.create_time &gt;=#{beginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        and ou.create_time &lt;=#{endTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from iot_out_receipt
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.IotOutReceipt" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_out_receipt (id, serial_num, cost_discount, 
+      cost, price_discount, price, 
+      amount, total, sub_order_id, out_receipt_status,
+      creater_id, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{serialNum,jdbcType=VARCHAR}, #{costDiscount,jdbcType=DECIMAL}, 
+      #{cost,jdbcType=DECIMAL}, #{priceDiscount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DECIMAL}, #{total,jdbcType=INTEGER}, #{subOrderId,jdbcType=INTEGER},
+      #{createrId,jdbcType=INTEGER}, now(),now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.IotOutReceipt" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_out_receipt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serialNum != null" >
+        serial_num,
+      </if>
+      <if test="costDiscount != null" >
+        cost_discount,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="subOrderId != null" >
+        sub_order_id,
+      </if>
+      <if test="outReceiptStatus != null" >
+        out_receipt_status,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+        create_time,
+        update_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="serialNum != null" >
+        #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="costDiscount != null" >
+        #{costDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="priceDiscount != null" >
+        #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="subOrderId != null" >
+        #{subOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="outReceiptStatus != null" >
+        #{outReceiptStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=INTEGER},
+      </if>
+        now(),
+        now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.IotOutReceipt" >
+    update iot_out_receipt
+    <set >
+      <if test="serialNum != null" >
+        serial_num = #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="costDiscount != null" >
+        cost_discount = #{costDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount = #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="subOrderId != null" >
+        sub_order_id = #{subOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="outReceiptStatus != null" >
+        out_receipt_status = #{outReceiptStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+        update_time = now()
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.IotOutReceipt" >
+    update iot_out_receipt
+    set serial_num = #{serialNum,jdbcType=VARCHAR},
+      cost_discount = #{costDiscount,jdbcType=DECIMAL},
+      cost = #{cost,jdbcType=DECIMAL},
+      price_discount = #{priceDiscount,jdbcType=DECIMAL},
+      price = #{price,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DECIMAL},
+      total = #{total,jdbcType=INTEGER},
+      sub_order_id = #{subOrderId,jdbcType=INTEGER},
+      out_receipt_status = #{outReceiptStatus,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      create_time = now(),
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="changeStatus" parameterType="com.jtd.recharge.dao.po.IotOutReceipt" >
+    update iot_out_receipt
+    set
+    out_receipt_status = #{outReceiptStatus,jdbcType=INTEGER},update_time = now()
+    where
+    id = #{id,jdbcType=INTEGER}
+    and out_receipt_status = #{currentOutReceiptStatus,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,113 @@
+body {
+    background: none;
+    font-size: 14px;
+}
+
+.accountInfo {
+    padding: 15px 20px;
+    margin: 20px 0 15px 35px;
+    border: 1px solid #ddd;
+    background: #eee;
+}
+
+.accountInfo span {
+    margin-right: 80px;
+}
+
+.z_cz_tab {
+    margin-top: 25px;
+    height: 36px;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0 20px 15px;
+}
+
+.z_cz_tab li.active {
+    height: 36px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    color: #4c88f5;
+}
+
+.z_cz_tab li {
+    float: left;
+    height: 35px;
+    background-color: #fff;
+    padding: 0px 15px;
+    line-height: 35px;
+    cursor: pointer;
+    color: #A7B1C2;
+    margin-right: 3px;
+    border-radius: 3px 3px 0 0;
+}
+
+.z_cz_tabContent .info {
+    padding: 0;
+    /*display: flex;*/
+    /*-webkit-display: flex;*/
+    /*-moz-display: flex;*/
+    /*-ms-display: flex;*/
+    /*justify-content: space-between;*/
+    /*-webkit-justify-content: space-between;*/
+    /*-moz-justify-content: space-between;*/
+    /*-ms-justify-content: space-between;*/
+    margin-bottom: 15px;
+    background: #eee;
+    padding:15px 15px 0px 15px;
+}
+
+
+.z_orange {
+    color: orange;
+}
+
+.remind {
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.z_cz_tabContent form {
+    padding: 15px;
+}
+
+.form-groups {
+    margin-bottom: 15px;
+}
+
+.form-groups label {
+    font-weight: 100;
+    width: 150px;
+    text-align: right;
+}
+
+.form-groups input[type="text"],
+.form-groups select{
+    width: 200px;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-indent: 12px;
+}
+
+.form-groups input[type="file"] {
+    display: inline-block;
+}
+
+.form-groups span {
+    color: #a6a6a6;
+}
+
+.btn {
+    padding: 5px 45px;
+    background: rgba(28, 104, 242, .8);
+    color: #fff;
+}
+
+.example {
+    padding: 15px;
+}
+#Img{
+    width: 200px;
+    height: 100px;
+    margin-left: 155px;
+    margin-top: 15px;
+}

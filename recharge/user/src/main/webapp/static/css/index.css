@@ -1,0 +1,350 @@
+body {
+    font-family: "微软雅黑";
+}
+
+.z_wrapper {
+    width: inherit;
+    min-width: 1000px;
+    height: 100%;
+    overflow: hidden;
+}
+a{
+    border:0;
+}
+dl,
+dt,
+dd {
+    display: block;
+    margin: 0!important;
+}
+dt + dd{
+    margin-top: 0 !important;
+}
+/*导航*/
+
+header {
+    width: 100%;
+    min-width: 1000px;
+    height: 60px;
+    background: #fff;
+    color: #fff;
+}
+
+.z_head {
+    min-width: 1000px;
+    max-width: 1440px;
+    margin: auto;
+}
+
+.z_title {
+    width: 500px;
+    font-size: 28px;
+    font-weight: 900;
+    text-align: left;
+    line-height: 60px;
+    float: left;
+    color: #949494;
+    text-indent:26px;
+}
+.z_title img{
+    float: left;
+    width:180px;
+    margin-left:30px;
+    margin-top:6px;
+}
+.z_nav {
+    width: 420px;
+    float: right;
+}
+
+header ul li {
+    float: left;
+    line-height: 60px;
+    text-align: center;
+    font-size: 14px;
+    padding: 0 15px;color: #949494;
+}
+
+header ul li:not(.z_bgNo) {
+    background: url(../images/z_bavB.png) no-repeat center right;
+}
+
+header ul li .fa {
+    margin-right: 5px;
+}
+
+header ul li a {
+    color: #949494;
+}
+
+header ul li a:hover {}
+
+
+/*主内容*/
+
+.z_content {
+    width: 100%;
+    /*min-width: 1000px;*/
+    height: 100%;
+}
+
+
+/*左侧*/
+
+.z_left {
+    float: left;
+    height: 100%;
+}
+
+
+/*侧边菜单*/
+
+/*.z_select {*/
+    /*width: 140px;*/
+    /*height: 100%;*/
+    /*background: #dedede;*/
+    /*float: left;*/
+/*}*/
+/*.z_select ul{*/
+    /*padding-left: 0;*/
+/*}*/
+/*.z_select li {*/
+    /*width: 100%;*/
+    /*height: 60px;*/
+    /*margin-top: 5px;*/
+    /*line-height: 60px;*/
+    /*font-size: 16px;*/
+    /*text-indent: 12px;*/
+    /*color: #949494;*/
+    /*cursor: pointer;*/
+/*}*/
+
+/*.z_select li.z_bgColor {*/
+    /*background: #202b3d;*/
+    /*color: #fff;*/
+/*}*/
+
+/*.z_select li:hover {*/
+    /*color: #fff;*/
+/*}*/
+
+/*.z_select li .fa {*/
+    /*vertical-align: middle;*/
+    /*margin-right: 20px;*/
+/*}*/
+/*left*/
+
+.z_select {
+    width: 160px;
+    height: auto !important;
+    overflow: visible !important;
+    height: 100% !important;
+    /*    background: #2e3b50;*/
+    background: #dedede;
+}
+
+.z_select dt {
+    padding-left: 60px;
+    padding-right: 10px;
+    position: relative;
+    height: 52px;
+    line-height: 52px;
+    font-size: 16px;
+    color: #949494;
+    font-weight: 100;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.z_select dt i.fa {
+    position: absolute;
+    left: 30px;
+    top: 19px;
+}
+
+.z_select dd {
+    background-color: #fff;
+    padding-left: 60px;
+    line-height: 40px;
+    width:100%;
+}
+
+.z_select dd a {
+    color: #333333;
+}
+
+.z_select dd.changeColor {
+    background: #ed801b;
+}
+
+.z_select dd.changeColor a {
+    color: #fff;
+}
+
+/*二级菜单*/
+
+.z_selectNext {
+    width: 140px;
+    height: 100%;
+    background: #fff;
+    float: left;
+    display: none;
+}
+.z_selectNext ul{
+    padding-left: 0;
+}
+.z_selectNext ul li {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 14px;
+    color: #323232;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.z_selectNext ul li:nth-child(1) {
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.z_selectNext ul li.active {
+    background: #eee;
+}
+
+.z_selectNext ul li.active a {
+    color: #4c88f5;
+}
+
+.z_selectNext ul li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #666;
+}
+
+.z_selectNext ul li a:hover {
+    color: #4c88f5;
+}
+
+
+/*右侧*/
+
+.z_right {
+    height: 93%;
+}
+
+.z_rightWrapper {
+    height: 100%;
+    overflow: auto;
+    overflow-y: hidden;
+    background: #eee;
+}
+
+@media screen and (min-width:1000px) {
+    .z_rightWrapper {
+        height: 90%;
+    }
+}
+
+@media screen and (min-width: 1350px) {
+    .z_rightWrapper {
+        height: 100%;
+    }
+}
+
+
+/*标签条*/
+
+.z_tabs {
+    line-height: 40px;
+    background: #fff;
+    height: 40px;
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+}
+
+
+/*向左向右*/
+
+.z_goLeft,
+.z_goRight {
+    width: 50px;
+    height: 100%;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    line-height: 40px;
+    text-align: center;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.z_r {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+/*关闭操作按钮*/
+
+.btn-group .btn {
+    height: 100%;
+    line-height: 40px;
+    border: none;
+    background: #fff;
+    padding: 0 10px;
+    color: #aaa;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.btn-group ul li a {
+    outline: 0;
+    color: #aaa;
+}
+
+
+/*标签*/
+
+.z_tabs_content {
+    height: 100%;
+}
+
+.z_tabs_content li {
+    padding: 0 15px;
+    line-height: 40px;
+    border-right: 1px solid #ddd;
+    float: left;
+}
+
+.z_tabs_content li a {
+    color: #aaa;
+}
+
+.z_tabs_content li a:hover {
+    color: #323232;
+}
+
+.z_active {
+    background: #2e3b50;
+    color: #a7b1c2;
+}
+
+.z_tabs_content li.z_active a:hover {
+    color: #fff;
+}
+
+
+/*关闭按钮*/
+
+.z_tabs_content li .close {
+    line-height: 40px;
+    margin-left: 8px;
+}
+
+iframe {
+    overflow: hidden;
+}

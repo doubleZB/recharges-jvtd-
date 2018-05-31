@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeOperateLogsMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeOperateLogs" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="operater" property="operater" jdbcType="VARCHAR" />
+    <result column="menu" property="menu" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, operater, menu, content, operate_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from charge_operate_logs
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charge_operate_logs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <select id="selectChargeOperateLogs" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT a.id,a.operater,a.menu,a.content,a.operate_time startOperateTime,a.operate_time endOperateTime,a.operate_time FROM charge_operate_logs a
+    <where>
+      <if test="startOperateTime!=null and startOperateTime!=''" > and a.operate_time &gt;=#{startOperateTime} </if>
+      <if test="endOperateTime!=null and endOperateTime!=''" > and a.operate_time &lt;=#{endOperateTime} </if>
+      <if test="operater!=null and operater!=''" > and a.operater=#{operater} </if>
+    </where>
+  </select>
+
+  <!--新增日志-->
+  <insert id="insertOperateLogs" parameterType="com.jtd.recharge.dao.po.ChargeOperateLogs" >
+    insert into charge_operate_logs (id, operater, menu, 
+      content, operate_time)
+    values (#{id,jdbcType=INTEGER}, #{operater,jdbcType=VARCHAR}, #{menu,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChargeOperateLogs" >
+    insert into charge_operate_logs
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="operater != null" >
+        operater,
+      </if>
+      <if test="menu != null" >
+        menu,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="operateTime != null" >
+        operate_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="operater != null" >
+        #{operater,jdbcType=VARCHAR},
+      </if>
+      <if test="menu != null" >
+        #{menu,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.ChargeOperateLogs" >
+    update charge_operate_logs
+    <set >
+      <if test="operater != null" >
+        operater = #{operater,jdbcType=VARCHAR},
+      </if>
+      <if test="menu != null" >
+        menu = #{menu,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChargeOperateLogs" >
+    update charge_operate_logs
+    set operater = #{operater,jdbcType=VARCHAR},
+      menu = #{menu,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

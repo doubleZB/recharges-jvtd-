@@ -1,0 +1,55 @@
+a:hover{
+	  text-decoration: none;
+}
+.tab-box{
+	 width: 100%; height: 50px; float: left; border-bottom: 1px solid #CCC;
+}
+.tab-box .tab{
+	   width: 150px; height: 30px; line-height:  30px; cursor: pointer;  border: 1px solid #ccc; border-radius: 5px 5px 0 0; float: left; border-bottom: 0px; margin: 20px 0 0 10px; text-align: center; 
+}
+.tab-box .active{
+	   background: #009ce5; color: #fff; border: 1px solid #009ce5;  border-bottom: 0px ;
+}
+.info-list,.info-box{
+	   width: 96%; margin: 10px 2%;  float: left;
+}
+.info-list .search-box{
+	 width: 100%;  min-height: 50px; float: left;
+}
+.info-list .search-box select{
+	 width: 150px; height: 30px;
+}
+.info-list .search-box input[type='text']{
+	 width: 150px;
+}
+.table th,.table td{
+	 text-align: center;
+}
+.page-box{
+	  width: 100%;  height: 50px; line-height: 50px; text-align: right;
+}
+.page-box a{
+	 border:1px solid #eee; padding: 3px 5px; border-radius: 3px;
+ }
+ .page-box a.active,.page-box a:hover{
+ 	  background: #009ce5; color: #fff;  border:1px solid #009ce5;
+ }
+.input-box{
+	 width: 100%;  min-height: 50px; line-height: 50px; float: left;
+}
+ .input-box .left{
+ 	 width: 100px;  text-align: center;
+ }
+ .input-box .right select,.input-box .right select{
+ 	   width: 250px; height: 30px; line-height: 30px;
+ }
+  .input-box .right span{
+  	   margin-right: 10px;
+  }
+   .input-box .right input[type="radio"]{
+   	      position: relative;  top: 1px;
+   }
+
+[v-cloak] {
+	display: none;
+}

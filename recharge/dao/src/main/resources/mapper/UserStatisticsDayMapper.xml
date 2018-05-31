@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserStatisticsDayMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.UserStatisticsDay" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER"/>
+    <result column="business_type" property="businessType" jdbcType="INTEGER"/>
+    <result column="success_order_num" property="successOrderNum" jdbcType="INTEGER" />
+    <result column="sum_order_num" property="sumOrderNum" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <!--添加的字段-->
+      <result column="success_rate" property="successRate" jdbcType="VARCHAR" />
+      <result column="select_Out_Time" property="selectOutTime" jdbcType="VARCHAR" />
+  </resultMap>
+
+     <!--增加用户应用到用户统计天的表-->
+    <insert id="insertUserappUserStatisticsDay" >
+      INSERT INTO `user_statistics_day`(user_id,business_type,update_time)
+      SELECT user_id,app_type,DATE_SUB(CURDATE(),INTERVAL +1 DAY) FROM `user_app`
+    </insert>
+
+    <!--查询用户每天消费统计-->
+    <select id="userStatisticsDay" parameterType="java.lang.String" resultMap="BaseResultMap">
+          SELECT business_type,user_id,COUNT(id) AS success_order_num,SUM(amount)AS amount
+          FROM `charge_order` WHERE STATUS=7 AND order_time LIKE #{_parameter} GROUP BY user_id,business_type
+      </select>
+    <!--统计用户总订单数-->
+    <select id="countUserTotalOrder" parameterType="java.lang.String" resultMap="BaseResultMap">
+          SELECT business_type,user_id,COUNT(id) AS sum_order_num
+          FROM `charge_order` WHERE order_time LIKE #{_parameter} AND STATUS IN (7,8) GROUP BY user_id,business_type;
+    </select>
+    <!--修改用户每天应用的成功数和金额-->
+    <update id="updateUserStatisticsDay" parameterType="com.jtd.recharge.dao.po.UserStatisticsDay">
+
+        UPDATE user_statistics_day SET `success_order_num`=#{successOrderNum,jdbcType=INTEGER} ,amount=#{amount,jdbcType=DECIMAL}
+        WHERE user_id=#{userId,jdbcType=INTEGER} AND business_type=#{businessType,jdbcType=INTEGER} AND update_time like #{updateTime,jdbcType=INTEGER};
+    </update>
+
+
+    <!--修改用户总订单数-->
+    <update id="updateTotalOrder" parameterType="com.jtd.recharge.dao.po.UserStatisticsDay">
+          UPDATE `user_statistics_day` SET `sum_order_num`=#{sumOrderNum,jdbcType=INTEGER}
+          WHERE user_id=#{userId,jdbcType=INTEGER} AND business_type=#{businessType,jdbcType=INTEGER} AND update_time LIKE #{updateTime,jdbcType=INTEGER};
+    </update>
+
+    <!--查询昨天的关键数据订单总数、成功率、总交易额 caixia CASE WHEN sum_order_num=0 THEN NULL ELSE success_order_num/sum_order_num END-->
+    <select id="userYesterday" parameterType="com.jtd.recharge.dao.po.UserStatisticsDay" resultMap="BaseResultMap">
+        SELECT  DATE_FORMAT(update_time, '%Y-%m-%d' ), success_order_num, sum_order_num ,(CASE WHEN sum_order_num=0 THEN NULL ELSE CONCAT( ROUND(success_order_num/sum_order_num*100,2),'%') END)AS success_rate,SUM(amount)AS amount
+        FROM user_statistics_day
+        <where>
+            ABS(TO_DAYS( DATE_FORMAT(NOW( ),'%Y-%m-%d'))-TO_DAYS( DATE_FORMAT(update_time,'%Y-%m-%d' ))) &lt;= 1 AND  user_id=#{userId} AND business_type=#{businessType};
+        </where>
+    </select>
+
+    <!--根据月份查询每一天的时间、交易金额、成功订单数、订单数、成功率根据月份 caixia-->
+  <select id="userSelectByMonth" parameterType="com.jtd.recharge.dao.po.UserIdAndSelectTime" resultMap="BaseResultMap">
+  SELECT DATE_FORMAT(update_time,'%Y-%m-%d') AS select_Out_Time,user_id,business_type,success_order_num,sum_order_num,amount, (CASE WHEN sum_order_num=0 THEN NULL ELSE ROUND(success_order_num/sum_order_num*100,2) END)AS success_rate
+  FROM user_statistics_day
+  <where>
+    DATE_FORMAT(update_time,'%Y-%c')=#{updateTime} AND user_id=#{userId} AND business_type=#{businessType}
+  </where>
+    ORDER BY update_time ASC
+  </select>
+
+
+    <!--首页应用统计-->
+    <select id="countUserYesterday" parameterType="com.jtd.recharge.dao.po.UserStatisticsDay" resultMap="BaseResultMap">
+        SELECT  DATE_FORMAT(update_time, '%Y-%m-%d' ), success_order_num, sum_order_num ,CONCAT( ROUND(success_order_num/sum_order_num*100,2),'%')AS success_rate,amount,update_time,business_type
+        FROM user_statistics_day
+        <where>
+            <if test="updateTime != null" >
+                AND update_time like  #{updateTime,jdbcType=VARCHAR}
+            </if>
+
+            <if test="userId != null" >
+                AND user_id = #{userId,jdbcType=INTEGER}
+            </if>
+
+            <if test="businessType != null" >
+                AND business_type = #{businessType,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+</mapper>

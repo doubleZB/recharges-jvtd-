@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.IotOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.IotOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="serial_num" property="serialNum" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="creater_id" property="createrId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="amount" property="amount" jdbcType="DECIMAL"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, serial_num,remark, user_id, status, creater_id, create_time, update_time,amount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from iot_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from iot_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.IotOrder"  useGeneratedKeys="true" keyProperty="id">
+    insert into iot_order (id, serial_num,remark, user_id,
+      status, creater_id, create_time, 
+      update_time,amount)
+    values (#{id,jdbcType=INTEGER}, #{serialNum,jdbcType=VARCHAR},#{remark}, #{userId,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER}, #{createrId,jdbcType=INTEGER}, now(),now(),#{amount})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.IotOrder" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serialNum != null" >
+        serial_num,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      create_time,
+      update_time,
+      <if test="amount != null" >
+        amount
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="serialNum != null" >
+        #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=INTEGER},
+      </if>
+        now(),
+        now(),
+      <if test="amount != null" >
+        #{amount}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.IotOrder" >
+    update iot_order
+    <set >
+      <if test="serialNum != null" >
+        serial_num = #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+        update_time = now(),
+      <if test="amount != null" >
+        amount = #{amount}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.IotOrder" >
+    update iot_order
+    set serial_num = #{serialNum,jdbcType=VARCHAR},
+     remark = #{remark,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      update_time = now(),
+      amount =amount
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

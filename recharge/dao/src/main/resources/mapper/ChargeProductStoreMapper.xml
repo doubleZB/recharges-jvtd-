@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeProductStoreMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeProductStore" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="send_type" property="sendType" jdbcType="INTEGER" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, group_id, product_id,send_type, discount_price, status, updatetime
+  </sql>
+
+  <select id="selectProductStore" resultMap="BaseResultMap">
+      SELECT <include refid="Base_Column_List" />
+    FROM charge_product_store WHERE group_id = #{groupId,jdbcType=INTEGER} AND product_id = #{productId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from charge_product_store
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectStoreSelective" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeProductStore" >
+    select
+    <include refid="Base_Column_List" />
+    from charge_product_store
+    <where>
+      <if test="groupId!=null">
+        AND group_id = #{groupId,jdbcType=INTEGER}
+      </if>
+      <if test="productId!=null">
+        AND product_id = #{productId,jdbcType=INTEGER}
+      </if>
+      <if test="sendType!=null">
+        AND send_type = #{sendType,jdbcType=INTEGER}
+      </if>
+      <if test="status!=null">
+        AND status = #{status,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charge_product_store
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.jtd.recharge.dao.po.ChargeProductStore" >
+    insert into charge_product_store ( group_id, product_id,
+      discount_price, status,send_type, updatetime
+      )
+    values ( #{groupId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER},
+      #{discountPrice,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER},#{sendType,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="com.jtd.recharge.dao.po.ChargeProductStore" >
+    insert into charge_product_store
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="discountPrice != null" >
+        discount_price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sendType != null" >
+        send_type,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="discountPrice != null" >
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sendType != null" >
+        #{send_type,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+
+    <selectKey resultType="int" keyProperty="id" >
+      SELECT @@IDENTITY AS id
+    </selectKey>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.ChargeProductStore" >
+    update charge_product_store
+    <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="discountPrice != null" >
+        discount_price = #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sendType != null" >
+        send_type = #{sendType,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChargeProductStore" >
+    update charge_product_store
+    set group_id = #{groupId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      discount_price = #{discountPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--刘晨浩-->
+  <!--根据货架组id获取货架id-->
+  <select id="getStoreIds" resultType="java.lang.Integer">
+    select id from charge_product_store where group_id in
+    <foreach item="item" index="index" collection="groupIds" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+</mapper>

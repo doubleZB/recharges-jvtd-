@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeProductMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeProduct" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="business_type" property="businessType" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="INTEGER" />
+    <result column="province_id" property="provinceId" jdbcType="INTEGER" />
+    <result column="flow_package_size" property="flowPackageSize" jdbcType="INTEGER" />
+    <result column="scope" property="scope" jdbcType="INTEGER" />
+    <result column="validity_time" property="validityTime" jdbcType="INTEGER" />
+    <result column="effect_time" property="effectTime" jdbcType="INTEGER" />
+    <result column="limit_num" property="limitNum" jdbcType="INTEGER" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, business_type, operator, province_id, flow_package_size, scope, validity_time, 
+    effect_time, limit_num, position_code, update_time
+  </sql>
+
+  <sql id="A_Base_Column_List" >
+    a.id, a.business_type, a.operator, a.province_id, a.flow_package_size, a.scope, a.validity_time,
+    a.effect_time, a.limit_num, a.position_code, a.update_time
+  </sql>
+
+  <select id="selectProductId" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM charge_product
+    WHERE business_type = #{businessType,jdbcType=INTEGER} AND operator = #{operator,jdbcType=INTEGER}
+    AND province_id = #{provinceId,jdbcType=INTEGER} AND position_code = #{positionCode,jdbcType=VARCHAR};
+  </select>
+
+  <select id="selectProductParam" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.bean.util.ProductParam">
+    SELECT <include refid="A_Base_Column_List" />,c.amount  FROM charge_product  a,charge_position c
+    <where>
+      a.position_code=c.code
+      <if test="business_type != null" >
+        and a.business_type = #{business_type,jdbcType=INTEGER}
+      </if>
+      <if test="operator != null" >
+        and a.operator = #{operator,jdbcType=INTEGER}
+      </if>
+      <if test="scope != null" >
+        and a.scope = #{scope,jdbcType=INTEGER}
+      </if>
+      <if test="province_id != null" >
+        and a.province_id IN
+        <foreach collection="province_id" item="provinceId"
+                 index="index" open="(" close=")" separator=",">
+          #{provinceId,jdbcType=INTEGER}
+        </foreach>
+      </if>
+      <if test="position_code != null" >
+        and a.position_code IN
+        <foreach collection="position_code" item="positionCode"
+                 index="index" open="(" close=")" separator=",">
+          #{positionCode,jdbcType=VARCHAR}
+        </foreach>
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from charge_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charge_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.ChargeProduct" >
+    insert into charge_product (id, business_type, operator, 
+      province_id, flow_package_size, scope, 
+      validity_time, effect_time, limit_num, 
+      position_code, update_time)
+    values (#{id,jdbcType=INTEGER}, #{businessType,jdbcType=INTEGER}, #{operator,jdbcType=INTEGER}, 
+      #{provinceId,jdbcType=INTEGER}, #{flowPackageSize,jdbcType=INTEGER}, #{scope,jdbcType=INTEGER}, 
+      #{validityTime,jdbcType=INTEGER}, #{effectTime,jdbcType=INTEGER}, #{limitNum,jdbcType=INTEGER}, 
+      #{positionCode,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChargeProduct" >
+    insert into charge_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="businessType != null" >
+        business_type,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="flowPackageSize != null" >
+        flow_package_size,
+      </if>
+      <if test="scope != null" >
+        scope,
+      </if>
+      <if test="validityTime != null" >
+        validity_time,
+      </if>
+      <if test="effectTime != null" >
+        effect_time,
+      </if>
+      <if test="limitNum != null" >
+        limit_num,
+      </if>
+      <if test="positionCode != null" >
+        position_code,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="businessType != null" >
+        #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="flowPackageSize != null" >
+        #{flowPackageSize,jdbcType=INTEGER},
+      </if>
+      <if test="scope != null" >
+        #{scope,jdbcType=INTEGER},
+      </if>
+      <if test="validityTime != null" >
+        #{validityTime,jdbcType=INTEGER},
+      </if>
+      <if test="effectTime != null" >
+        #{effectTime,jdbcType=INTEGER},
+      </if>
+      <if test="limitNum != null" >
+        #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="positionCode != null" >
+        #{positionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.ChargeProduct" >
+    update charge_product
+    <set >
+      <if test="businessType != null" >
+        business_type = #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="flowPackageSize != null" >
+        flow_package_size = #{flowPackageSize,jdbcType=INTEGER},
+      </if>
+      <if test="scope != null" >
+        scope = #{scope,jdbcType=INTEGER},
+      </if>
+      <if test="validityTime != null" >
+        validity_time = #{validityTime,jdbcType=INTEGER},
+      </if>
+      <if test="effectTime != null" >
+        effect_time = #{effectTime,jdbcType=INTEGER},
+      </if>
+      <if test="limitNum != null" >
+        limit_num = #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="positionCode != null" >
+        position_code = #{positionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChargeProduct" >
+    update charge_product
+    set business_type = #{businessType,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=INTEGER},
+      province_id = #{provinceId,jdbcType=INTEGER},
+      flow_package_size = #{flowPackageSize,jdbcType=INTEGER},
+      scope = #{scope,jdbcType=INTEGER},
+      validity_time = #{validityTime,jdbcType=INTEGER},
+      effect_time = #{effectTime,jdbcType=INTEGER},
+      limit_num = #{limitNum,jdbcType=INTEGER},
+      position_code = #{positionCode,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

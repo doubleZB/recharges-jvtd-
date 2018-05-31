@@ -1,0 +1,197 @@
+body {
+    background: none;
+}
+
+.container {
+    width: inherit;
+}
+
+
+/*内容区*/
+
+.z_home_content {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border: 0px;
+    overflow: hidden;
+    z-index: 1;
+    padding: 23px;
+}
+
+
+/*上部分*/
+
+
+/*
+.row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+*/
+
+.z_info {
+    background: #fff;
+    padding-bottom: 10px;
+    /*height: 30%;*/
+    height: 210px;
+}
+.z_info_bottom {
+    background: #fff;
+    padding-bottom: 10px;
+    height: 68%;
+    clear: both;
+    overflow: auto;
+}
+p.z_reminder {
+    font-size: 14px!important;
+    text-align: center;
+    line-height: 380px;
+    color: #ccc;
+}
+
+@media screen and (min-width:1000px) {
+    p.z_reminder {
+        line-height: 220px;
+    }
+}
+
+@media screen and (min-width:1124px) {
+    p.z_reminder {
+        line-height: 380px;
+    }
+}
+
+.z_info_tit {
+    font-size: 16px;
+    color: #333333;
+    height: 50px;
+    line-height: 50px;
+    background: #f7f9fa;
+    padding-left: 25px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 100;
+}
+
+
+/*头像*/
+
+.z_photo {
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.z_photo img {
+    width: 100%;
+    height: 100%;
+}
+
+.z_name {
+    font-weight: bold;
+    font-size: 18px;
+    font-family: Arial;
+    color: #4c88f5;
+    margin-bottom: 8px;
+}
+
+.z_wan {
+    display: inline-block;
+    margin-top: 8px;
+    margin-bottom: 6px;
+    padding: 7px 12px;
+    border: 0;
+    background: rgba(28, 104, 242, .8)!important;
+    font-size: 14px;
+}
+
+.z_wan:hover {
+    opacity: 1;
+    background: #1c68f2;
+}
+
+.z_more div {
+    line-height: 58px;
+    text-indent: 12px;
+    font-size: 12px;
+}
+
+.z_applic {
+    height: 350px;
+    margin-bottom: 20px;
+    margin: 0 auto;
+    position: relative;
+    padding: 7% 4%;
+    transition: box-shadow .3s ease-in-out, -webkit-transform .3s ease-in-out, -moz-transform .3s ease-in-out, -o-transform .3s ease-in-out, transform .3s ease-in-out;
+}
+
+.z_hover:hover {
+    box-shadow: 0 0 21px rgba(0, 0, 0, 0.37);
+    -webkit-transform: translate3d(0, -2px, 0);
+    -moz-transform: translate3d(0, -2px, 0);
+    -o-transform: translate3d(0, -2px, 0);
+    -ms-transform: translate3d(0, -2px, 0);
+    transform: translate3d(0, -2px, 0);
+}
+
+.z_mine_title {
+    text-align: center;
+    line-height: 40px;
+    font-size: 18px;
+    font-weight: 900;
+    color: #000;
+    /*background: rgba(28, 104, 242, .8);*/
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+}
+
+.z_appContent {
+    height: 240px;
+    padding-top: 30px;
+}
+
+.z_appContent p {
+    color: #4c4c4c;
+    line-height: 30px;
+    text-align: center;
+    margin: 0;
+    font-size: 12px;
+}
+
+.z_appContent p.z_orange {
+    color: red;
+}
+
+.z_appContent>div>p {
+    font-size: 14px;
+    padding: 0;
+    line-height: 30px;
+    color: #868686;
+}
+
+.z_send {
+    padding: 15px;
+    white-space: nowrap;
+}
+
+
+/*查看详情按钮*/
+
+.z_checkBtn {
+    width: 60%;
+    margin: 0 auto;
+    display: block;
+    /*background: rgba(255, 186, 0, 1)!important;*/
+    /*border-color: #ffba00!important;*/
+}
+
+.z_checkBtn:hover {
+    opacity: 1;
+    background: #1c68f2;
+}

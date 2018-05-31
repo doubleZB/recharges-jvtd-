@@ -1,0 +1,188 @@
+body {
+    font-family: "微软雅黑";
+    max-width: 6.4rem;
+    min-width: 3.2rem;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+p {
+    margin-bottom: 0px;
+}
+
+#z-wrap {
+    max-width: 6.4rem;
+    min-width: 3.2rem;
+    width: 100%;
+     height: 100%;
+}
+
+.z-header {
+    width: 100%;
+    max-width: 6.4rem;
+    min-width: 3.2rem;
+    height: .88rem;
+    line-height: .85rem;
+    background: rgba(204, 204, 204, .5);
+    font-size: .34rem;
+    color: #fff;
+    position: fixed;
+    top: 0px;
+    margin: auto;
+    z-index: 999999;
+}
+
+.z-header .z-listWrap {
+    text-align: right;
+}
+
+.z-header .z-name {
+    text-align: left;
+}
+
+.z-name span {
+    display: inline-block;
+    height: .6rem;
+    line-height: .6rem;
+    margin-left: .1rem;
+    border-left: 1px solid #fff;
+    padding: 0 .2rem;
+    font-size: .2rem;
+}
+
+.z-header img {
+    width: 1.51rem;
+    height: .54rem;
+    vertical-align: middle;
+}
+
+.z-listWrap {
+    position: relative;
+}
+
+.z-list {
+    position: absolute;
+    right: 0;
+    top: .88rem;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+.z-list li {
+    padding: 0 .2rem;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    height: .6rem;
+    line-height: .5rem;
+}
+
+.z-list li a {
+    color: #362e2e;
+    font-size: .2rem;
+}
+
+.z-banner {
+    width: 100%;
+    max-width: 6.4rem;
+    height: 3.75rem;
+    background-size: cover;
+}
+
+.z-banner img {
+    width: 100%;
+    height: 100%;
+}
+
+
+/*轮播*/
+
+
+/*链接*/
+
+.z-link {
+    width: 100%;
+    max-width: 6.4rem;
+    height: 1.6rem;
+    background: #313131;
+    text-align: center;
+    color: #fff;
+}
+
+.z-more {
+    width: 100%;
+    height: .95rem;
+    line-height: .95rem;
+}
+
+.z-more ul li {
+    display: inline-block;
+}
+
+.z-more ul li a {
+    font-size: .2rem;
+    color: #fff;
+    border-right: 1px solid #fff;
+    padding: 0 .2rem;
+}
+
+.z-bz {
+    width: 100%;
+    height: .6rem;
+    font-size: .2rem;
+}
+
+
+/*底部*/
+
+.z-footer-t {
+    width: 100%;
+    height: 1rem;
+}
+
+.z-footer {
+    width: 100%;
+    height: 1rem;
+    background: #1d99ef;
+    position: fixed;
+    bottom: 0px;
+    max-width: 6.4rem;
+    margin: auto;
+    text-align: center;
+}
+
+.z-footer div {
+    white-space: nowrap;
+    font-size: 0.24rem;
+    color: #fff;
+}
+
+.z-footer a {
+    color: #fff;
+}
+
+.z-bg {
+    height: 1rem;
+    background: #f39801;
+    padding: .2rem 0;
+}
+
+.z-f {
+    line-height: 1rem;
+}
+
+.z-f i {
+    font-size: .4rem;
+    margin-right: .1rem;
+}
+
+.large {
+    font-size: .45rem;
+    margin-bottom: .1rem;
+}
+
+.z-footer .z-bg span {
+    display: block;
+    font-size: .2rem;
+    line-height: 0;
+}

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserChannelAddfundMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.UserChannelAddfund" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="apply_userid" property="applyUserid" jdbcType="INTEGER" />
+    <result column="audit_userid" property="auditUserid" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="certificate" property="certificate" jdbcType="VARCHAR" />
+    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, amount, apply_userid, audit_userid,supply_id,remark, state, certificate, apply_time, audit_time
+  </sql>
+
+
+  <select id="selecctUserChannelAddfund" parameterType="com.jtd.recharge.dao.po.UserChannelAddfund" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> FROM user_channel_addfund
+    <where>
+      <if test="id != null" >
+        and id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="amount != null" >
+        and amount= #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="applyUserid != null" >
+        and apply_userid= #{applyUserid,jdbcType=INTEGER}
+      </if>
+      <if test="auditUserid != null" >
+        and  audit_userid=#{auditUserid,jdbcType=INTEGER}
+      </if>
+      <if test="supplyId != null" >
+        and  supply_id=#{supplyId,jdbcType=INTEGER}
+      </if>
+      <if test="supplyIdList != null" >
+        and  supply_id IN
+        <foreach collection="supplyIdList" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+      <if test="remark != null" >
+        and remark= #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        and state= #{state,jdbcType=INTEGER}
+      </if>
+      <if test="certificate != null" >
+        and  certificate= #{certificate,jdbcType=VARCHAR}
+      </if>
+      <if test="applyTime != null" >
+        and apply_time   &gt;= #{applyTime,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="applyEndTime != null" >
+        and apply_time   &lt;= #{applyEndTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="auditTime != null" >
+       and audit_time    &gt;= #{auditTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="auditEndTime != null" >
+        and audit_time    &lt;= #{auditEndTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="com.jtd.recharge.dao.po.UserChannelAddfund" >
+    delete from user_channel_addfund
+    where id = #{id,jdbcType=INTEGER}
+    <if test="state != null" >
+      and state= #{state,jdbcType=INTEGER}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.UserChannelAddfund" >
+    insert into user_channel_addfund (id, amount, apply_userid, 
+      audit_userid, remark, state, 
+      certificate, apply_time, audit_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{applyUserid,jdbcType=INTEGER}, 
+      #{auditUserid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{certificate,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{auditTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.UserChannelAddfund" >
+    insert into user_channel_addfund
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="applyUserid != null" >
+        apply_userid,
+      </if>
+      <if test="auditUserid != null" >
+        audit_userid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="supplyId != null" >
+        supply_id,
+      </if>
+      <if test="certificate != null" >
+        certificate,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+      <if test="auditTime != null" >
+        audit_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="applyUserid != null" >
+        #{applyUserid,jdbcType=INTEGER},
+      </if>
+      <if test="auditUserid != null" >
+        #{auditUserid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="supplyId != null" >
+        #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="certificate != null" >
+        #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditTime != null" >
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.UserChannelAddfund" >
+    update user_channel_addfund
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="applyUserid != null" >
+        apply_userid = #{applyUserid,jdbcType=INTEGER},
+      </if>
+      <if test="auditUserid != null" >
+        audit_userid = #{auditUserid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="certificate != null" >
+        certificate = #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditTime != null" >
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

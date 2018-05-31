@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserBalanceMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.UserBalance" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_balance" property="userBalance" jdbcType="DECIMAL" />
+    <result column="credit_balance" property="creditBalance" jdbcType="DECIMAL" />
+    <result column="borrow_balance" property="borrowBalance" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_balance, credit_balance, borrow_balance
+  </sql>
+
+  <!--新增商户banlance-->
+  <insert id="insertBalance"  parameterType="com.jtd.recharge.dao.po.UserBalance">
+    INSERT INTO user_balance SET user_id=#{userId}, user_balance=0,credit_balance=0,borrow_balance=0
+  </insert>
+
+  <select id="selectUserBalanceByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT <include refid="Base_Column_List" /> FROM user_balance WHERE user_id = #{userId,jdbcType=INTEGER};
+  </select>
+
+  <!--扣款 -->
+  <update id="updateBalance" parameterType="com.jtd.recharge.dao.po.UserBalance">
+    UPDATE user_balance SET user_balance = user_balance - #{feeAmount,jdbcType=DECIMAL}
+    WHERE user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <!--退款 -->
+  <update id="updateBalanceByRefund">
+    UPDATE user_balance SET user_balance = user_balance + #{refundAmount,jdbcType=DECIMAL}
+    WHERE user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from user_balance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_balance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.UserBalance" >
+    insert into user_balance (id, user_id, user_balance,
+    credit_balance, borrow_balance)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userBalance,jdbcType=DECIMAL},
+    #{creditBalance,jdbcType=DECIMAL}, #{borrowBalance,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.UserBalance" >
+    insert into user_balance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userBalance != null" >
+        user_balance,
+      </if>
+      <if test="creditBalance != null" >
+        credit_balance,
+      </if>
+      <if test="borrowBalance != null" >
+        borrow_balance,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userBalance != null" >
+        #{userBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="creditBalance != null" >
+        #{creditBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="borrowBalance != null" >
+        #{borrowBalance,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.UserBalance" >
+    update user_balance
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userBalance != null" >
+        user_balance = #{userBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="creditBalance != null" >
+        credit_balance = #{creditBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="borrowBalance != null" >
+        borrow_balance = #{borrowBalance,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.UserBalance" >
+    update user_balance
+    set user_id = #{userId,jdbcType=INTEGER},
+    user_balance = #{userBalance,jdbcType=DECIMAL},
+    credit_balance = #{creditBalance,jdbcType=DECIMAL},
+    borrow_balance = #{borrowBalance,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

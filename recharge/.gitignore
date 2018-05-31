@@ -1,0 +1,11 @@
+/.idea
+/test
+/target
+*.iml
+/dao/target/
+/service/target/
+/user/target/
+/web/target/
+/base/target/
+/gateway/target/
+/schedule/target/

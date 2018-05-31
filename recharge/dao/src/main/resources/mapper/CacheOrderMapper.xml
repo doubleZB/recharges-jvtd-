@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.CacheOrderMapper">
+    <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.CacheOrder">
+        <id column="order_num" property="orderNum" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="customId" property="customid" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="business_type" property="businessType" jdbcType="INTEGER"/>
+        <result column="operator" property="operator" jdbcType="INTEGER"/>
+        <result column="province" property="province" jdbcType="INTEGER"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="pay_count" property="payCount" jdbcType="DECIMAL"/>
+        <result column="position_code" property="positionCode" jdbcType="VARCHAR"/>
+        <result column="supply_name" property="supplyName" jdbcType="VARCHAR"/>
+        <result column="supplier" property="supplier" jdbcType="VARCHAR"/>
+        <result column="original_price" property="originalPrice" jdbcType="DECIMAL"/>
+        <result column="new_discount" property="newDiscount" jdbcType="DECIMAL"/>
+        <result column="new_supplier" property="newSupplier" jdbcType="VARCHAR"/>
+        <result column="actual_payment" property="actualPayment" jdbcType="DECIMAL"/>
+        <result column="cache_time" property="cacheTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    order_num, user_id, user_name, customId, mobile, business_type, operator, province, 
+    product_name, pay_count, position_code, supply_name, supplier, original_price, new_discount, 
+    new_supplier, actual_payment, cache_time, status, callback_url
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from cache_order
+        where order_num = #{orderNum,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectCacheOrder" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.CacheOrder">
+        select
+        <include refid="Base_Column_List"/>
+        from cache_order
+        where 1=1
+        <if test="status!=null">
+            AND status=#{status,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cache_order
+    where order_num = #{orderNum,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.jtd.recharge.dao.po.CacheOrder">
+    insert into cache_order (order_num, user_id, user_name, 
+      customId, mobile, business_type, 
+      operator, province, product_name, 
+      pay_count, position_code, supply_name, 
+      supplier, original_price, new_discount, 
+      new_supplier, actual_payment, cache_time, 
+      status, callback_url)
+    values (#{orderNum,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{customid,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{businessType,jdbcType=INTEGER}, 
+      #{operator,jdbcType=INTEGER}, #{province,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, 
+      #{payCount,jdbcType=DECIMAL}, #{positionCode,jdbcType=VARCHAR}, #{supplyName,jdbcType=VARCHAR}, 
+      #{supplier,jdbcType=VARCHAR}, #{originalPrice,jdbcType=DECIMAL}, #{newDiscount,jdbcType=DECIMAL}, 
+      #{newSupplier,jdbcType=VARCHAR}, #{actualPayment,jdbcType=DECIMAL}, #{cacheTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{callbackUrl,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.CacheOrder">
+        insert into cache_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNum != null">
+                order_num,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="customid != null">
+                customId,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="businessType != null">
+                business_type,
+            </if>
+            <if test="operator != null">
+                operator,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="productName != null">
+                product_name,
+            </if>
+            <if test="payCount != null">
+                pay_count,
+            </if>
+            <if test="positionCode != null">
+                position_code,
+            </if>
+            <if test="supplyName != null">
+                supply_name,
+            </if>
+            <if test="supplier != null">
+                supplier,
+            </if>
+            <if test="originalPrice != null">
+                original_price,
+            </if>
+            <if test="newDiscount != null">
+                new_discount,
+            </if>
+            <if test="newSupplier != null">
+                new_supplier,
+            </if>
+            <if test="actualPayment != null">
+                actual_payment,
+            </if>
+            <if test="cacheTime != null">
+                cache_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="callbackUrl != null">
+                callback_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNum != null">
+                #{orderNum,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="customid != null">
+                #{customid,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=INTEGER},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=INTEGER},
+            </if>
+            <if test="productName != null">
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="payCount != null">
+                #{payCount,jdbcType=DECIMAL},
+            </if>
+            <if test="positionCode != null">
+                #{positionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="supplyName != null">
+                #{supplyName,jdbcType=VARCHAR},
+            </if>
+            <if test="supplier != null">
+                #{supplier,jdbcType=VARCHAR},
+            </if>
+            <if test="originalPrice != null">
+                #{originalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="newDiscount != null">
+                #{newDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="newSupplier != null">
+                #{newSupplier,jdbcType=VARCHAR},
+            </if>
+            <if test="actualPayment != null">
+                #{actualPayment,jdbcType=DECIMAL},
+            </if>
+            <if test="cacheTime != null">
+                #{cacheTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="callbackUrl != null">
+                #{callbackUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.CacheOrder">
+        update cache_order
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="customid != null">
+                customId = #{customid,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="businessType != null">
+                business_type = #{businessType,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                operator = #{operator,jdbcType=INTEGER},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=INTEGER},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="payCount != null">
+                pay_count = #{payCount,jdbcType=DECIMAL},
+            </if>
+            <if test="positionCode != null">
+                position_code = #{positionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="supplyName != null">
+                supply_name = #{supplyName,jdbcType=VARCHAR},
+            </if>
+            <if test="supplier != null">
+                supplier = #{supplier,jdbcType=VARCHAR},
+            </if>
+            <if test="originalPrice != null">
+                original_price = #{originalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="newDiscount != null">
+                new_discount = #{newDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="newSupplier != null">
+                new_supplier = #{newSupplier,jdbcType=VARCHAR},
+            </if>
+            <if test="actualPayment != null">
+                actual_payment = #{actualPayment,jdbcType=DECIMAL},
+            </if>
+            <if test="cacheTime != null">
+                cache_time = #{cacheTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="callbackUrl != null">
+                callback_url = #{callbackUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where order_num = #{orderNum,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.CacheOrder">
+    update cache_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      customId = #{customid,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      business_type = #{businessType,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=INTEGER},
+      province = #{province,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      pay_count = #{payCount,jdbcType=DECIMAL},
+      position_code = #{positionCode,jdbcType=VARCHAR},
+      supply_name = #{supplyName,jdbcType=VARCHAR},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      original_price = #{originalPrice,jdbcType=DECIMAL},
+      new_discount = #{newDiscount,jdbcType=DECIMAL},
+      new_supplier = #{newSupplier,jdbcType=VARCHAR},
+      actual_payment = #{actualPayment,jdbcType=DECIMAL},
+      cache_time = #{cacheTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      callback_url = #{callbackUrl,jdbcType=VARCHAR}
+    where order_num = #{orderNum,jdbcType=VARCHAR}
+  </update>
+
+    <!--刘晨浩-->
+    <resultMap id="QueryResultMap" type="com.jtd.recharge.dao.po.CacheOrderForQuery">
+        <id column="order_num" property="orderNum" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="customId" property="customid" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="business_type" property="businessType" jdbcType="INTEGER"/>
+        <result column="operator" property="operator" jdbcType="INTEGER"/>
+        <result column="province" property="province" jdbcType="INTEGER"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="pay_count" property="payCount" jdbcType="DECIMAL"/>
+        <result column="position_code" property="positionCode" jdbcType="VARCHAR"/>
+        <result column="supply_name" property="supplyName" jdbcType="VARCHAR"/>
+        <result column="supplier" property="supplier" jdbcType="VARCHAR"/>
+        <result column="original_price" property="originalPrice" jdbcType="DECIMAL"/>
+        <result column="new_discount" property="newDiscount" jdbcType="DECIMAL"/>
+        <result column="new_supplier" property="newSupplier" jdbcType="VARCHAR"/>
+        <result column="actual_payment" property="actualPayment" jdbcType="DECIMAL"/>
+        <result column="cache_time" property="cacheTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR"/>
+
+        <result column="business_typename" property="businessTypename" jdbcType="VARCHAR"/>
+        <result column="operator_name" property="operatorName" jdbcType="VARCHAR"/>
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+        <result column="cache_time_s" property="cacheTimeS" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getOrderListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cache_order
+        <where>
+            <if test="startTime != null and  startTime !='' ">
+                and DATE_FORMAT(cache_time,'%Y-%m-%d %H:%i:%s')&gt;=#{startTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and DATE_FORMAT(cache_time,'%Y-%m-%d %H:%i:%s')&lt;=#{endTime}
+            </if>
+            <if test="cacheOrder.userName != null and cacheOrder.userName != '' ">
+                and user_name like "%"#{cacheOrder.userName}"%"
+            </if>
+            <if test="cacheOrder.supplyName != null and cacheOrder.supplyName != '' ">
+                and supply_name like "%"#{cacheOrder.supplyName}"%"
+            </if>
+            <if test="cacheOrder.businessType != null">
+                and business_type = #{cacheOrder.businessType}
+            </if>
+            <if test="cacheOrder.operator != null">
+                and operator = #{cacheOrder.operator}
+            </if>
+            <if test="cacheOrder.province != null and cacheOrder.province != '' ">
+                and province = #{cacheOrder.province}
+            </if>
+            <if test="cacheOrder.mobile != null and cacheOrder.mobile != '' ">
+                and mobile like "%"#{cacheOrder.mobile}"%"
+            </if>
+            <if test="cacheOrder.status != null and cacheOrder.status != '' ">
+                and status=#{cacheOrder.status}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateChargeStatus" >
+        update cache_order
+        set status=#{status,jdbcType=INTEGER}
+        where order_num in
+        <foreach item="item" index="index" collection="orderNums" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="getChechorder" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cache_order
+        where order_num in
+        <foreach item="item" index="index" collection="orderNums" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

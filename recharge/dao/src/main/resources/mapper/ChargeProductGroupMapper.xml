@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeProductGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeProductGroup" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from charge_product_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--查看货架组信息-->
+  <select id="selectProductGroup" resultMap="BaseResultMap"   >
+    select  <include refid="Base_Column_List" />  from charge_product_group
+  </select>
+  <!--查看货架组条件查询-->
+  <select id="selectProductGroupCondition" resultMap="BaseResultMap"   parameterType="com.jtd.recharge.dao.po.ChargeProductGroup">
+    <if test="name==null and operators==null and supplyid==null">
+      select  <include refid="Base_Column_List" />  from charge_product_group
+    </if>
+
+    <if test="name!=null and operators==null and supplyid==null">
+      SELECT  groups.id,groups.name
+      FROM `charge_product_group`AS groups
+      where groups.`name` LIKE  #{name,jdbcType=VARCHAR}   GROUP BY groups.name
+    </if>
+
+
+    <if test="name==null and operators!=null and supplyid==null">
+      SELECT  groups.id,groups.name
+      FROM `charge_product_group`AS groups,`charge_product_store`AS store,`charge_productstore_supply`AS supply
+      ,(SELECT `id` FROM `charge_product` WHERE charge_product.`operator`IN
+      <foreach collection="operators" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>) AS product
+      <where>
+        <if test=" discountPrices != null" >
+          AND  store.`discount_price` IN
+          <foreach collection="discountPrices" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        AND store.`group_id`=groups.id AND store.`id`=supply.`store_id`  AND store.product_id= product.`id`
+      </where>
+      GROUP BY groups.name
+    </if>
+
+    <if test="name==null and operators==null and supplyid!=null">
+    SELECT  groups.id,groups.name
+    FROM `charge_product_group`AS groups
+      ,`charge_product_store`AS store,`charge_productstore_supply`AS supply
+      ,charge_product AS product
+    <where>
+      <if test="supplyid != null" >
+        AND supply.`supply_id` IN
+        <foreach collection="supplyid" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+      AND store.`group_id`=groups.id AND store.`id`=supply.`store_id`  AND store.product_id= product.`id`
+    </where>
+  GROUP BY groups.name
+    </if>
+
+    <if test=" (name!=null and supplyid!=null ) or  (operators!=null and supplyid!=null )  or ( name!=null and operators!=null) ">
+      SELECT  groups.id,groups.name
+      FROM `charge_product_group`AS groups
+      <if test="operators!=null or  discountPrices!=null">
+        ,`charge_product_store`AS store,`charge_productstore_supply`AS supply
+        ,(SELECT `id` FROM `charge_product` WHERE charge_product.`operator`IN
+        <foreach collection="operators" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>) AS product
+      </if>
+      <if test="operators==null and  supplyid!=null">
+        ,`charge_product_store`AS store,`charge_productstore_supply`AS supply
+        ,charge_product AS product
+      </if>
+      <where>
+        <if test="supplyid != null" >
+          AND supply.`supply_id` IS NULL
+        </if>
+        <if test=" discountPrices != null" >
+          AND  store.`discount_price` IS NULL
+        </if>
+        AND store.`group_id`=groups.id AND store.`id`=supply.`store_id`  AND store.product_id= product.`id`
+      </where>
+      GROUP BY groups.name
+    </if>
+  </select>
+
+  <!--查询货架组信息-->
+  <select id="selectProductGroupList" parameterType="com.jtd.recharge.dao.po.ChargeProductGroup" resultMap="BaseResultMap"   >
+    select  <include refid="Base_Column_List" />  from charge_product_group
+    <where>
+    <if test="name != null" >
+      and name like  #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="updatetime != null" >
+      and updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+    </where>
+  </select>
+
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from charge_product_group
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charge_product_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.ChargeProductGroup" >
+    insert into charge_product_group (id, name, updatetime
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChargeProductGroup" >
+    insert into charge_product_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.ChargeProductGroup" >
+    update charge_product_group
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChargeProductGroup" >
+    update charge_product_group
+    set name = #{name,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+</mapper>

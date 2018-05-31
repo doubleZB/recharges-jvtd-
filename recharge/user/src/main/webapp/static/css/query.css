@@ -1,0 +1,296 @@
+/* 
+* @Author: Busy
+* @Date:   2017-12-27 14:10:41
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-03-23 11:37:08
+*/
+.clear{
+    clear:both;
+}
+.wear{
+    width: 100%;
+    min-height: 94vh;
+    padding:3vh 0;
+    background:#EEEEEE;
+    color: #222222;
+    font-size: 16px;
+}
+[v-cloak] {
+display: none;
+} 
+.lcy_wear{
+    width: 96%;
+    min-height: 90vh;
+    padding:0 0 20px;
+    margin: 0 auto;
+    background: #fff;
+}
+.lcy_wear>h1{
+  font-size: 16px;
+  padding: 0 20px;
+    color: #333333;
+    height: 50px;
+    line-height: 50px;
+    background: #f7f9fa;
+    padding-left: 25px;
+    margin-top: 0;
+    margin-bottom:20px;
+    font-weight: 100;;
+    display:flex;
+    justify-content: space-between;
+}
+.lcy_wear>div{
+  padding: 0 20px;
+}
+.lcy_wear>ul{
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    padding: 0 20px;
+}
+.lcy_wear>ul>li.active{
+    border: 1px solid #eeeeee;
+    color: #4986f5;    font-weight: 400;
+
+    border-bottom: none;
+}
+.lcy_wear>ul>li{
+    line-height: 36px;
+    width: 95px;
+    text-align: center;font-weight: 400;
+    margin-bottom: -1px;
+    border-bottom: 1px solid #eeeeee;
+    background: #fff;
+}
+.lcy_wear>div>div>ul{
+    display: flex;  
+    margin: 20px 0;  
+    font-size: 14px;
+}
+.lcy_wear>div>div>ul>li{
+    margin-right: 30px;  
+    line-height: 30px;
+    font-weight: 400;
+}
+.lcy_wear>div>div>ul>li.active{
+    color: #4986f5;
+    font-size: 16px;    font-weight: 400;
+
+    border-bottom: 1px solid #4986f5;
+}
+.lcy_wear>div>div>dl>dd>label>input{
+    width: 250px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding:0 10px 0 20px;
+    height:40px;
+    line-height: 40px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: #999;
+}
+.lcy_wear>div>div>dl>dd>div{
+    width: 530px;
+}
+.lcy_wear>div>div>dl>dd>div>p{
+    color: #999999;
+    margin-bottom: 15px;
+}
+.lcy_wear>div>div>dl>dd>div>ol{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.lcy_wear>div>div>dl>dd>div>ol>li{
+    min-width: 160px;
+    height: 70px;
+    padding: 0 10px;
+    border: 1px solid #dbdbdb;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+.lcy_wear>div>div>dl>dd>div>ol>li>h3{
+    line-height: 25px;
+    margin-top: 10px;
+    color:#000000;
+    font-weight: 400;
+}
+.lcy_wear>div>div>dl>dd>div>ol>li>p{
+    line-height: 25px;
+    font-size: 14px;font-weight: 400;
+    color:#999999;
+}
+.lcy_wear>div>div>dl>dd>div>ol>li.active{
+    border: 1px solid #4986f5;
+    color: #4986f5;    font-weight: 400;
+
+}
+.lcy_wear>div>div>dl>dd>div>ol>li.active>h3{
+    color: #4986f5;    font-weight: 400;
+
+}
+.lcy_wear>div>div>dl>dd>div>ol>li.active>p{
+    color: #4986f5;    font-weight: 400;
+
+}
+/* 充值类型 */
+.lcy_wear>div>div>dl>dd>div>ul{
+    display:flex;
+    flex-wrap: wrap;
+}
+.lcy_wear>div>div>dl>dd>div>ul>li{
+    border-radius: 5px;
+    width: 140px;
+    height:40px;
+    line-height: 40px;
+    margin-right: 20px;
+    border: 1px solid #dbdbdb;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 400;
+
+}
+.lcy_wear>div>div>dl>dd>div>ul>li.active{
+    border: 1px solid #4986f5;
+    color: #4986f5;
+    font-weight: 400;
+
+}
+.lcy_wear>div>div>dl>dd>h5{
+    display: flex;
+    margin:0 0 20px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+}
+.lcy_wear>div>div>dl>dd>h5 span{
+    color:#ff5313;
+    font-size: 18px;
+    line-height: 18px;
+}
+.lcy_wear>div>div>dl>dd> input{
+    border-radius: 5px;
+    width: 140px;
+    height:35px;
+    line-height: 35px;
+    border: none;
+    font-size: 16px;
+    background: #4986f5;
+    color: #fff;
+}
+.lcy_wear>div>div>ol{
+    font-size: 14px;
+    color:#999999;
+    line-height: 30px;
+    margin-top: 20px;
+}
+.lcy_wear>div>div>dl>dt>dl{
+    display: flex;
+    margin:20px 0 ;
+    line-height: 30px;
+}
+.lcy_wear>div>div>dl>dt>dl p{
+    color:#999;
+}
+.lcy_wear>div>div>dl>dt>dl dd{
+    width: 200px;
+    text-align: right;
+    margin-right: 20px;
+}
+.lcy_wear>div>div>dl>dt>dl textarea{
+    width: 202px;
+    height: 200px;
+    font-size:14px;
+    padding: 10px;
+    border: 1px solid #dbdbdb;
+    
+}
+.lcy_wear>div>div>dl>dt label{
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+.lcy_wear>div>div>dl>dt label select{
+    width: 250px;
+    height: 40px;
+    font-size: 15px;
+    padding-left: 10px;
+    color:#666;
+    border: 1px solid #dbdbdb;
+}
+.lcy_wear>div>div>dl>dt label>span{
+    width: 150px;
+    text-align: right;
+}
+.lcy_wear>div>div>dl>dt label p{
+    display: flex;
+    margin-left: 20px;
+}
+.lcy_wear>div>div>dl>dt label p>span{
+    color:#ff6a32;
+    font-size: 20px;
+    line-height: 18px;
+}
+.lcy_wear>div>div>dl>dt>input{
+    width: 150px;
+    background: #4986f5;
+    color: #fff;
+    font-size: 16px;
+    line-height: 40px;
+    border: none;
+    border-radius: 5px;
+}
+.lcy_wear>div>div>dl>dt>input[value="清空重置"]{
+    background: none;
+    color: #666;
+}
+/* 弹框 */
+.BombBox{
+    width: 300px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: 50%;
+    margin-left: -150px;
+    background: #fff;
+    border: 1px solid #eee;
+}
+.BombBox h3{
+    background: #4986f5;
+    text-align: center;
+    line-height: 30px;
+    color:#fff;
+}
+.BombBox label{
+    display: flex;
+    margin: 50px 0;
+    justify-content: center;
+}
+.BombBox label span{
+    color:#666;
+    line-height: 30px;
+}
+.BombBox label input[type='password']{
+    width: 160px;
+    padding: 0 10px;
+    border:1px solid #ccc; 
+    line-height: 30px;
+}
+.BombBox label input[type='button']{
+    width: 44%;
+    height: 30px;
+    background: #4986f5;
+    border: none;
+    color:#fff;
+    /* margin-top: 35px; */
+}
+.BombBox label input[value="确定"]{
+    margin-right: 4%;
+}
+.BombBox label input[value="取消"]{
+    background: #fff;
+    color: #4986f5;
+    border: 1px solid #ccc;
+}

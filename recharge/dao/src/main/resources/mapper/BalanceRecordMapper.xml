@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.BalanceRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.bean.BalanceRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="add_type" property="addType" jdbcType="INTEGER" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="proposer_id" property="proposerId" jdbcType="INTEGER" />
+    <result column="receive_user" property="receiveUser" jdbcType="INTEGER" />
+    <result column="receive_voucher" property="receiveVoucher" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="sells" property="sells" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="contacts_mobile" property="contactsMobile" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="user_balance" property="userBalance" jdbcType="DECIMAL" />
+    <result column="credit_balance" property="creditBalance" jdbcType="DECIMAL" />
+    <result column="borrow_balance" property="borrowBalance" jdbcType="DECIMAL" />
+    <result column="balance_change" property="balanceChange" jdbcType="DECIMAL" />
+    <result column="balance_now" property="balanceNow" jdbcType="DECIMAL" />
+    <result column="borrow_change" property="borrowChange" jdbcType="DECIMAL" />
+    <result column="borrow_now" property="borrowNow" jdbcType="DECIMAL" />
+    <result column="user_all_name" property="userAllName" jdbcType="VARCHAR" />
+    <result column="user_cn_name" property="userCnName" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_balance, credit_balance, borrow_balance
+  </sql>
+
+  <!--销售商户列表-->
+  <select id="getMarketsUserList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT a.id,a.user_all_name,a.user_cn_name,a.user_name,a.mobile,a.contacts,a.contacts_mobile,a.register_time,a.status,b.user_balance,b.borrow_balance,b.credit_balance
+    FROM USER a left JOIN `user_balance` b ON a.`id`=b.user_id WHERE a.p_id IS NULL
+    <if test="userName!= null and userName!=''">  and a.user_name =#{userName}</if>
+    <if test="userCnName!= null and userCnName!=''">  and a.user_cn_name LIKE CONCAT('%',#{userCnName},'%')</if>
+    <if test="status!= null"> and  a.status =#{status} </if>
+    <if test="sells!= null and sells!=''">  and a.sells =#{sells}</if>
+  </select>
+
+  <!--加款-->
+  <insert id="insertRecordList" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+    INSERT INTO user_balance_record SET user_id=#{id},add_type=#{addType},receive_user=#{receiveUser},receive_voucher=#{receiveVoucher},amount=#{amount},proposer_id=#{proposerId},remark=#{remark},status=1
+  </insert>
+  <!--商户借款判断-->
+<select id="selectBlanceList" parameterType="com.jtd.recharge.dao.bean.BalanceRecord" resultMap="BaseResultMap">
+    SELECT a.user_id,a.borrow_balance,a.user_balance FROM user_balance a JOIN USER b ON b.id = a.user_id WHERE a.user_id=#{id}
+</select>
+  <!--查询用户余额表中的信息根据用户id-->
+  <select id="selectBlance" parameterType="com.jtd.recharge.dao.bean.BalanceRecord" resultMap="BaseResultMap">
+    SELECT a.user_id,a.borrow_balance,a.user_balance,a.credit_balance FROM user_balance a WHERE a.user_id=#{userId}
+  </select>
+
+  <!--加款审核查询-->
+  <select id="selectBalanceRecord" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT a.id,a.user_id,a.add_type,a.receive_user,a.proposer_id,d.admin_name proposerName,a.auditor_id,c.admin_name auditorName,a.receive_voucher,a.amount,a.remark,a.status,a.update_time,a.update_time time1,a.update_time time2,b.user_cn_name,b.user_all_name, b.user_name
+    FROM user_balance_record a LEFT JOIN USER b ON b.id=a.user_id LEFT JOIN admin_user c ON c.id=a.auditor_id LEFT JOIN admin_user d ON d.id=a.proposer_id  WHERE a.status=1
+    <if test="userName!=null and userName!=''"> and b.user_name LIKE CONCAT('%',#{userName},'%')</if>
+    <if test="addType!=null"> and a.add_type=#{addType} </if>
+  </select>
+
+  <!--审核不通过删除-->
+  <delete id="deleteBalanceRecord" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+    DELETE FROM user_balance_record WHERE id=#{id}
+  </delete>
+
+  <!--审核通过修改状态-->
+  <update id="updateRecordList" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+    update user_balance_record
+    <set>
+      <if test="auditorId != null" >
+        auditor_id = #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="proposerId != null" >
+        proposer_id = #{proposerId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="addType != null" >
+        add_type = #{addType,jdbcType=INTEGER},
+      </if>
+      <if test="balanceChange != null" >
+        balance_change = #{balanceChange,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceNow != null" >
+        balance_now = #{balanceNow,jdbcType=DECIMAL},
+      </if>
+      <if test="borrowChange != null" >
+        borrow_change = #{borrowChange,jdbcType=DECIMAL},
+      </if>
+      <if test="borrowNow != null" >
+        borrow_now = #{borrowNow,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        update_time = now(),
+      </if>
+    </set>
+  where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--查询Record-->
+  <select id="selectRecord" parameterType="com.jtd.recharge.dao.bean.BalanceRecord" resultMap="BaseResultMap">
+    SELECT id,user_id,add_type,receive_voucher,receive_user,amount,remark,status,auditor_id,proposer_id from user_balance_record
+    <where>
+      <if test="id!=null"> and id=#{id} </if>
+      <if test="userId!=null"> and user_id=#{userId} </if>
+      <if test="status!=null"> and status=#{status} </if>
+    </where>
+  </select>
+  <!--批量修改收款-->
+  <update id="updateBalanceList" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+    update user_balance set user_balance=user_balance+(#{userBalance}-borrow_balance),borrow_balance=0
+    where user_id=#{userId}
+  </update>
+  <!--收款额度小于借款额度-->
+  <update id="updateBalanceList2" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+    update user_balance set borrow_balance=borrow_balance-#{userBalance}
+    where user_id=#{userId}
+  </update>
+  <!--批量修改借款-->
+  <update id="updateBalanceList1" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+    update user_balance set user_balance=user_balance+#{borrowBalance}, borrow_balance=borrow_balance+#{borrowBalance} where user_id=#{userId}
+  </update>
+  <!--批量修改还款-->
+  <update id="updateBalanceListTwo" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+    update user_balance set user_balance=user_balance-#{userBalance},borrow_balance=borrow_balance-#{userBalance}
+    where user_id=#{userId}
+  </update>
+  <!--批量修改还款金额大于等于借款-->
+  <update id="updateBalanceListThree" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+    update user_balance set user_balance=user_balance-#{userBalance},borrow_balance=0
+    where user_id=#{userId}
+  </update>
+
+  <!--加款记录查询-->
+  <select id="selectBalanceRecordH" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT a.id,a.user_id,a.add_type,a.receive_user,a.proposer_id,a.balance_change,a.balance_now,a.borrow_change,a.borrow_now,d.admin_name proposerName,a.auditor_id,c.admin_name auditorName,a.receive_voucher,a.amount,a.remark,a.status,a.update_time,a.update_time time1,a.update_time time2,b.user_cn_name,b.user_all_name, b.user_name
+    FROM user_balance_record a LEFT JOIN USER b ON b.id=a.user_id LEFT JOIN admin_user c ON c.id=a.auditor_id LEFT JOIN admin_user d ON d.id=a.proposer_id  WHERE a.status=2
+    <if test="userCnName!=null and userCnName!=''"> and b.user_cn_name LIKE CONCAT('%',#{userCnName},'%') </if>
+    <if test="addType!=null"> and a.add_type=#{addType} </if>
+    <if test="timeStart!=null and timeStart!=''"> and a.update_time &gt;=#{timeStart} </if>
+    <if test="timeEnd!=null and timeEnd!=''"> and a.update_time &lt;=#{timeEnd} </if>
+  </select>
+
+  <!--添加加借记录-->
+<insert id="insertRecordAddBorrows" parameterType="com.jtd.recharge.dao.bean.BalanceRecord">
+  insert INTO user_balance_record
+  <trim prefix="(" suffix=")" suffixOverrides="," >
+    <if test="id != null" >
+      id,
+    </if>
+    <if test="userId != null" >
+      user_id,
+    </if>
+    <if test="addType != null" >
+      add_type,
+    </if>
+    <if test="receiveUser != null" >
+      receive_user,
+    </if>
+    <if test="receiveVoucher != null" >
+      receive_voucher,
+    </if>
+    <if test="amount != null" >
+      amount,
+    </if>
+    <if test="remark != null" >
+      remark,
+    </if>
+    <if test="status != null" >
+      status,
+    </if>
+    <if test="auditorId != null" >
+      auditor_id,
+    </if>
+    <if test="proposerId != null" >
+      proposer_id,
+    </if>
+  </trim>
+  <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <if test="id != null" >
+      #{id,jdbcType=INTEGER},
+    </if>
+    <if test="userId != null" >
+      #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="addType != null" >
+      #{addType,jdbcType=INTEGER},
+    </if>
+    <if test="receiveUser != null" >
+      #{receiveUser,jdbcType=INTEGER},
+    </if>
+    <if test="receiveVoucher != null" >
+      #{receiveVoucher,jdbcType=VARCHAR},
+    </if>
+    <if test="amount != null" >
+      #{amount},
+    </if>
+    <if test="remark != null" >
+      #{remark,jdbcType=VARCHAR},
+    </if>
+    <if test="status != null" >
+      #{status,jdbcType=INTEGER},
+    </if>
+    <if test="auditorId != null" >
+      #{auditorId,jdbcType=INTEGER},
+    </if>
+    <if test="proposerId != null" >
+      #{proposerId,jdbcType=INTEGER},
+    </if>
+  </trim>
+</insert>
+</mapper>

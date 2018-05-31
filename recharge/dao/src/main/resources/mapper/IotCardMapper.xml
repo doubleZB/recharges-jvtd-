@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.IotCardMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.IotCard" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="iccid" property="iccid" jdbcType="VARCHAR" />
+    <result column="msisdn" property="msisdn" jdbcType="VARCHAR" />
+    <result column="imsi" property="imsi" jdbcType="VARCHAR" />
+    <result column="imei" property="imei" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="sale_status" property="saleStatus" jdbcType="INTEGER" />
+    <result column="active_time" property="activeTime" jdbcType="TIMESTAMP" />
+    <result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+    <result column="left_flow" property="leftFlow" jdbcType="DECIMAL" />
+    <result column="total_flow" property="totalFlow" jdbcType="DECIMAL" />
+    <result column="used_flow" property="usedFlow" jdbcType="DECIMAL" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="is_recharge" property="isRecharge" jdbcType="INTEGER" />
+    <result column="is_sms" property="isSms" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="INTEGER" />
+    <result column="card_size" property="cardSize" jdbcType="INTEGER" />
+    <result column="cost_discount" property="costDiscount" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="price_discount" property="priceDiscount" jdbcType="DECIMAL" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="flow_product_id" property="flowProductId" jdbcType="INTEGER" />
+    <result column="purchase_id" property="purchaseId" jdbcType="INTEGER" />
+    <result column="in_receipt_id" property="inReceiptId" jdbcType="INTEGER" />
+    <result column="out_receipt_id" property="outReceiptId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, iccid, msisdn, imsi, imei, status, sale_status, active_time, out_time, left_flow, 
+    total_flow, used_flow, supply_id, customer_id, is_recharge, is_sms, operator, card_size,
+    cost_discount,cost,price_discount,price,
+    flow_product_id, purchase_id, in_receipt_id, out_receipt_id, create_time, update_time
+  </sql>
+  <sql id="Special_Column_List" >
+    iccid, msisdn, imsi, imei, sale_status, active_time, out_time, left_flow,
+    total_flow, used_flow, customer_id,
+    in_receipt_id, out_receipt_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from iot_card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="sumCostAndPrice" resultType="java.util.Map" parameterType="java.lang.Integer" >
+    select sum(ca.cost) as totalCost, sum(ip.price) as totalStdPrice
+    from iot_card ca left join iot_product ip on ca.flow_product_id = ip.id
+    where
+    ca.out_receipt_id=#{outReceiptId}
+  </select>
+  <select id="countByPurchaseId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select count(id)
+    from iot_card
+    where
+    purchase_id=#{purchaseId,jdbcType=INTEGER}
+  </select>
+  <select id="countByInReceiptId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select count(id)
+    from iot_card
+    where
+    in_receipt_id=#{inReceiptId,jdbcType=INTEGER}
+  </select>
+  <select id="countByCondition" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.IotCard" >
+    select count(*)
+    from iot_card ca
+    <where>
+      <if test="status!= null">  and ca.status=#{status}</if>
+      <if test="supplyId!= null">  and ca.supply_id=#{supplyId}</if>
+      <if test="customerId!= null">  and ca.customer_id=#{customerId}</if>
+      <if test="saleStatus!= null">  and ca.sale_status=#{saleStatus}</if>
+      <if test="operator!= null">  and ca.operator=#{operator}</if>
+      <if test="cardSize!= null">  and ca.card_size=#{cardSize}</if>
+      <if test="costDiscount!= null">  and ca.cost_discount=#{costDiscount}</if>
+      <if test="cost!= null">  and ca.cost=#{cost}</if>
+      <if test="flowProductId!= null">  and ca.flow_product_id=#{flowProductId}</if>
+      <if test="purchaseId!= null">  and ca.purchase_id=#{purchaseId}</if>
+      <if test="inReceiptId!= null">  and ca.in_receipt_id=#{inReceiptId}</if>
+      <if test="outReceiptId!= null">  and ca.out_receipt_id=#{outReceiptId}</if>
+      <if test="limitPrice!= null">  and cost <![CDATA[ < ]]>  #{limitPrice}</if>
+      <if test="limitPriceDiscount!= null">  and cost_discount <![CDATA[ < ]]> #{limitPriceDiscount}</if>
+    </where>
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.IotCard" >
+    select
+    ca.id, <include refid="Special_Column_List" />, ca.purchase_id,ca.cost_discount,ca.cost,ca.price,ca.price_discount,ca.status, ca.flow_product_id, ca.is_recharge, ca.is_sms, ca.card_size,
+    ca.operator,ca.supply_id,ca.create_time,ca.update_time,pu.serial_num as purchaseSerialNum,
+    pr.name as productName, pr.price as standardPrice, pr.period, pr.type, inr.serial_num as inReceiptSerialNum,
+    our.serial_num as outReceiptSerialNum,iso.serial_num as orderSerialNum, su.name as supplyName,ior.serial_num as subOrderSerialNum,u.user_name as userName
+    from iot_card ca left join iot_purchase pu on ca.purchase_id = pu.id
+    left join iot_product pr on ca.flow_product_id = pr.id
+    left join iot_in_receipt inr on ca.in_receipt_id = inr.id
+    left join iot_out_receipt our on ca.out_receipt_id = our.id
+    left join iot_sub_order iso on our.sub_order_id = iso.id
+    left join iot_order ior on iso.parent_id = ior.id
+    left join  iot_supply su on ca.supply_id = su.id
+    LEFT  JOIN  user u on ca.customer_id = u.id
+    <where>
+      <if test="id!= null">  and ca.id=#{id}</if>
+      <if test="iccid!= null and iccid!=''">  and ca.iccid=#{iccid}</if>
+      <if test="msisdn!= null and msisdn!=''">  and ca.msisdn=#{msisdn}</if>
+      <if test="status!= null">  and ca.status=#{status}</if>
+      <if test="supplyId!= null">  and ca.supply_id=#{supplyId}</if>
+      <if test="customerId!= null">  and ca.customer_id=#{customerId}</if>
+      <if test="saleStatus!= null">  and ca.sale_status=#{saleStatus}</if>
+      <if test="operator!= null">  and ca.operator=#{operator}</if>
+      <if test="cardSize!= null">  and ca.card_size=#{cardSize}</if>
+      <if test="costDiscount!= null">
+        and ca.cost_discount <![CDATA[ < ]]> #{costDiscount}
+      </if>
+      <if test="cost!= null">  and ca.cost=#{cost}</if>
+      <if test="flowProductId!= null">  and ca.flow_product_id=#{flowProductId}</if>
+      <if test="purchaseId!= null">  and ca.purchase_id=#{purchaseId}</if>
+      <if test="inReceiptId!= null">  and ca.in_receipt_id=#{inReceiptId}</if>
+      <if test="outReceiptId!= null">  and ca.out_receipt_id=#{outReceiptId}</if>
+      <if test="purchaseSerialNum!= null and purchaseSerialNum !=''">  and pu.serial_num=#{purchaseSerialNum}</if>
+      <if test="inReceiptSerialNum!= null and inReceiptSerialNum !=''">  and inr.serial_num=#{inReceiptSerialNum}</if>
+      <if test="outReceiptSerialNum!= null and outReceiptSerialNum !=''">  and our.serial_num=#{outReceiptSerialNum}</if>
+      <if test="orderSerialNum!= null and orderSerialNum !=''">  and ior.serial_num=#{orderSerialNum}</if>
+      <if test="subOrderSerialNum!= null and subOrderSerialNum !=''">  and iso.serial_num=#{subOrderSerialNum}</if>
+      <if test="limitPriceDiscount!= null">  and ca.cost_discount <![CDATA[ < ]]> #{limitPriceDiscount}</if>
+      <if test="userName!=null and userName !=''">and u.user_name=#{userName}</if>
+      <choose>
+        <when test="cardTimeType ==1">
+          <if test="createDate!=null and createDate!=''">and ca.create_time &gt;=#{createDate,jdbcType=TIMESTAMP}</if>
+          <if test="endDate!=null and endDate!=''">and ca.create_time &lt;=#{endDate,jdbcType=TIMESTAMP} </if>
+        </when>
+        <when test="cardTimeType ==2">
+          <if test="createDate!=null and createDate!=''"> and active_time &gt;=#{createDate,jdbcType=TIMESTAMP} </if>
+          <if test="endDate!=null and endDate!=''"> and active_time &lt;=#{endDate,jdbcType=TIMESTAMP} </if>
+        </when>
+        <otherwise>
+          <if test="createDate!=null and createDate!=''">and out_time &gt;=#{createDate,jdbcType=TIMESTAMP}</if>
+          <if test="endDate!=null and endDate!=''">and out_time &lt;=#{endDate,jdbcType=TIMESTAMP} </if>
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+  <select id="selectByCard" resultMap="BaseResultMap">
+    select
+    ca.id, <include refid="Special_Column_List" />, ca.status, ca.purchase_id,ca.cost_discount,ca.cost,ca.price,ca.price_discount, ca.flow_product_id, ca.is_recharge, ca.is_sms, ca.card_size,
+    ca.operator,ca.supply_id,ca.create_time,ca.update_time,
+    pr.name as productName, pr.price as standardPrice, pr.period, pr.type,count(*) as total
+    from iot_card ca left join iot_product pr on ca.flow_product_id = pr.id
+    <where>
+      <if test="id!= null">  and ca.id=#{id}</if>
+      <if test="saleStatus!= null">  and ca.sale_status=#{saleStatus}</if>
+      <if test="operator!= null">  and ca.operator=#{operator}</if>
+      <if test="flowProductId!= null">  and ca.flow_product_id=#{flowProductId}</if>
+    </where>
+    group by ca.operator ,ca.card_size,ca.flow_product_id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from iot_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByInReceiptId" parameterType="java.lang.Integer" >
+    delete from iot_card
+    where in_receipt_id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.IotCard" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_card (id, iccid, msisdn, 
+      imsi, imei, status, 
+      sale_status, active_time, out_time, 
+      left_flow, total_flow, used_flow, 
+      supply_id, customer_id, is_recharge, 
+      is_sms, operator, card_size, cost_discount,cost,price_discount,price,
+      flow_product_id, purchase_id, in_receipt_id, 
+      out_receipt_id, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{iccid,jdbcType=VARCHAR}, #{msisdn,jdbcType=VARCHAR}, 
+      #{imsi,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{saleStatus,jdbcType=INTEGER}, #{activeTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=TIMESTAMP}, 
+      #{leftFlow,jdbcType=DECIMAL}, #{totalFlow,jdbcType=DECIMAL}, #{usedFlow,jdbcType=DECIMAL}, 
+      #{supplyId,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{isRecharge,jdbcType=INTEGER}, 
+      #{isSms,jdbcType=INTEGER}, #{operator,jdbcType=INTEGER}, #{cardSize,jdbcType=INTEGER},
+      #{costDiscount,jdbcType=DECIMAL}, #{cost,jdbcType=DECIMAL},#{priceDiscount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL},
+      #{flowProductId,jdbcType=INTEGER}, #{purchaseId,jdbcType=INTEGER}, #{inReceiptId,jdbcType=INTEGER},
+      #{outReceiptId,jdbcType=INTEGER}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.IotCard" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="iccid != null" >
+        iccid,
+      </if>
+      <if test="msisdn != null" >
+        msisdn,
+      </if>
+      <if test="imsi != null" >
+        imsi,
+      </if>
+      <if test="imei != null" >
+        imei,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="saleStatus != null" >
+        sale_status,
+      </if>
+      <if test="activeTime != null" >
+        active_time,
+      </if>
+      <if test="outTime != null" >
+        out_time,
+      </if>
+      <if test="leftFlow != null" >
+        left_flow,
+      </if>
+      <if test="totalFlow != null" >
+        total_flow,
+      </if>
+      <if test="usedFlow != null" >
+        used_flow,
+      </if>
+      <if test="supplyId != null" >
+        supply_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="isRecharge != null" >
+        is_recharge,
+      </if>
+      <if test="isSms != null" >
+        is_sms,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="cardSize != null" >
+        card_size,
+      </if>
+      <if test="costDiscount != null" >
+        cost_discount,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="flowProductId != null" >
+        flow_product_id,
+      </if>
+      <if test="purchaseId != null" >
+        purchase_id,
+      </if>
+      <if test="inReceiptId != null" >
+        in_receipt_id,
+      </if>
+      <if test="outReceiptId != null" >
+        out_receipt_id,
+      </if>
+      create_time,
+      update_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="iccid != null" >
+        #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="msisdn != null" >
+        #{msisdn,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="saleStatus != null" >
+        #{saleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="activeTime != null" >
+        #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTime != null" >
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leftFlow != null" >
+        #{leftFlow,jdbcType=DECIMAL},
+      </if>
+      <if test="totalFlow != null" >
+        #{totalFlow,jdbcType=DECIMAL},
+      </if>
+      <if test="usedFlow != null" >
+        #{usedFlow,jdbcType=DECIMAL},
+      </if>
+      <if test="supplyId != null" >
+        #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="isRecharge != null" >
+        #{isRecharge,jdbcType=INTEGER},
+      </if>
+      <if test="isSms != null" >
+        #{isSms,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="cardSize != null" >
+        #{cardSize,jdbcType=INTEGER},
+      </if>
+      <if test="costDiscount != null" >
+        #{costDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="priceDiscount != null" >
+        #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="flowProductId != null" >
+        #{flowProductId,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseId != null" >
+        #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="inReceiptId != null" >
+        #{inReceiptId,jdbcType=INTEGER},
+      </if>
+      <if test="outReceiptId != null" >
+        #{outReceiptId,jdbcType=INTEGER},
+      </if>
+      now(),
+      now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.IotCard" >
+    update iot_card
+    <set >
+      <if test="iccid != null" >
+        iccid = #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="msisdn != null" >
+        msisdn = #{msisdn,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        imsi = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        imei = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="saleStatus != null" >
+        sale_status = #{saleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="activeTime != null" >
+        active_time = #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTime != null" >
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leftFlow != null" >
+        left_flow = #{leftFlow,jdbcType=DECIMAL},
+      </if>
+      <if test="totalFlow != null" >
+        total_flow = #{totalFlow,jdbcType=DECIMAL},
+      </if>
+      <if test="usedFlow != null" >
+        used_flow = #{usedFlow,jdbcType=DECIMAL},
+      </if>
+      <if test="supplyId != null" >
+        supply_id = #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="isRecharge != null" >
+        is_recharge = #{isRecharge,jdbcType=INTEGER},
+      </if>
+      <if test="isSms != null" >
+        is_sms = #{isSms,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="cardSize != null" >
+        card_size = #{cardSize,jdbcType=INTEGER},
+      </if>
+      <if test="costDiscount != null" >
+        cost_discount = #{costDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount = #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="flowProductId != null" >
+        flow_product_id = #{flowProductId,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseId != null" >
+        purchase_id = #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="inReceiptId != null" >
+        in_receipt_id = #{inReceiptId,jdbcType=INTEGER},
+      </if>
+      <if test="outReceiptId != null" >
+        out_receipt_id = #{outReceiptId,jdbcType=INTEGER},
+      </if>
+      update_time = now()
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.IotCard" >
+    update iot_card
+    set iccid = #{iccid,jdbcType=VARCHAR},
+      msisdn = #{msisdn,jdbcType=VARCHAR},
+      imsi = #{imsi,jdbcType=VARCHAR},
+      imei = #{imei,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      sale_status = #{saleStatus,jdbcType=INTEGER},
+      active_time = #{activeTime,jdbcType=TIMESTAMP},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      left_flow = #{leftFlow,jdbcType=DECIMAL},
+      total_flow = #{totalFlow,jdbcType=DECIMAL},
+      used_flow = #{usedFlow,jdbcType=DECIMAL},
+      supply_id = #{supplyId,jdbcType=INTEGER},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      is_recharge = #{isRecharge,jdbcType=INTEGER},
+      is_sms = #{isSms,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=INTEGER},
+      card_size = #{cardSize,jdbcType=INTEGER},
+      cost_discount = #{costDiscount,jdbcType=DECIMAL},
+      cost = #{cost,jdbcType=DECIMAL},
+      price_discount = #{priceDiscount,jdbcType=DECIMAL},
+      price = #{price,jdbcType=DECIMAL},
+      flow_product_id = #{flowProductId,jdbcType=INTEGER},
+      purchase_id = #{purchaseId,jdbcType=INTEGER},
+      in_receipt_id = #{inReceiptId,jdbcType=INTEGER},
+      out_receipt_id = #{outReceiptId,jdbcType=INTEGER},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="refundByOutReceiptId" parameterType="java.util.Map" >
+  update iot_card set
+    sale_status = #{saleStatus,jdbcType=INTEGER},
+    out_receipt_id = null,
+    customer_id = null,
+    price_discount = null,
+    price = null,
+    out_time = null,
+    update_time = now()
+    where sale_status = #{currentSaleStatus,jdbcType=INTEGER}
+     and out_receipt_id = #{outReceiptId,jdbcType=INTEGER}
+  </update>
+  <update id="outByCondition" parameterType="com.jtd.recharge.dao.po.IotCard" >
+    update iot_card
+    <set >
+      <if test="saleStatus != null" >
+        sale_status = #{saleStatus,jdbcType=INTEGER},
+      </if>
+      out_time = now(),
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="outReceiptId != null" >
+        out_receipt_id = #{outReceiptId,jdbcType=INTEGER},
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount = #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      update_time = now()
+      WHERE
+      sale_status = 0
+      <if test="cardSize!= null">  and card_size=#{cardSize}</if>
+      <if test="operator!= null">  and operator=#{operator}</if>
+      <if test="flowProductId!= null">  and flow_product_id=#{flowProductId}</if>
+      <if test="supplyId!= null">  and supply_id=#{supplyId}</if>
+      <if test="limitPrice!= null">  and cost <![CDATA[ < ]]>  #{limitPrice}</if>
+      and cost_discount <![CDATA[ < ]]> #{limitPriceDiscount}
+      order by iccid
+      limit #{updateLimit,jdbcType=INTEGER}
+    </set>
+  </update>
+  <update id="outByCardIdList" parameterType="java.util.Map" >
+    update iot_card
+    <set >
+      <if test="saleStatus != null" >
+        sale_status = #{saleStatus,jdbcType=INTEGER},
+      </if>
+      out_time = now(),
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="outReceiptId != null" >
+        out_receipt_id = #{outReceiptId,jdbcType=INTEGER},
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount = #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      update_time = now()
+      WHERE
+      sale_status = 0
+      and id IN
+      <foreach collection="cardIdList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+      <if test="cardSize!= null">  and card_size=#{cardSize}</if>
+      <if test="operator!= null">  and operator=#{operator}</if>
+      <if test="flowProductId!= null">  and flow_product_id=#{flowProductId}</if>
+      <if test="supplyId!= null">  and supply_id=#{supplyId}</if>
+      <if test="limitPrice!= null">  and cost <![CDATA[ < ]]>  #{limitPrice}</if>
+      and cost_discount <![CDATA[ < ]]> #{limitPriceDiscount}
+      limit #{updateLimit,jdbcType=INTEGER}
+    </set>
+  </update>
+</mapper>

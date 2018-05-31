@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserBalanceRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.UserBalanceRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="add_type" property="addType" jdbcType="INTEGER" />
+    <result column="receive_user" property="receiveUser" jdbcType="INTEGER" />
+    <result column="receive_voucher" property="receiveVoucher" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="proposer_id" property="proposerId" jdbcType="INTEGER" />
+    <result column="balance_change" property="balanceChange" jdbcType="DECIMAL" />
+    <result column="balance_now" property="balanceNow" jdbcType="DECIMAL" />
+    <result column="borrow_change" property="borrowChange" jdbcType="DECIMAL" />
+    <result column="borrow_now" property="borrowNow" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, add_type, receive_user, receive_voucher, amount, remark, status, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_balance_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_balance_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.UserBalanceRecord" >
+    insert into user_balance_record (id, user_id, add_type, 
+      receive_user, receive_voucher, amount, 
+      remark, status, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addType,jdbcType=INTEGER}, 
+      #{receiveUser,jdbcType=INTEGER}, #{receiveVoucher,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.UserBalanceRecord" >
+    insert into user_balance_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="addType != null" >
+        add_type,
+      </if>
+      <if test="receiveUser != null" >
+        receive_user,
+      </if>
+      <if test="receiveVoucher != null" >
+        receive_voucher,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="addType != null" >
+        #{addType,jdbcType=INTEGER},
+      </if>
+      <if test="receiveUser != null" >
+        #{receiveUser,jdbcType=INTEGER},
+      </if>
+      <if test="receiveVoucher != null" >
+        #{receiveVoucher,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.UserBalanceRecord" >
+    update user_balance_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="addType != null" >
+        add_type = #{addType,jdbcType=INTEGER},
+      </if>
+      <if test="receiveUser != null" >
+        receive_user = #{receiveUser,jdbcType=INTEGER},
+      </if>
+      <if test="receiveVoucher != null" >
+        receive_voucher = #{receiveVoucher,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.UserBalanceRecord" >
+    update user_balance_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      add_type = #{addType,jdbcType=INTEGER},
+      receive_user = #{receiveUser,jdbcType=INTEGER},
+      receive_voucher = #{receiveVoucher,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

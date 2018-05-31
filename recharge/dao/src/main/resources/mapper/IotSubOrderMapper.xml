@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.IotSubOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.IotSubOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="serial_num" property="serialNum" jdbcType="VARCHAR" />
+    <result column="price_discount" property="priceDiscount" jdbcType="DECIMAL" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="cost_discount" property="costDiscount" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="is_recharge" property="isRecharge" jdbcType="INTEGER" />
+    <result column="is_sms" property="isSms" jdbcType="INTEGER" />
+    <result column="size" property="size" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="flow_product_id" property="flowProductId" jdbcType="INTEGER" />
+    <result column="creater_id" property="createrId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parent_id, serial_num, price_discount, price, cost_discount, cost, amount, total, 
+    is_recharge, is_sms, size, operator, status, flow_product_id, creater_id, create_time, 
+    update_time,user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from iot_sub_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from iot_sub_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.IotSubOrder" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_sub_order (id, parent_id, serial_num, 
+      price_discount, price, cost_discount, 
+      cost, amount, total, 
+      is_recharge, is_sms, size, 
+      operator, status, flow_product_id, 
+      creater_id, create_time, update_time,user_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{serialNum,jdbcType=VARCHAR}, 
+      #{priceDiscount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{costDiscount,jdbcType=DECIMAL}, 
+      #{cost,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{total,jdbcType=INTEGER}, 
+      #{isRecharge,jdbcType=INTEGER}, #{isSms,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}, 
+      #{operator,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{flowProductId,jdbcType=INTEGER}, 
+      #{createrId,jdbcType=INTEGER}, now(), now(),#{userId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.IotSubOrder" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_sub_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="serialNum != null" >
+        serial_num,
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="costDiscount != null" >
+        cost_discount,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="isRecharge != null" >
+        is_recharge,
+      </if>
+      <if test="isSms != null" >
+        is_sms,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="flowProductId != null" >
+        flow_product_id,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      create_time,
+      update_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="serialNum != null" >
+        #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="priceDiscount != null" >
+        #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="costDiscount != null" >
+        #{costDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="isRecharge != null" >
+        #{isRecharge,jdbcType=INTEGER},
+      </if>
+      <if test="isSms != null" >
+        #{isSms,jdbcType=INTEGER},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="flowProductId != null" >
+        #{flowProductId,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=TIMESTAMP},
+      </if>
+      now(),
+      now()
+    </trim>
+  </insert>
+  <update id="changeOrderStatus" parameterType="com.jtd.recharge.dao.po.IotSubOrder" >
+  update iot_sub_order set
+        status = #{status,jdbcType=INTEGER},
+        update_time = now()
+    where id = #{id} and status = #{currentStatus,jdbcType=INTEGER}
+</update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.IotSubOrder" >
+    update iot_sub_order
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="serialNum != null" >
+        serial_num = #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount = #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="costDiscount != null" >
+        cost_discount = #{costDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="isRecharge != null" >
+        is_recharge = #{isRecharge,jdbcType=INTEGER},
+      </if>
+      <if test="isSms != null" >
+        is_sms = #{isSms,jdbcType=INTEGER},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="flowProductId != null" >
+        flow_product_id = #{flowProductId,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      update_time = now(),
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.IotSubOrder" >
+    update iot_sub_order
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      serial_num = #{serialNum,jdbcType=VARCHAR},
+      price_discount = #{priceDiscount,jdbcType=DECIMAL},
+      price = #{price,jdbcType=DECIMAL},
+      cost_discount = #{costDiscount,jdbcType=DECIMAL},
+      cost = #{cost,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DECIMAL},
+      total = #{total,jdbcType=INTEGER},
+      is_recharge = #{isRecharge,jdbcType=INTEGER},
+      is_sms = #{isSms,jdbcType=INTEGER},
+      size = #{size,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      flow_product_id = #{flowProductId,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      create_time = now(),
+      update_time = now(),
+      user_id = #{userId,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectOrderList" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.IotSubOrder">
+    SELECT  iso.id as id , iso.parent_id as parentId, iso.serial_num as serialNum,io.serial_num as parentSerialNum,
+    iso.price_discount as priceDiscount, iso.price as price, ip.price as stdPrice,
+		iso.cost_discount as costDiscount, iso.cost as cost, iso.amount as amount, iso.total as total,
+    iso.is_recharge as isRacharge, iso.is_sms as isSms, iso.size as size, iso.operator as operator, iso.status as status,
+		iso.flow_product_id as flowProductId, iso.creater_id as createrId, iso.create_time as createTime,
+    iso.update_time as updateTime,iso.user_id as userId , u.user_cn_name as clientName,au.`name` as adminUserName,ip.name as productName
+    FROM `iot_sub_order` iso
+    LEFT JOIN iot_order io  on iso.parent_id = io.id
+    LEFT JOIN `user` u on io.user_id = u.id
+    LEFT JOIN iot_product ip on iso.flow_product_id = ip.id
+    LEFT JOIN admin_user au on iso.creater_id = au.id
+    <where>
+      <if test="statusList!=null">
+        and iso.status not  IN
+        <foreach collection="statusList" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="clientName!=null and clientName!=''">
+        and  u.user_cn_name=#{clientName}
+      </if>
+      <if test="adminUserName!=null and adminUserName!=''">
+        and au.name=#{adminUserName}
+      </if>
+      <if test="status!=null">
+       and  iso.status=#{status}
+      </if>
+      <if test="serialNum!=null and serialNum!=''">
+       and  iso.serial_num=#{serialNum}
+      </if>
+      <if test="parentSerialNum != null and parentSerialNum !=''">
+       and  io.serial_num=#{parentSerialNum}
+      </if>
+      <if test="createDate!=null and createDate!=''">
+        and iso.create_time &gt;=#{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate!=null and endDate!=''">
+        and iso.create_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="id!=null">
+        and iso.id =#{id}
+      </if>
+      <if test="userId!=null">
+        and iso.user_id =#{userId}
+      </if>
+      <if test="createrId!=null">
+        and  iso.creater_id=#{createrId}
+      </if>
+      <if test="operator!=null">
+        and  iso.operator=#{operator}
+      </if>
+      <if test="flowProductId!=null">
+        and  iso.flow_product_id=#{flowProductId}
+      </if>
+      <if test="cardSizeLiteral!=null and cardSizeLiteral != ''">
+        and  iso.size=#{cardSizeLiteral}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectBySerialNum" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    SELECT  iso.id as id , iso.parent_id as parentId, iso.serial_num as serialNum, iso.price_discount as priceDiscount, iso.price as price,
+    iso.cost_discount as costDiscount, iso.cost as cost, iso.amount as amount, iso.total as total,
+    iso.is_recharge as isRacharge, iso.is_sms as isSms, iso.size as size, iso.operator as operator, iso.status as status,
+    iso.flow_product_id as flowProductId, iso.creater_id as createrId, iso.create_time as createTime,
+    iso.update_time as updateTime ,io.serial_num as parentSerialNum,
+    u.user_cn_name as clientName, au.`name` as adminUserName, ip.`name` as productName
+    FROM `iot_sub_order` iso
+    LEFT JOIN iot_order io  on iso.parent_id = io.id
+    LEFT JOIN `user` u on io.user_id = u.id
+    LEFT JOIN iot_product ip on iso.flow_product_id = ip.id
+    LEFT JOIN admin_user au on iso.creater_id = au.id
+    <where> 
+    <if test="statusList!=null">
+      and iso.status IN
+      <foreach collection="statusList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="serialNum!=null and serialNum!='' ">
+      and  iso.serial_num = #{serialNum,jdbcType=VARCHAR}
+    </if>
+    <if test="parentSerialNum!=null and parentSerialNum!=''">
+      and  io.serial_num=#{parentSerialNum,jdbcType=VARCHAR}
+    </if>
+    </where>
+  </select>
+</mapper>

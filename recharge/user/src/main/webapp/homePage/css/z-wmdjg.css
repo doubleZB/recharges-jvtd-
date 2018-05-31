@@ -1,0 +1,65 @@
+/*功能特性*/
+
+.zFunction {
+    width: 100%;
+    height: 10.5rem;
+    padding: .3rem .22rem;
+}
+
+.zSquare {
+    width: 5.95rem;
+    height: 2.2rem;
+    padding: .22rem 0;
+    margin-bottom: .25rem;
+    color: #fff;
+}
+
+.b {
+    background: #00bcd5;
+}
+
+.r {
+    background: #f44236;
+}
+
+.o {
+    background: #f89f2c;
+    height: 2.8rem;
+}
+
+.p {
+    background: #c12cf8;
+    height: 1.9rem;
+}
+
+.zBtn {
+    width: 2.1rem;
+    height: .48rem;
+    border: 1px solid #fff;
+    line-height: .45rem;
+    text-align: center;
+    margin-top: .15rem;
+}
+
+.zBtn a {
+    color: #fff;
+    font-size: .2rem;
+}
+
+.zSquare img {
+    width: .82rem;
+    height: .88rem;
+}
+
+.zSquare .zSquare-tit {
+    width: 100%;
+    height: .45rem;
+    font-size: .24rem;
+    font-weight: 900;
+    text-indent: .5rem;
+}
+
+.zSquare p {
+    font-size: .2rem;
+    line-height: .3rem;
+}

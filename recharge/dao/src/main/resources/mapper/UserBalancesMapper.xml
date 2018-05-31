@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserBalancesMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.bean.UserBalances">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_balance" property="userBalance" jdbcType="DECIMAL" />
+    <result column="credit_balance" property="creditBalance" jdbcType="DECIMAL" />
+    <result column="borrow_balance" property="borrowBalance" jdbcType="DECIMAL" />
+    <result column="user_sid" property="userSid" jdbcType="VARCHAR"/>
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="flow_is_enable" property="flowIsEnable" jdbcType="INTEGER" />
+    <result column="charge_is_enable" property="chargeIsEnable" jdbcType="INTEGER" />
+    <result column="recharge_type" property="rechargeType" jdbcType="INTEGER" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="contacts_mobile" property="contactsMobile" jdbcType="VARCHAR" />
+    <result column="sells" property="sells" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="is_credit" property="isCredit" jdbcType="INTEGER" />
+    <result column="user_all_name" property="userAllName" jdbcType="VARCHAR" />
+    <result column="user_cn_name" property="userCnName" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!--商户端子账户列表页面-->
+  <select id="selectUserBalanceList" parameterType="com.jtd.recharge.dao.bean.UserBalances" resultMap="BaseResultMap">
+    SELECT b.id,b.user_sid,b.user_name,b.user_cn_name, c.`user_cn_name` user_all_name,b.`p_id`,b.mobile,b.contacts,b.contacts_mobile,b.register_time,b.status,a.credit_balance, a.borrow_balance, a.user_balance
+    FROM USER b JOIN user_balance a ON a.user_id=b.id
+    LEFT JOIN USER c ON b.p_id = c.`id`
+    where b.p_id IS NOT NULL
+      <if test="pId!= null and pId!=''">  and b.p_id=#{pId}</if>
+      <if test="userCnName!= null and userCnName!=''">  and b.user_cn_name=#{userCnName}</if>
+      <if test="userAllName!= null and userAllName!=''">  and c.user_cn_name=#{userAllName}</if>
+      <if test="status!= null"> and  b.status=#{status}</if>
+      <if test="userName!= null and userName!=''">  and b.user_name=#{userName}</if>
+  </select>
+
+  <!--账户余额查询-->
+  <select id="selectBalanceList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT b.id,b.user_sid,b.user_name,b.user_cn_name, b.`p_id`,b.user_cn_name,b.mobile,b.contacts,b.contacts_mobile,b.register_time,b.status,a.credit_balance, a.borrow_balance, a.user_balance FROM USER b JOIN user_balance a ON a.user_id=b.id
+    WHERE b.p_id IS NULL
+      <if test="userCnName!= null and userCnName!=''">  and b.user_cn_name LIKE CONCAT('%',#{userCnName},'%')</if>
+      <if test="status!= null"> and  b.status=#{status}</if>
+      <if test="userName!= null and userName!=''">  and b.user_name=#{userName}</if>
+      <if test="orderBalance==1">  ORDER  BY a.user_balance DESC  </if>
+      <if test="orderBalance==2">  ORDER  BY a.user_balance ASC   </if>
+      <if test="orderBorrow==1">   ORDER  BY a.borrow_balance DESC </if>
+      <if test="orderBorrow==2">   ORDER  BY a.borrow_balance ASC  </if>
+      <if test="orderCredit==1">   ORDER  BY a.credit_balance DESC </if>
+      <if test="orderCredit==2">   ORDER  BY a.credit_balance ASC  </if>
+  </select>
+  <!--账户余额统计-->
+  <select id="selectBalanceStatisticsBalance" parameterType="com.jtd.recharge.dao.bean.UserBalances" resultMap="BaseResultMap">
+    SELECT SUM(a.user_balance) userBalance FROM USER b JOIN user_balance a ON a.user_id=b.id
+    WHERE b.p_id IS NULL
+    <if test="userCnName!= null and userCnName!=''">  and b.user_cn_name LIKE CONCAT('%',#{userCnName},'%')</if>
+    <if test="userName!= null and userName!=''">  and b.user_name=#{userName}</if>
+  </select>
+  <!--商户结算配置时验证用户账户名-->
+  <select id="selectBalanceLists" parameterType="com.jtd.recharge.dao.bean.UserBalances" resultMap="BaseResultMap">
+    SELECT b.id,b.user_sid,b.user_cn_name,b.user_name,a.credit_balance, a.borrow_balance, a.user_balance
+    FROM USER b JOIN user_balance a ON a.user_id=b.id where b.user_cn_name=#{userCnName} AND b.p_id IS NULL
+  </select>
+  <!--商户结算信息配置-->
+  <update id="updateBybalance" parameterType="com.jtd.recharge.dao.bean.UserBalances">
+    update user_balance set credit_balance=#{creditBalance} where user_id=#{id}
+  </update>
+  <update id="updateByUser" parameterType="com.jtd.recharge.dao.bean.UserBalances">
+    update user set is_credit=#{isCredit} where id=#{id}
+  </update>
+  <!--商户端账户余额查询-->
+  <select id="selectUserBalance" parameterType="com.jtd.recharge.dao.bean.UserBalances" resultMap="BaseResultMap">
+    SELECT b.id,b.user_sid,b.user_name,b.user_cn_name,a.credit_balance, a.borrow_balance, a.user_balance FROM USER b JOIN user_balance a ON a.user_id=b.id WHERE a.user_id=#{userId}
+  </select>
+  
+  <!--商户端账户余额计算-->
+  <select id="selectUserBalanceByUserId" parameterType="com.jtd.recharge.dao.bean.UserBalances" resultMap="BaseResultMap">
+     SELECT b.id,b.user_sid,b.user_name,b.user_cn_name,(a.credit_balance+a.user_balance) user_balance,a.credit_balance, a.borrow_balance FROM USER b JOIN user_balance a ON a.user_id=b.id WHERE a.user_id=#{userId}
+  </select>
+
+
+<!--商户端修改调款金额从主账户划入子账户(商户端修改调款金额从主账户划入子账户)-->
+  <!--商户端修改主账户调款金额 -->
+  <update id="updateUserBalanceByUserId" parameterType="com.jtd.recharge.dao.bean.UserBalances">
+    update user_balance SET user_balance=user_balance - #{userBalance}
+    WHERE user_id = #{userId}
+  </update>
+  <!--商户端修改子账户调款金额-->
+  <update id="updateUserBalanceByUserIdSon" parameterType="com.jtd.recharge.dao.bean.UserBalances">
+    update user_balance SET user_balance=user_balance +#{userBalance}
+    WHERE user_id = #{pId}
+  </update>
+
+
+</mapper>

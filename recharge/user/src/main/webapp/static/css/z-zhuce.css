@@ -1,0 +1,185 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: url(../images/z_zhuce.png);
+    background-size: 100% 100%;
+    font-family: "微软雅黑";
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    width: inherit;
+    min-width: 1000px;
+    height: 100%;
+    position: relative;
+}
+
+nav {
+    width: 100%;
+    height: 85px;
+    line-height: 85px;
+    background: #fff;
+}
+
+nav>div {
+    text-align: center;
+}
+
+nav ul {
+    margin: 0;
+    text-align: left;
+}
+
+nav ul li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+nav ul li a {
+    display: inline-block;
+    float: left;
+    height: 60px;
+    color: #ccc;
+}
+
+.active {
+    border-bottom: 3px solid #323232;
+    color: #323232;
+}
+
+nav div button.am-btn {
+    padding: .2rem 1rem;
+}
+
+nav div button.am-btn-default:nth-child(1) {
+    background: #fff;
+    border: 1px solid #18bd9c;
+    color: #18bd9c;
+}
+
+nav div button.am-btn-default:nth-child(2) {
+    background: #18bd9c;
+    border: 1px solid #18bd9c;
+    color: #fff;
+}
+
+.z_content {
+    width: 780px;
+    height: 390px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -400px;
+    margin-top: -150px;
+    font-weight: 100;
+}
+
+.z_content .z_left {
+    height: 100%;
+    border-right: 9px solid transparent;
+    border-image: url(../images/z_lineSj.png) 30 30 stretch;
+    padding: 50px 5px 5px 5px;
+    text-align: center;
+    color: #fff;
+}
+
+.z_content .z_left h1 {
+    font-size: 30px;
+    font-weight: 100;
+    line-height: 80px;
+    margin: 0;
+    font-weight: 100;
+}
+
+.z_content .z_right {
+    height: 100%;
+    padding: 5px 20px;
+    color: #fff;
+}
+
+.z_content .z_right h3 {
+    font-size: 22px;
+    font-weight: 100;
+}
+
+.z_line {
+    width: 274px;
+    height: 2px;
+    background: url(../images/z_line.png) no-repeat 100% 100%;
+    margin: 10px auto;
+}
+
+td {
+    text-align: right;
+    white-space: nowrap;
+}
+
+form input {
+    width: 238px;
+    margin: 5px 10px;
+    line-height: 20px;
+    font-size: 16px;
+    padding: 8px 10px;
+    border: none;
+    background: url(../images/z_lineBott.png) no-repeat left bottom!important;
+    color: #fff;
+    background: none;
+    margin-bottom: 8px;
+}
+
+form input.z_yzm {
+    width: 121px;
+    background: url(../images/z_lineBott1.png) no-repeat left bottom!important;
+    float: left;
+}
+
+.z_get {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    background: #18bd9c;
+    vertical-align: middle;
+    margin-top: 10px;
+    float: left;
+}
+
+.buttons input {
+    display: block;
+    width: 200px;
+    height: 40px;
+    border-radius: 50px;
+    border: 0;
+    background: #18bd9c!important;
+    margin: 0 auto;
+    box-shadow: 0 3px 0px #008971;
+}
+
+.z_cg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -100px;
+    text-align: center;
+    padding: 55px 25px 40px 25px;
+    border-radius: 15px;
+    background: url(../images/z_radius.png) no-repeat;
+    background-size: 100% 100%;
+    color: #fff;
+}
+
+.z_cg h1 {
+    font-weight: 100;
+}
+
+h3 {
+    font-weight: 100;
+}

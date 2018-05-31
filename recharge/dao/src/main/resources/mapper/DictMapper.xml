@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.DictMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.Dict" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="module" property="module" jdbcType="VARCHAR" />
+    <result column="key" property="key" jdbcType="INTEGER" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, `module`, `key`, `value`, comment
+  </sql>
+<!--查询字典表-->
+  <select id="selectDict" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.Dict">
+    select
+    <include refid="Base_Column_List" />
+    from dict
+  </select>
+
+
+  <!--根据module值查询字典表-->
+  <select id="selectDictByModule" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.Dict">
+    select
+    <include refid="Base_Column_List" />
+    from dict
+    <where>
+      <if test="module != null and module != ''">
+        module = #{module}
+      </if>
+    </where>
+  </select>
+
+
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from dict
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllDict" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.Dict" >
+    select
+    <include refid="Base_Column_List" />
+    from dict
+    <where>
+      <if test="module!=null">
+        AND module = #{module,jdbcType=VARCHAR}
+      </if>
+      <if test="key!=null">
+        AND `key` = #{key,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dict
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.Dict" >
+    insert into dict (id, module, key, 
+      value, comment)
+    values (#{id,jdbcType=INTEGER}, #{module,jdbcType=VARCHAR}, #{key,jdbcType=INTEGER}, 
+      #{value,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.Dict" >
+    insert into dict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="module != null" >
+        module,
+      </if>
+      <if test="key != null" >
+        key,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="module != null" >
+        #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        #{key,jdbcType=INTEGER},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.Dict" >
+    update dict
+    <set >
+      <if test="module != null" >
+        module = #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        key = #{key,jdbcType=INTEGER},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.Dict" >
+    update dict
+    set module = #{module,jdbcType=VARCHAR},
+      key = #{key,jdbcType=INTEGER},
+      value = #{value,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtd.recharge.dao.mapper.IotProductMapper">
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.IotProduct">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="flow_package_size_literal" jdbcType="VARCHAR" property="flowPackageSizeLiteral" />
+    <result column="operator" jdbcType="INTEGER" property="operator" />
+    <result column="flow_package_size" jdbcType="INTEGER" property="flowPackageSize" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, code,flow_package_size_literal, operator, flow_package_size, period, type, price, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iot_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from iot_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.IotProduct" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_product (id, name, code, flow_package_size_literal,
+      operator, flow_package_size, period, 
+      type, price, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{flowPackageSizeLiteral},
+      #{operator,jdbcType=INTEGER}, #{flowPackageSize,jdbcType=INTEGER}, #{period,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.IotProduct" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="flowPackageSizeLiteral != null">
+        flow_package_size_literal,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="flowPackageSize != null">
+        flow_package_size,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="flowPackageSizeLiteral != null">
+        #{flowPackageSizeLiteral,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="flowPackageSize != null">
+        #{flowPackageSize,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.IotProduct">
+    update iot_product
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="flowPackageSizeLiteral != null">
+        flow_package_size_literal = #{flowPackageSizeLiteral,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="flowPackageSize != null">
+        flow_package_size = #{flowPackageSize,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.IotProduct">
+    update iot_product
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      flow_package_size_literal = #{flowPackageSizeLiteral,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=INTEGER},
+      flow_package_size = #{flowPackageSize,jdbcType=INTEGER},
+      period = #{period,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectAllIotProduct" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from iot_product
+  </select>
+  <select id="selectByIotProduct" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from iot_product
+    <where>
+      <if test="name != null">
+       AND  name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null">
+        AND code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="operator != null">
+        AND operator = #{operator,jdbcType=INTEGER}
+      </if>
+      <if test="flowPackageSize != null">
+        AND flow_package_size = #{flowPackageSize,jdbcType=INTEGER}
+      </if>
+      <if test="period != null">
+        AND period = #{period,jdbcType=INTEGER}
+      </if>
+      <if test="type != null">
+        AND type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="price != null">
+        AND price = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+</mapper>

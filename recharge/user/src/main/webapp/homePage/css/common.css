@@ -1,0 +1,539 @@
+/*----------头部---------------*/
+
+header {
+    width: 100%;
+    /*
+    height: 80px;
+    line-height: 80px;
+*/
+}
+
+.nav {
+    width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.nav_1 {
+    width: 156px;
+    margin-top: 23px;
+    margin-right: 20px;
+}
+
+.nav_1 img {
+    width: 100%;
+}
+
+.nav_1,
+.nav_2 {
+    float: left;
+}
+
+.nav_13 {
+    float: right;
+    height: 80px;
+    line-height: 80px;
+}
+
+.nav_2 {
+    margin-left: 40px;
+    height: 80px;
+    line-height: 80px;
+}
+
+.nav_2 ul li {
+    float: left;
+    padding: 0 34px;
+    text-align: center;
+}
+
+.nav_2 ul li a {
+    color: #aaaaaa;
+    text-decoration: none;
+	font-size: 16px;
+	font-size: 18px;
+}
+
+.nav_2 ul li .heng {
+    color: #132f41;
+    border-bottom: 3px solid #132f41;
+    padding-bottom: 10px;
+    /*    font-family: "Helvetica Neue",
+Helvetica,
+Arial,
+sans-serif;*/
+}
+.nav_13 a {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    background: none;
+    border: 1px solid #18bd9c;
+    border-radius: 3px;
+    margin:0 4px;
+    text-decoration: none;
+    display: block;
+    color: #18bd9c;
+    text-align: center;
+    float: left;
+    margin-top: 24px;
+}
+/* .nav_13 button {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    background: none;
+    border: 1px solid #18bd9c;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+.nav_13 button a {
+    display: block;
+    width: 80px;
+    height: 30px;
+    color: #18bd9c;
+    text-decoration: none;
+} */
+
+.xiala {
+    position: fixed;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    left: 0;
+    top: 80px;
+    display: none;
+    z-index: 10;
+}
+
+.xiala .box {
+    width: 1024px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.xiala .box .caidan {
+    margin-left: 0px;
+}
+
+.xiala .box ul {
+    float: left;
+    width: 180px;
+    list-style: none;
+    padding: 0;
+}
+
+.xiala .box .name {
+    font-size: 16px;
+    color: #f37b20;
+    line-height: 40px;
+}
+
+.xiala .box .name a {
+    color: #fff;
+	font-size: 20px;
+}
+
+.xiala .box .box_1 {
+    float: left;
+    padding: 20px 0;
+    margin-right: 23px;
+}
+
+.xiala .box ul li {
+    float: left;
+    box-sizing: border-box;
+    line-height: 40px;
+    width: 100%;
+}
+
+.xiala .box ul li a {
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    padding: 0;
+    border: 0;
+	font-size: 16px;
+}
+
+.xiala .box ul .active a {
+    color: #f37b20;
+    border-bottom: 1px solid #f37b20;
+}
+
+.xiala .box ul li a:hover {
+    color: #1faf91;
+    border-bottom: 1px solid #1faf91;
+    -webkit-transition: all .5s ease-in-out 0s;
+    -moz-transition: all .5s ease-in-out 0s;
+    -ms-transition: all .5s ease-in-out 0s;
+    -o-transition: all .5s ease-in-out 0s;
+    transition: all .5s ease-in-out 0s;
+}
+
+.xiala1 {
+    position: fixed;
+    width: 100%;
+    left: -165px;
+    top: 80px;
+    display: none;
+    z-index: 10;
+}
+
+.xiala1 .box {
+    width: 1024px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.xiala1 .box .caidan {
+    margin-left: 0px;
+}
+
+.xiala1 .box ul {
+    float: left;
+    width: 360px;
+    list-style: none;
+    padding: 0;
+}
+
+.xiala1 .box .name {
+    font-size: 16px;
+    color: #f37b20;
+    line-height: 40px;
+}
+
+.xiala1 .box .name a {
+    color: #1faf91;
+}
+
+.xiala1 .box .box_1 {
+    float: right;
+    padding: 20px 0;
+   /*margin-right: 80px;*/
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.xiala1 .box ul li {
+    float: left;
+    padding: 0 ;
+    line-height: 40px;
+    width: 180px;
+}
+
+.xiala1 .box ul li a {
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    padding: 0;
+    border: 0;
+	font-size:16px;
+}
+
+.xiala1 .box ul .active a {
+    color: #f37b20;
+    border-bottom: 1px solid #f37b20;
+}
+
+.xiala1 .box ul li a:hover {
+    color: #1faf91;
+    border-bottom: 1px solid #1faf91;
+    -webkit-transition: all .5s ease-in-out 0s;
+    -moz-transition: all .5s ease-in-out 0s;
+    -ms-transition: all .5s ease-in-out 0s;
+    -o-transition: all .5s ease-in-out 0s;
+    transition: all .5s ease-in-out 0s;
+}
+
+.xiala2 {
+    position: fixed;
+    width: 100%;
+    left: 0px;
+    top: 80px;
+    display: none;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.xiala2 .box {
+    width: 1024px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.xiala2 .box .caidan {
+    margin-left: 0px;
+}
+
+.xiala2 .box ul {
+    float: left;
+    width: 180px;
+    list-style: none;
+    padding: 0;
+}
+
+.xiala2 .box .name {
+    font-size: 16px;
+    color: #f37b20;
+    line-height: 40px;
+}
+
+.xiala2 .box .name a {
+    color: #fff;
+}
+
+.xiala2 .box .box_1 {
+    width: 25%;
+    float: right;
+    padding: 20px 0;
+}
+
+.xiala2 .box ul li {
+    float: left;
+    padding-right: 23px;
+    line-height: 30px;
+    width: 100%;
+}
+
+.xiala2 .box ul li a {
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    padding: 0;
+    border: 0;
+}
+
+.xiala2 .box ul .active a {
+    color: #f37b20;
+    border-bottom: 1px solid #f37b20;
+}
+
+.xiala2 .box ul li a:hover {
+    color: #1faf91;
+    border-bottom: 1px solid #1faf91;
+    -webkit-transition: all .5s ease-in-out 0s;
+    -moz-transition: all .5s ease-in-out 0s;
+    -ms-transition: all .5s ease-in-out 0s;
+    -o-transition: all .5s ease-in-out 0s;
+    transition: all .5s ease-in-out 0s;
+}
+
+
+/*----------头部结束---------------*/
+
+
+/*----------尾部---------------*/
+
+.bottom {
+    width: 100%;
+    background: #2c2d2c;
+    padding: 30px 0;
+}
+
+.bottom_1 {
+    width: 1024px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.bottom_1 li {
+    width: 204px;
+    float: left;
+}
+
+.bottom_1 li p {
+    color: #fff;
+    font-size: 18px;
+}
+
+.bottom_1 li div {
+    height: 50px;
+    line-height: 50px;
+}
+
+.bottom_1 li div a {
+    color: #838383;
+}
+
+.bottom_1 li div a:hover {
+    color: #1faf91;
+    text-decoration: none;
+    border-bottom: 1px solid #1faf91;
+    -webkit-transition: all .5s ease-in-out 0s;
+    -moz-transition: all .5s ease-in-out 0s;
+    -ms-transition: all .5s ease-in-out 0s;
+    -o-transition: all .5s ease-in-out 0s;
+    transition: all .5s ease-in-out 0s;
+}
+
+.bottom_1 li img {
+    float: right;
+}
+
+.daima {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    line-height: 20px;
+    padding-top: 20px;
+	color: #838383;
+}
+
+
+/*----------尾部结束---------------*/
+
+
+/*----------右悬浮---------------*/
+
+.about_main_nav {
+    height: 150px;
+    width: 50px;
+    float: right;
+    position: fixed;
+    top: 40%;
+    right: 0;
+}
+
+.about_main_nav1 {
+    background-color: #313133;
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+}
+
+.about_main_nav1 img {
+    width: 75%;
+    margin: 0 auto;
+    padding-top: 8px;
+}
+
+.about_main_nav2 {
+    background-color: #313133;
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    margin-top: 20px;
+}
+
+.about_main_nav2 img {
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 8px;
+}
+
+
+/*------------------左侧导航-------------------------*/
+
+.sideNav {
+    /*    width: 360px;*/
+    /*    height: 650px;*/
+    position: fixed;
+    top: 10%;
+    left: -200px;
+    z-index: 90;
+    line-height: 1.42857143;
+}
+
+.sideNav a {
+    color: #fff;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.sideNav ul li:first-child {
+    font-size: 22px;
+}
+
+.sideNav ul li:first-child a {
+    padding: 0;
+}
+
+
+/*
+.sideNav ul li {
+    margin-top: 6px;
+}
+*/
+
+.sideNav ul li:last-child {
+    margin-bottom: 6px;
+}
+
+.sideNav ul {
+    border-bottom: 1px solid #fff;
+    margin: 0 30px 0 30px;
+}
+
+.sideNav a:hover {
+    color: #0cc292;
+}
+
+.sideNav .sideNav_left {
+    width: 200px;
+    /*    height: 630px;*/
+    background: rgba(0, 0, 0, .8);
+    float: left;
+    padding: 20px 0;
+    border-radius: 0px 10px 10px 0;
+}
+
+.sideNav .sideNav_right {
+    color: #fff;
+    font-size: 24px;
+    float: left;
+    width: 44px;
+    background: rgba(0, 0, 0, .8);
+    text-align: center;
+    height: 190px;
+    margin-top: 180px;
+    border-radius: 0px 10px 10px 0px;
+    cursor: pointer;
+}
+
+.sideNav .sideNav_right span {
+    display: block;
+    margin-top: 10px;
+}
+.sideNav .sideNav_right span img{
+    width: 30px;
+	margin: 0 auto;
+}
+#xuanfu {
+    position: fixed;
+    right: 0;
+    bottom: 24%;
+    z-index: 10;
+    width: 50px;
+    text-decoration: none;
+}
+
+#xuanfu img {
+    margin-bottom: 5px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dianhua {
+    width: 520px;
+    height: 56px;
+}
+
+.dianhua a {
+    position: relative;
+    display: block;
+    background-color: #7D7777;
+    color: #fff;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.dianhua a:hover {
+    text-decoration: none;
+}
+
+.dianhua span {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 5px;
+}

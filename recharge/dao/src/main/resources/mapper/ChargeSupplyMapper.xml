@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeSupplyMapper">
+    <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeSupply">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="business_type" property="businessType" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="all_name" property="allName" jdbcType="VARCHAR"/>
+        <result column="company_id" property="companyId" jdbcType="INTEGER"/>
+        <result column="supply_name" property="supplyName" jdbcType="VARCHAR"/>
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
+        <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR"/>
+        <result column="sellman" property="sellman" jdbcType="VARCHAR"/>
+        <result column="channel_address" property="channelAddress" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, business_type, `name`,all_name,company_id,supply_name, contact_name, contact_mobile, sellman, channel_address,
+    update_time
+  </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from charge_supply
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeSupply">
+        select
+        <include refid="Base_Column_List"/>
+        from charge_supply
+        <where>
+            <if test="businessType!=null">
+                AND business_type = #{businessType,jdbcType=INTEGER}
+            </if>
+            <if test="supplyName!=null">
+                AND supply_name = #{supplyName,jdbcType=VARCHAR}
+            </if>
+            <if test="name!=null">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="id!=null">
+                AND id = #{id,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from charge_supply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+    <insert id="insert" parameterType="com.jtd.recharge.dao.po.ChargeSupply">
+    insert into charge_supply (id, business_type, name, all_name,company_id,
+      contact_name, contact_mobile, sellman, 
+      channel_address, update_time)
+    values (#{id,jdbcType=INTEGER}, #{businessType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},  #{allName,jdbcType=VARCHAR},
+      #{companyId,jdbcType=INTEGER},#{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, #{sellman,jdbcType=VARCHAR},
+      #{channelAddress,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+
+    <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChargeSupply">
+        insert into charge_supply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="businessType != null">
+                business_type,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="allName != null">
+                all_name,
+            </if>
+            <if test="companyId != null">
+                company_id,
+            </if>
+            <if test="contactName != null">
+                contact_name,
+            </if>
+            <if test="contactMobile != null">
+                contact_mobile,
+            </if>
+            <if test="sellman != null">
+                sellman,
+            </if>
+            <if test="channelAddress != null">
+                channel_address,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="allName != null">
+                #{allName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="contactName != null">
+                #{contactName,jdbcType=VARCHAR},
+            </if>
+            <if test="contactMobile != null">
+                #{contactMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="sellman != null">
+                #{sellman,jdbcType=VARCHAR},
+            </if>
+            <if test="channelAddress != null">
+                #{channelAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.ChargeSupply">
+        update charge_supply
+        <set>
+            <if test="businessType != null">
+                business_type = #{businessType,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="allName != null">
+                all_name= #{allName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                company_id= #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="contactName != null">
+                contact_name = #{contactName,jdbcType=VARCHAR},
+            </if>
+            <if test="contactMobile != null">
+                contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="sellman != null">
+                sellman = #{sellman,jdbcType=VARCHAR},
+            </if>
+            <if test="channelAddress != null">
+                channel_address = #{channelAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChargeSupply">
+    update charge_supply
+    set business_type = #{businessType,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR}, all_name= #{allName,jdbcType=VARCHAR},
+      company_id= #{companyId,jdbcType=INTEGER},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      sellman = #{sellman,jdbcType=VARCHAR},
+      channel_address = #{channelAddress,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <!-- <select id="getSupplier" resultType="com.jtd.recharge.dao.po.ChargeSupply">
+       SELECT id,NAME FROM `charge_supply`
+     </select>-->
+    <select id="getSuppleir" parameterType="com.jtd.recharge.dao.po.ChargeSupply" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from charge_supply
+        <where>
+            <if test="name!=null">
+                AND name LIKE #{name,jdbcType=VARCHAR}
+            </if>
+
+            <if test="businessType!=null">
+                AND business_type = #{businessType,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--刘晨浩-->
+    <select id="getSupplyIds" resultType="java.lang.Integer">
+        SELECT id from charge_supply
+        <where>
+            business_type=#{businessType}
+            AND name=#{seltype}
+        </where>
+    </select>
+
+</mapper>

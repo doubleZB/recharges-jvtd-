@@ -1,0 +1,58 @@
+body{
+    font-size: 1.4rem;
+}
+[v-cloak] {
+    display: none;
+}
+.am-form-field{
+    height:35px;
+}
+.select1{
+    height:35px;
+    border-color: #ccc;
+}
+.am-u-sm-2{
+    width: 120px;
+}
+.am-tabs-bd .am-tab-panel{
+    padding: 20px;
+}
+am-pagination{
+    margin: 0;
+}
+.am-pagination li a{
+    padding: .5rem .1rem;
+    border:0;
+}
+.am-cf{
+    line-height: 38px;
+}
+am-pagination>li>a:focus, .am-pagination>li>a:hover, .am-pagination>li>span:focus, .am-pagination>li>span:hover {
+    background-color:#fff;
+}
+.am-btn{
+    font-size: 1.4rem;
+}
+.am-form input[type=number], .am-form input[type=search], .am-form input[type=text], .am-form input[type=password], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form select, .am-form textarea, .am-form-field {
+    font-size: 1.4rem;
+    line-height: inherit;
+}
+@media only screen and (min-width: 641px){
+    .am-form-inline .am-form-group {
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+        margin-top: 20px;
+    }
+}
+.am-table>caption+thead>tr:first-child>td, .am-table>caption+thead>tr:first-child>th, .am-table>colgroup+thead>tr:first-child>td, .am-table>colgroup+thead>tr:first-child>th, .am-table>thead:first-child>tr:first-child>td, .am-table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+    font-size: 1.4rem;
+}
+.am-table>tbody>tr>td, .am-table>tbody>tr>th, .am-table>tfoot>tr>td, .am-table>tfoot>tr>th, .am-table>thead>tr>td, .am-table>thead>tr>th {
+    padding: .7rem;
+    line-height: 1.6;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    font-size: 1.4rem;
+}

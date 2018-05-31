@@ -1,0 +1,117 @@
+/*分类*/
+
+.zFl {
+    width: 100%;
+    height: 1.8rem;
+    padding: .2rem;
+    line-height: 1.8rem;
+    text-align: center;
+}
+
+.zFl .zSquare {
+    display: inline-block;
+    width: 2.8rem;
+    height: 1rem;
+    background: #7c32bd;
+    padding: .18rem .08rem;
+    color: #fff;
+}
+
+.zSquare img {
+    width: .56rem;
+    height: .27rem;
+}
+
+.zSquare .zSquare-title {
+    font-size: .24rem;
+    margin-bottom: .1rem;
+}
+
+.zSquare p {
+    font-size: .2rem;
+    line-height: .28rem;
+}
+
+
+/*功能特性*/
+
+.zFunction {
+    width: 100%;
+    height: 7.5rem;
+    padding: 0 .22rem;
+}
+
+.zFunction-tit {
+    width: 100%;
+    height: .98rem;
+    line-height: .8rem;
+    font-size: .28rem;
+    color: #000;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+}
+
+.zFunction-content {
+    text-align: center;
+    width: 100%;
+    height: 3rem;
+}
+
+.zFunction-content img {
+    width: 1.08rem;
+    height: 1.12rem;
+}
+
+.zFunction-content .zTitle {
+    height: .9rem;
+    line-height: .96rem;
+    font-size: .24rem;
+    color: #231f92;
+}
+
+.zFunction-content p {
+    font-size: .2rem;
+    color: #3d3d3d;
+    line-height: .28rem;
+}
+
+
+/*场景*/
+
+.zSycj {
+    width: 100%;
+    height: 13.6rem;
+    padding: 0 .22rem;
+}
+
+.zSycj-tit {
+    width: 100%;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    font-size: .28rem;
+    color: #231f92;
+    border-top: 1px solid #e5e5e5;
+}
+
+.zSycj-content {
+    width: 100%;
+    height: 3.2rem;
+    text-align: center;
+}
+
+.zSycj-content img {
+    width: 1.84rem;
+    height: 1.57rem;
+}
+
+.zSycj-content .zSycj-txt {
+    line-height: .66rem;
+    font-size: .24rem;
+    color: #231f92;
+}
+
+.zSycj-content p {
+    font-size: .2rem;
+    color: #000;
+}

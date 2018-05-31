@@ -1,0 +1,15 @@
+{
+	"iccid": "89860616010049046952",
+	"imsi": "460069001018901",
+	"msisdn": "861064619018767",
+	"imei": "",
+	"status": "TEST_READY",
+	"ratePlan": "产品体验包-TrialKit-50MB-30SMS-3mo",
+	"communicationPlan": "产品体验包-TrialKit-Data-SMS - CU Beijing 北京联通",
+	"ctdDataUsage": 0,
+	"ctdSMSUsage": 0,
+	"ctdVoiceUsage": 0,
+	"ctdSessionCount": null,
+	"overageLimitReached": false,
+	"overageLimitOverride": "DEFAULT"
+}

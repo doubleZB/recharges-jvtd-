@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeSupplyPositionMapper">
+    <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeSupplyPosition">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="business_type" property="businessType" jdbcType="INTEGER"/>
+        <result column="supply_id" property="supplyId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="product_type" property="productType" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="package_size" property="packageSize" jdbcType="INTEGER"/>
+        <result column="operator" property="operator" jdbcType="INTEGER"/>
+        <result column="position_code" property="positionCode" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, business_type,supply_id,name, product_type, code, package_size, operator, update_time,position_code
+    </sql>
+
+    <select id="selectSupplyPostionByParam" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM charge_supply_position
+        WHERE business_type = #{businessType,jdbcType=INTEGER}
+        AND supply_id = #{supplyId,jdbcType=INTEGER}
+        AND position_code = #{positionCode,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--刘晨浩-->
+    <!--根据货架组id获取货架id-->
+    <select id="getSupplyPosition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from charge_supply_position
+        <where>
+            supply_id in
+            <foreach item="item" index="index" collection="supplyIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            AND business_type=#{businessType}
+            AND operator in
+            <foreach item="item" index="index" collection="operator" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+
+            <if test="positioncodes != null">
+                AND position_code in
+                <foreach item="item" index="index" collection="positioncodes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY position_code
+    </select>
+
+    <select id="getSupplyPositionById" resultType="java.lang.String">
+        select
+          name
+        from charge_supply_position
+        <where>
+            position_code in
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+</mapper>

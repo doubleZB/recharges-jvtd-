@@ -1,0 +1,74 @@
+.z_H_btn,
+.z_H_btn1 {
+    padding: 5px 40px;
+    margin-bottom: 20px;
+}
+
+.z_H_btn {
+    margin-right: 40px;
+}
+
+.z_H_btn1:nth-child(1) {
+    margin-right: 70px;
+}
+
+.z_name {
+    margin-top: 10px;
+}
+
+.z_tody_record {
+    position: relative;
+    font-size: 64px;
+    text-align: center;
+    color: #333333;
+    height: 62px;
+}
+
+.z_record_deco {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    position: relative;
+    cursor: default;
+}
+
+.z_line_short {
+    width: 1px;
+    height: 50px;
+    top: 20px;
+    right: -2px;
+    background: #d9d9d9;
+    position: absolute;
+}
+
+.z_dateTabs {
+    float: right;
+    margin-right: 30px;
+    height: 32px;
+    margin-top: 10px;
+}
+
+.z_dateTabs button {
+    position: relative;
+    min-width: 38px;
+    padding: 0px 8px;
+    height: 32px;
+    line-height: 32px;
+    border: 1px solid #e7ebed;
+    text-align: center;
+    background: none;
+    float: left;
+    margin-left: -1px;
+    z-index: 1;
+}
+
+.z_dateTabs button.active {
+    background: #4c88f5;
+    color: #FFFFFF;
+    border: 1px solid #4c88f5;
+    z-index: 2;
+}
+
+.table tr {
+    border-bottom: 1px solid #ccc;
+}

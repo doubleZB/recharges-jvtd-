@@ -1,0 +1,139 @@
+body {
+    font-size: 1.4rem;
+}
+
+.am-u-sm-2 {
+    width: 134px;
+}
+
+.am-tabs-bd .am-tab-panel {
+    padding: 20px;
+}
+
+am-pagination {
+    margin: 0;
+}
+
+.am-pagination li a {
+    padding: .5rem .1rem;
+    border: 0;
+}
+
+.am-cf {
+    line-height: 38px;
+}
+
+am-pagination>li>a:focus,
+.am-pagination>li>a:hover,
+.am-pagination>li>span:focus,
+.am-pagination>li>span:hover {
+    background-color: #fff;
+}
+
+
+/*.am-table-striped{
+    background: #dedede;
+}*/
+
+.am-btn {
+    font-size: 1.4rem;
+}
+
+.am-form input[type=number],
+.am-form input[type=search],
+.am-form input[type=text],
+.am-form input[type=password],
+.am-form input[type=datetime],
+.am-form input[type=datetime-local],
+.am-form input[type=date],
+.am-form input[type=month],
+.am-form input[type=time],
+.am-form input[type=week],
+.am-form input[type=email],
+.am-form input[type=url],
+.am-form input[type=tel],
+.am-form input[type=color],
+.am-form select,
+.am-form textarea,
+.am-form-field {
+    font-size: 1.4rem;
+    line-height: inherit;
+}
+
+.am-btn {
+    display: inline-block;
+    margin-bottom: 0;
+/*    padding: .5em 1em;*/
+    vertical-align: middle;
+/*    font-size: 1.6rem;*/
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    cursor: pointer;
+    outline: 0;
+    -webkit-appearance: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: background-color .3s ease-out, border-color .3s ease-out;
+    transition: background-color .3s ease-out, border-color .3s ease-out;
+}
+
+@media only screen and (min-width: 641px) {
+    .am-form-inline .am-form-group {
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+        margin-top: 20px;
+    }
+}
+
+.am-form-field {
+    height: 35px;
+}
+
+.select1 {
+    height: 35px;
+    border-color: #ccc;
+}
+
+
+/*放大图*/
+
+#imgFrame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    line-height: 100%;
+    overflow: auto;
+}
+
+#imgbox {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    /*    overflow: hidden;*/
+    z-index: 10;
+}
+
+#imgbox img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+}

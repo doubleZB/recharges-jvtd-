@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.UserAuth" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="business_license_num" property="businessLicenseNum" jdbcType="VARCHAR" />
+    <result column="business_license_image" property="businessLicenseImage" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="identity_card_num" property="identityCardNum" jdbcType="VARCHAR" />
+    <result column="identity_card_front" property="identityCardFront" jdbcType="VARCHAR" />
+    <result column="identity_card_back" property="identityCardBack" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_all_name" property="userAllName" jdbcType="VARCHAR" />
+    <result column="auth_state" property="authState" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_type, business_license_num,remark,  business_license_image, name,
+    identity_card_num, identity_card_front, identity_card_back, auth_state, update_time
+  </sql>
+
+  <!--查询userAuth表中的数据-->
+  <select id="selectUserAuthList" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.UserAuth" >
+    select a.<include refid="Base_Column_List" />,b.user_all_name,b.user_name
+    from user_auth a LEFT JOIN USER b ON a.`user_id` = b.`id`
+    <where>
+      <if test="userType!= null and userType!=''">  and a.user_type=#{userType}</if>
+      <if test="authState!= null and authState!=''">  and a.auth_state=#{authState}</if>
+      <if test="userName!= null and userName!=''">  and b.user_name LIKE CONCAT('%',#{userName},'%')</if>
+      <if test="id!= null and id!=''">  and a.id=#{id}</if>
+      <if test="userId!= null and userId!=''">  and a.user_id=#{userId}</if>
+    </where>
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_auth
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.UserAuth" >
+    insert into user_auth (id, user_id, user_type, 
+      business_license_num,  business_license_image,
+      name, identity_card_num, identity_card_front, 
+      identity_card_back, auth_state, update_time,remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, 
+      #{businessLicenseNum,jdbcType=VARCHAR},  #{businessLicenseImage,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{identityCardNum,jdbcType=VARCHAR}, #{identityCardFront,jdbcType=VARCHAR}, 
+      #{identityCardBack,jdbcType=VARCHAR}, #{authState,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},#{remark,jdbcType=VARCHAR},
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.UserAuth" >
+    insert into user_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="businessLicenseNum != null" >
+        business_license_num,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+
+      <if test="businessLicenseImage != null" >
+        business_license_image,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="identityCardNum != null" >
+        identity_card_num,
+      </if>
+      <if test="identityCardFront != null" >
+        identity_card_front,
+      </if>
+      <if test="identityCardBack != null" >
+        identity_card_back,
+      </if>
+      <if test="authState != null" >
+        auth_state,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="businessLicenseNum != null" >
+        #{businessLicenseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+
+      <if test="businessLicenseImage != null" >
+        #{businessLicenseImage,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCardNum != null" >
+        #{identityCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCardFront != null" >
+        #{identityCardFront,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCardBack != null" >
+        #{identityCardBack,jdbcType=VARCHAR},
+      </if>
+      <if test="authState != null" >
+        #{authState,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateUserAuthByID" parameterType="com.jtd.recharge.dao.po.UserAuth" >
+    update user_auth
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="businessLicenseNum != null" >
+        business_license_num = #{businessLicenseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseImage != null" >
+        business_license_image = #{businessLicenseImage,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCardNum != null" >
+        identity_card_num = #{identityCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCardFront != null" >
+        identity_card_front = #{identityCardFront,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCardBack != null" >
+        identity_card_back = #{identityCardBack,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="authState != null" >
+        auth_state = #{authState,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>

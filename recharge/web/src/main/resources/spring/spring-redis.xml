@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="10" />
+        <property name="maxTotal" value="50" />
+        <property name="maxWaitMillis" value="5000" />
+        <property name="testOnBorrow" value="true" />
+    </bean>
+
+    <bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig" />
+        <property name="hostName" value="${redis.host}" />
+        <property name="port" value="${redis.port}"/>
+        <property name="database" value="${redis.session.db}"/>
+        <property name="password" value="${redis.password}"/>
+    </bean>
+
+    <!-- 将session放入redis -->
+    <bean id="redisHttpSessionConfiguration"
+          class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <property name="maxInactiveIntervalInSeconds" value="1800" />
+        <property name="httpSessionStrategy" ref="cookieHttpSessionStrategy"/>
+    </bean>
+
+
+    <bean id="defaultCookieSerializer"
+          class="com.jtd.recharge.action.user.CustomerCookieSerializer">
+        <property name="domainName" value="${cookie.domainName}" />
+        <property name="cookieName" value="${cookie.cookieName}" />
+        <property name="cookiePath" value="${cookie.cookiePath}" />
+    </bean>
+
+    <bean id="cookieHttpSessionStrategy"
+          class="org.springframework.session.web.http.CookieHttpSessionStrategy">
+        <property name="cookieSerializer" ref="defaultCookieSerializer" />
+    </bean>
+
+
+    <!--号段缓存redis数据源 db-3 -->
+    <bean id="commJedisPool" class="redis.clients.jedis.JedisPool"  scope="singleton">
+        <constructor-arg name="poolConfig" ref="poolConfig"/>
+        <constructor-arg name="host" value="${redis.host}"/>
+        <constructor-arg name="port" value="${redis.port}" type="int"/>
+        <constructor-arg name="timeout" value="2000"/>
+        <constructor-arg name="password" value="${redis.password}"/>
+        <constructor-arg name="database" value="${redis.comm.db}"/>
+    </bean>
+
+    <bean id="commRedisTemplate" class="com.jtd.recharge.base.cache.redis.RedisTemplate">
+        <property name="jedisPool" ref="commJedisPool"/>
+    </bean>
+</beans>

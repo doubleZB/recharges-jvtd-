@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeUserGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeUserGroup" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="udpate_time" property="udpateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, group_id, udpate_time
+  </sql>
+
+  <select id="selectGroupIdByUserId" parameterType="com.jtd.recharge.dao.po.UserApp" resultType="java.lang.Integer">
+    SELECT group_id FROM user_app WHERE user_id = #{userId,jdbcType=BIGINT} AND app_type=#{appType,jdbcType=BIGINT};
+  </select>
+<!--根据用户id和应用类型 获取groupId-->
+  <select id="selectGroupIdByUserIdAndappType" parameterType="com.jtd.recharge.dao.po.UserApp" resultType="java.lang.Integer">
+    SELECT group_id FROM user_app WHERE user_id = #{userId,jdbcType=BIGINT} AND app_type=#{appType,jdbcType=BIGINT};
+  </select>
+
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from charge_user_group
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from charge_user_group
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.ChargeUserGroup" >
+    insert into charge_user_group (id, user_id, group_id, 
+      udpate_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, 
+      #{udpateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChargeUserGroup" >
+    insert into charge_user_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="udpateTime != null" >
+        udpate_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="udpateTime != null" >
+        #{udpateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.ChargeUserGroup" >
+    update charge_user_group
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="udpateTime != null" >
+        udpate_time = #{udpateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChargeUserGroup" >
+    update charge_user_group
+    set user_id = #{userId,jdbcType=BIGINT},
+      group_id = #{groupId,jdbcType=BIGINT},
+      udpate_time = #{udpateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

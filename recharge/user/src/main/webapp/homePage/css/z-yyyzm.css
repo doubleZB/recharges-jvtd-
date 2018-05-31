@@ -1,0 +1,83 @@
+/*语音验证码优势*/
+
+.zServer {
+    width: 100%;
+    height: 8.5rem;
+}
+
+.zServer-tit {
+    width: 100%;
+    height: 1.05rem;
+    line-height: 1rem;
+    color: #000;
+    font-size: .28rem;
+    text-align: center;
+}
+
+.zServer-content {
+    text-align: center;
+    width: 100%;
+    height: 3.65rem;
+}
+
+.zServer-content img {
+    width: 1.35rem;
+    height: 1.41rem;
+}
+
+.zServer-content .zContent-tit {
+    height: .6rem;
+    line-height: .5rem;
+    font-size: .24rem;
+    color: #000;
+}
+
+.zServer-content p {
+    font-size: .2rem;
+    color: #3d3d3d;
+    line-height: .36rem;
+}
+
+
+/*语音验证码使用场景*/
+
+.zFunction {
+    width: 100%;
+    height: 15.5rem;
+    background: #313133;
+    padding: 0 .22rem;
+}
+
+.zFunction-tit {
+    width: 100%;
+    height: .9rem;
+    line-height: .9rem;
+    color: #fff;
+    text-align: center;
+    font-size: .28rem;
+}
+
+.zCircle {
+    width: 100%;
+    height: 3.55rem;
+    text-align: center;
+    color: #fff;
+}
+
+.zCircle img {
+    width: 1.44rem;
+    height: 1.48rem;
+}
+
+.zCircle-tit {
+    line-height: .54rem;
+    font-size: .24rem;
+    color: #fff;
+    text-align: center;
+}
+
+.zCircle-content {
+    font-size: .2rem;
+    color: #fff;
+    text-align: center;
+}

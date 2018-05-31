@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Vue.js</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
+</head>
+<body>
+<div id="vue">
+    <ul>
+        <li v-for="i in hehe" data-id="{{i.id}}" click="shoow($index)">{{i.text}}</li>
+        <button @click="getCustomers()">获取</button>
+    </ul>
+</div>
+<script>
+    new Vue({
+        el: '#vue',
+        data: {
+            hehe: [{id: "1", text: "is1"}, {id: "2", text: "is2"}, {id: "3", text: "is3"}],
+            gridData: [],
+            apiUrl: "index.php"
+        },
+        /*ready: function() {
+         this.getCustomers()
+         },*/
+        methods: {
+            shoow: function (index) {
+                alert(与后台交互传参跨域)
+            },
+            getCustomers: function () {
+                var vmm = this;
+                this.$http.post(vmm.apiUrl, {str:"123"}).then(function(response){
+                    // 响应成功回调
+                    vmm.$set('gridData', JSON.parse(response.data));
+                    alert(vmm.gridData[0].tel);
+                }, function(response){
+                    // 响应错误回调
+                    alert("error");
+                });
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

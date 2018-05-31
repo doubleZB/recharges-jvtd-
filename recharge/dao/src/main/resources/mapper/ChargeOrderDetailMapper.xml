@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeOrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeOrderDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="business_type" property="businessType" jdbcType="INTEGER" />
+    <result column="channel_num" property="channelNum" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="supply_channel_num" property="supplyChannelNum" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+    <result column="return_time" property="returnTime" jdbcType="TIMESTAMP" />
+    <result column="submit_rspcode" property="submitRspcode" jdbcType="VARCHAR" />
+    <result column="return_rspcode" property="returnRspcode" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    id, business_type, channel_num, supply_channel_num,order_num, mobile, supply_id, status, submit_time,
+    return_time, submit_rspcode, return_rspcode
+  </sql>
+
+  <select id="selectOrderNumByChannelNum" resultMap="BaseResultMap" statementType="STATEMENT">
+    SELECT <include refid="Base_Column_List" /> FROM ${charge_order_detail} WHERE channel_num = '${channelNum}';
+  </select>
+
+  <select id="selectOrderNumBySupplyChannelNum" resultMap="BaseResultMap" statementType="STATEMENT">
+    SELECT <include refid="Base_Column_List" /> FROM charge_order_detail WHERE supply_channel_num = '${supplyChannelNum}';
+  </select>
+
+  <select id="selectOrderNumBySupplyChannelNumMobile" resultMap="BaseResultMap" statementType="STATEMENT">
+    SELECT <include refid="Base_Column_List" /> FROM charge_order_detail WHERE supply_channel_num = '${supplyChannelNum}'
+    AND   mobile='${mobile}';
+  </select>
+
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChargeOrderDetail" >
+    insert into charge_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="businessType != null" >
+        business_type,
+      </if>
+      <if test="channelNum != null" >
+        channel_num,
+      </if>
+      <if test="supplyChannelNum != null" >
+        supply_channel_num,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="supplyId != null" >
+        supply_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="submitTime != null" >
+        submit_time,
+      </if>
+      <if test="returnTime != null" >
+        return_time,
+      </if>
+      <if test="submitRspcode != null" >
+        submit_rspcode,
+      </if>
+      <if test="returnRspcode != null" >
+        return_rspcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="businessType != null" >
+        #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="channelNum != null" >
+        #{channelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyChannelNum != null" >
+        #{supplyChannelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyId != null" >
+        #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="submitTime != null" >
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnTime != null" >
+        #{returnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitRspcode != null" >
+        #{submitRspcode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnRspcode != null" >
+        #{returnRspcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByChannelNum" parameterType="com.jtd.recharge.dao.po.ChargeOrderDetail">
+    update ${tableName}
+    <set >
+      <if test="businessType != null" >
+        business_type = #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyId != null" >
+        supply_id = #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="submitTime != null" >
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnTime != null" >
+        return_time = #{returnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitRspcode != null" >
+        submit_rspcode = #{submitRspcode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnRspcode != null" >
+        return_rspcode = #{returnRspcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where channel_num = #{channelNum,jdbcType=VARCHAR}
+  </update>
+</mapper>

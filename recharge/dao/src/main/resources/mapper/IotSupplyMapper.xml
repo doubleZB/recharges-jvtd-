@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.IotSupplyMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.IotSupply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="en_name" property="enName" jdbcType="VARCHAR" />
+    <id column="rank" property="rank" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="business_name" property="businessName" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" />
+    <result column="params" property="params" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name,en_name,rank,contact_name, contact_mobile, params, create_time, update_time,address,business_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from iot_supply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByIccid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    isu.en_name, isu.params
+    from iot_card ic inner join iot_supply isu on ic.supply_id = isu.id
+    where ic.iccid = #{iccid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from iot_supply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.IotSupply" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_supply (id, name,en_name,rank, contact_name,
+      contact_mobile, params, create_time, 
+      update_time,business_name,address)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},#{enName,jdbcType=VARCHAR},#{rank,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR},
+      #{contactMobile,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP},#{businessName},#{address})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.IotSupply" useGeneratedKeys="true" keyProperty="id">
+    insert into iot_supply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="enName != null" >
+        en_name,
+      </if>
+      <if test="rank != null" >
+        rank,
+      </if>
+      <if test="contactName != null" >
+        contact_name,
+      </if>
+      <if test="contactMobile != null" >
+        contact_mobile,
+      </if>
+      <if test="params != null" >
+        params,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="businessName != null and businessName !=''" >
+        business_name,
+      </if>
+      <if test="address != null and address!=''" >
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null" >
+        #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="rank != null" >
+        #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null" >
+        #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null" >
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessName != null and businessName!=''" >
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address!=''" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.IotSupply" >
+    update iot_supply
+    <set >
+      <if test="name != null and name!=''" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null and enName!=''" >
+        en_name=#{enName},
+      </if>
+      <if test="rank != null" >
+        rank=#{rank},
+      </if>
+      <if test="contactName != null and contactName !=''" >
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null and contactMobile!=''" >
+        contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null and params!=''" >
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessName != null and businessName !=''" >
+        business_name=#{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address!=''" >
+        address=#{address,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.IotSupply" >
+    update iot_supply
+    set name = #{name,jdbcType=VARCHAR},
+      en_name = #{enName,jdbcType=VARCHAR},
+      rank = #{rank,jdbcType=INTEGER},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR},
+      business_name=#{businessName,jdbcType=VARCHAR},
+      address=#{address,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectBySupply" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.IotSupply">
+    select
+    <include refid="Base_Column_List" />
+    from iot_supply
+    <where>
+      <if test="id != null ">
+        and  id = #{id}
+      </if>
+      <if test="name != null and name!=''">
+        and  name = #{name}
+      </if>
+      <if test="enName != null and name!=''">
+        and  en_name = #{enName}
+      </if>
+      <if test="contactName != null and contactName!=''">
+        and  contact_name = #{contactName}
+      </if>
+      <if test="contactMobile != null and contactMobile!=''">
+        and  contact_mobile = #{contactMobile}
+      </if>
+      <if test="params != null and params!=''">
+        and  params = #{params}
+      </if>
+      <if test="businessName != null and businessName !=''" >
+        business_name=#{businessName,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null and address!=''" >
+        address=#{address,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectAllSupply" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from iot_supply
+  </select>
+</mapper>

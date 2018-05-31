@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeChannelMapper">
+    <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeChannel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="channel_name" property="channelName" jdbcType="VARCHAR"/>
+        <result column="channel_scope" property="channelScope" jdbcType="INTEGER"/>
+        <result column="supply_id" property="supplyId" jdbcType="INTEGER"/>
+        <result column="province_id" property="provinceId" jdbcType="INTEGER"/>
+        <result column="position_code" property="positionCode" jdbcType="VARCHAR"/>
+        <result column="cost_discount" property="costDiscount" jdbcType="DECIMAL"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="business_type" property="businessType" jdbcType="INTEGER"/>
+        <result column="operator_id" property="operatorId" jdbcType="INTEGER"/>
+        <result column="weight" property="weight" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_name" property="updateName" jdbcType="VARCHAR"/>
+        <result column="update_reason" property="updateReason" jdbcType="VARCHAR"/>
+        <result column="deletes" property="deletes" jdbcType="INTEGER"/>
+        <result column="amount" property="amount" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, channel_name, channel_scope, supply_id, province_id, position_code, cost_discount,operator_id,weight,
+    status, business_type, update_time,update_name,update_reason,deletes
+    </sql>
+
+    <sql id="A_Base_Column_List">
+        a.id, a.channel_name, a.channel_scope, a.supply_id, a.province_id, a.position_code, a.cost_discount,a.operator_id,a.weight,
+        a.status, a.business_type, a.update_time,a.update_name,a.update_reason,a.deletes
+    </sql>
+
+    <select id="selectChannelByCondition" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeChannel">
+        select <include refid="A_Base_Column_List"/>,c.amount from charge_channel a,charge_position c
+        <where>
+            a.position_code=c.code
+            <if test="channelName != null">
+                AND a.channel_name = #{channelName,jdbcType=VARCHAR}
+            </if>
+            <if test="channelScope != null">
+                AND a.channel_scope = #{channelScope,jdbcType=INTEGER}
+            </if>
+            <if test="supplyId != null">
+                AND a.supply_id = #{supplyId,jdbcType=INTEGER}
+            </if>
+            <if test="provinceId != null">
+                AND a.province_id = #{provinceId,jdbcType=INTEGER}
+            </if>
+            <if test="privanceIds!=null">
+                AND a.province_id IN
+                <foreach collection="privanceIds" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+            </if>
+            <if test="positionCode != null">
+                AND a.position_code = #{positionCode,jdbcType=VARCHAR}
+            </if>
+            <if test="parValue!=null">
+                AND a.position_code IN
+                <foreach collection="parValue" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+            </if>
+            <if test="costDiscount != null">
+                AND a.cost_discount = #{costDiscount,jdbcType=DECIMAL}
+            </if>
+            <if test="operatorId != null">
+                AND a.operator_id = #{operatorId,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                AND a.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="businessType != null">
+                AND a.business_type = #{businessType,jdbcType=INTEGER}
+            </if>
+            <if test="weight != null">
+                AND a.weight = #{weight,jdbcType=INTEGER}
+            </if>
+            <if test="updateTime != null">
+                AND a.update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+      </where>
+    </select>
+
+    <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChargeChannel">
+        insert into charge_channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="channelName != null">
+                channel_name,
+            </if>
+            <if test="channelScope != null">
+                channel_scope,
+            </if>
+            <if test="supplyId != null">
+                supply_id,
+            </if>
+            <if test="provinceId != null">
+                province_id,
+            </if>
+            <if test="positionCode != null">
+                position_code,
+            </if>
+            <if test="costDiscount != null">
+                cost_discount,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="businessType != null">
+                business_type,
+            </if>
+            <if test="operatorId != null">
+                operator_id,
+            </if>
+            <if test="weight != null">
+                weight ,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="channelName != null">
+                #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="channelScope != null">
+                #{channelScope,jdbcType=INTEGER},
+            </if>
+            <if test="supplyId != null">
+                #{supplyId,jdbcType=INTEGER},
+            </if>
+            <if test="provinceId != null">
+                #{provinceId,jdbcType=INTEGER},
+            </if>
+            <if test="positionCode != null">
+                #{positionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="costDiscount != null">
+                #{costDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=INTEGER},
+            </if>
+            <if test="operatorId != null">
+                #{operatorId,jdbcType=INTEGER},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!--获取供应商-->
+    <resultMap id="SupplierMap" type="com.jtd.recharge.dao.po.ChargeSupply">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="business_type" property="businessType" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="getSupplier" resultMap="SupplierMap">
+        SELECT id,NAME,business_type FROM  charge_supply
+    </select>
+    <!--获取产品-->
+    <resultMap id="ProductMap" type="com.jtd.recharge.dao.po.ChargePosition">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="business_type" property="businessType" jdbcType="INTEGER" />
+        <result column="package_size" property="packageSize" jdbcType="VARCHAR" />
+        <result column="operator" property="operator" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="getProduct" parameterType="com.jtd.recharge.dao.po.ChargePosition" resultMap="ProductMap">
+        SELECT id,package_size ,code FROM  charge_position
+        <where>
+            <if test="operator != null">
+                AND operator = #{operator,jdbcType=INTEGER}
+            </if>
+            <if test="businessType != null">
+                AND business_type = #{businessType,jdbcType=INTEGER}
+            </if>
+
+
+        </where>
+
+
+    </select>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.ChargeChannel" >
+        update charge_channel
+        <set >
+            <if test="channelName != null" >
+                channel_name = #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="channelScope != null" >
+                channel_scope = #{channelScope,jdbcType=INTEGER},
+            </if>
+            <if test="supplyId != null" >
+                supply_id = #{supplyId,jdbcType=INTEGER},
+            </if>
+            <if test="provinceId != null" >
+                province_id = #{provinceId,jdbcType=INTEGER},
+            </if>
+            <if test="positionCode != null" >
+                position_code = #{positionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="costDiscount != null" >
+                cost_discount = #{costDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="businessType != null" >
+                business_type = #{businessType,jdbcType=INTEGER},
+            </if>
+            <if test="operatorId != null" >
+                operator_id = #{operatorId,jdbcType=INTEGER},
+            </if>
+            <if test="weight != null" >
+                weight = #{weight,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null" >
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateReason != null" >
+                update_reason = #{updateReason,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <!--<if test="deletes != null" >-->
+                <!--deletes = #{deletes,jdbcType=TIMESTAMP},-->
+            <!--</if>-->
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChargeChannel" >
+        update charge_channel
+        set channel_name = #{channelName,jdbcType=VARCHAR},
+        channel_scope = #{channelScope,jdbcType=INTEGER},
+        supply_id = #{supplyId,jdbcType=INTEGER},
+        province_id = #{provinceId,jdbcType=INTEGER},
+        position_code = #{positionCode,jdbcType=VARCHAR},
+        cost_discount = #{costDiscount,jdbcType=DECIMAL},
+        status = #{status,jdbcType=INTEGER},
+        business_type = #{businessType,jdbcType=INTEGER},
+        operator_id = #{operatorId,jdbcType=INTEGER},
+        weight = #{weight,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+        DELETE FROM `charge_channel` WHERE id=#{id,jdbcType=INTEGER}
+
+    </delete>
+
+<!--防止重复添加-->
+
+    <select id="selectChannelInsert" resultMap="BaseResultMap"
+            parameterType="com.jtd.recharge.dao.po.ChargeChannel">
+        select
+        <include refid="Base_Column_List"/>
+        from charge_channel
+        <where>
+            <if test="channelName != null">
+                AND channel_name = #{channelName,jdbcType=VARCHAR}
+            </if>
+            <if test="channelScope != null">
+                AND channel_scope = #{channelScope,jdbcType=INTEGER}
+            </if>
+            <if test="supplyId != null">
+                AND supply_id = #{supplyId,jdbcType=INTEGER}
+            </if>
+            <if test="provinceId != null">
+                AND province_id = #{provinceId,jdbcType=INTEGER}
+            </if>
+            <if test="positionCode != null">
+                AND position_code = #{positionCode,jdbcType=VARCHAR}
+            </if>
+            <if test="costDiscount != null">
+                AND cost_discount = #{costDiscount,jdbcType=DECIMAL}
+            </if>
+            <if test="status != null">
+                AND status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="businessType != null">
+                AND business_type = #{businessType,jdbcType=INTEGER}
+            </if>
+            <if test="weight != null">
+                AND weight = #{weight,jdbcType=INTEGER}
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <!--渠道一键修改-->
+    <update id="updateAllSelective" parameterType="com.jtd.recharge.dao.po.ChargeChannel" >
+        update charge_channel
+        set
+        cost_discount = #{costDiscount,jdbcType=DECIMAL},
+        weight = #{weight,jdbcType=INTEGER},
+        status = #{updateStatus,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where business_type = #{businessType,jdbcType=INTEGER}
+        AND operator_id = #{operatorId,jdbcType=INTEGER}
+        AND supply_id = #{supplyId,jdbcType=INTEGER}
+        <if test="provinceId != null">
+            AND province_id = #{provinceId,jdbcType=INTEGER}
+        </if>
+        <if test="operatorId != null">
+            AND operator_id = #{operatorId,jdbcType=INTEGER}
+        </if>
+        <if test="channelName != null">
+            AND channel_name = #{channelName,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            AND status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="parValue!=null">
+            AND position_code IN
+            <foreach collection="parValue" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        <if test="businessType != null">
+            AND business_type = #{businessType,jdbcType=INTEGER}
+        </if>
+        <if test="supplyId != null">
+            AND supply_id = #{supplyId,jdbcType=INTEGER}
+        </if>
+    </update>
+
+
+
+
+
+
+    <!--渠道相对应产品修改-->
+    <resultMap id="suppleirProduct" type="com.jtd.recharge.dao.po.ChargeSupplyPosition">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+        <result column="package_size" property="packageSize" jdbcType="INTEGER" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="operator" property="operator" jdbcType="INTEGER" />
+        <result column="amount" property="amount" jdbcType="INTEGER" />
+    </resultMap>
+
+<select id="getSupplierProduct" parameterType="com.jtd.recharge.dao.po.ChargeSupplyPosition" resultMap="suppleirProduct">
+    SELECT a.id,a.NAME,a.CODE,a.position_code,a.operator,a.package_size,c.amount FROM `charge_supply_position` a ,charge_position c
+    <where>
+         a.position_code=c.code
+        <if test="businessType != null">
+            AND a.business_type = #{businessType,jdbcType=VARCHAR}
+        </if>
+        <if test="supplyId != null">
+            AND a.supply_id = #{supplyId,jdbcType=VARCHAR}
+        </if>
+        <if test="operator != null">
+            AND a.operator = #{operator,jdbcType=VARCHAR}
+        </if>
+    </where>
+
+</select>
+
+
+
+
+    <!--渠道开关一键修改-->
+    <update id="updateAllSwitch" parameterType="com.jtd.recharge.dao.po.ChargeChannel" >
+        update charge_channel
+        set
+        status = #{updateStatus,jdbcType=INTEGER},
+        update_name = #{updateName,jdbcType=DECIMAL},
+        update_reason = #{updateReason,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where business_type = #{businessType,jdbcType=INTEGER}
+        AND operator_id = #{operatorId,jdbcType=INTEGER}
+        AND supply_id = #{supplyId,jdbcType=INTEGER}
+        <if test="provinceId != null">
+            AND province_id = #{provinceId,jdbcType=INTEGER}
+        </if>
+        <if test="channelName != null">
+            AND channel_name = #{channelName,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            AND status = #{status,jdbcType=INTEGER}
+        </if>
+    </update>
+
+</mapper>

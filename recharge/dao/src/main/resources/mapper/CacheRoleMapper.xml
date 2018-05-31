@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.CacheRoleMapper">
+    <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.CacheRole">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="business_type" property="businessType" jdbcType="INTEGER"/>
+        <result column="cache_type" property="cacheType" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="supplier" property="supplier" jdbcType="VARCHAR"/>
+        <result column="object_name" property="objectName" jdbcType="VARCHAR"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="position_code" property="positionCode" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="province_str" property="provinceStr" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, business_type, cache_type, user_id, supplier, object_name, operator, province, 
+    position_code, status, create_time, create_user
+  </sql>
+
+    <select id="selectCache" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from cache_role
+        where 1=1
+        <if test="userId!=null">
+            AND user_id=#{userId,jdbcType=INTEGER}
+        </if>
+        <if test="supplier!=null">
+            AND supplier=#{supplier,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from cache_role
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+      delete from cache_role  where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.jtd.recharge.dao.po.CacheRole">
+    insert into cache_role (id, business_type, cache_type, 
+      user_id, supplier, object_name, 
+      operator, province, position_code, 
+      status, create_time, create_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{businessType,jdbcType=INTEGER}, #{cacheType,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{supplier,jdbcType=VARCHAR}, #{objectName,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{positionCode,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.CacheRole">
+        insert into cache_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="businessType != null">
+                business_type,
+            </if>
+            <if test="cacheType != null">
+                cache_type,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="supplier != null">
+                supplier,
+            </if>
+            <if test="objectName != null">
+                object_name,
+            </if>
+            <if test="operator != null">
+                operator,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="positionCode != null">
+                position_code,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=INTEGER},
+            </if>
+            <if test="cacheType != null">
+                #{cacheType,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="supplier != null">
+                #{supplier,jdbcType=VARCHAR},
+            </if>
+            <if test="objectName != null">
+                #{objectName,jdbcType=VARCHAR},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="positionCode != null">
+                #{positionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.CacheRole">
+        update cache_role
+        <set>
+            <if test="businessType != null">
+                business_type = #{businessType,jdbcType=INTEGER},
+            </if>
+            <if test="cacheType != null">
+                cache_type = #{cacheType,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="supplier != null">
+                supplier = #{supplier,jdbcType=VARCHAR},
+            </if>
+            <if test="objectName != null">
+                object_name = #{objectName,jdbcType=VARCHAR},
+            </if>
+            <if test="operator != null">
+                operator = #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="positionCode != null">
+                position_code = #{positionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.CacheRole">
+    update cache_role
+    set business_type = #{businessType,jdbcType=INTEGER},
+      cache_type = #{cacheType,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      object_name = #{objectName,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      position_code = #{positionCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!--刘晨浩-->
+    <select id="selectRuleListByConditions" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.CacheRole">
+        select
+        <include refid="Base_Column_List"/>,case province when 0 then '全部省份' else (select group_concat(value) from dict
+        where module='province' and FIND_IN_SET(`key`,province)) end as province_str
+        from cache_role
+        <where>
+            <if test="businessType != null and businessType!=''">
+                business_type = #{businessType}
+            </if>
+            <if test="cacheType != null and cacheType!=''">
+                AND cache_type = #{cacheType}
+            </if>
+            <if test="objectName != null and objectName!=''">
+                AND object_name like CONCAT('%',#{objectName},'%')
+            </if>
+            <if test="status != null and status!=''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="checkRepeatRule" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.CacheRole">
+        select
+        <include refid="Base_Column_List"/>
+        from cache_role
+        <where>
+            <if test="businessType != null">
+                business_type = #{businessType}
+            </if>
+            <if test="cacheType != null">
+                AND cache_type = #{cacheType}
+            </if>
+            <if test="objectName != null">
+                AND object_name = #{objectName}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="supplier != null">
+                AND supplier = #{supplier}
+            </if>
+            <if test="operator != null">
+                AND operator = #{operator}
+            </if>
+            <if test="province != null">
+                AND province = #{province}
+            </if>
+            <if test="positionCode != null">
+                AND position_code = #{positionCode}
+            </if>
+            <if test="id != null">
+                AND id != #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="checkRuleIlegle" resultType="java.lang.Integer" parameterType="com.jtd.recharge.dao.po.CacheRole">
+        select
+        count(1)
+        from cache_role
+        <where>
+            <if test="cacheType != null">
+                cache_type = #{cacheType}
+            </if>
+
+            <if test="cacheType == 1">
+                <if test="userId != null">
+                    and user_id = #{userId}
+                </if>
+                <if test="businessType != null">
+                    and business_type = #{businessType}
+                </if>
+            </if>
+            <if test="cacheType == 2">
+                <if test="supplier != null">
+                    and supplier = #{supplier}
+                </if>
+            </if>
+            <if test="id != null">
+                and id != #{id}
+            </if>
+        </where>
+    </select>
+
+</mapper>

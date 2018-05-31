@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.User" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="user_sid" property="userSid" jdbcType="VARCHAR"/>
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="flow_is_enable" property="flowIsEnable" jdbcType="INTEGER" />
+    <result column="charge_is_enable" property="chargeIsEnable" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="recharge_type" property="rechargeType" jdbcType="INTEGER" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="contacts_mobile" property="contactsMobile" jdbcType="VARCHAR" />
+    <result column="sells" property="sells" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="is_credit" property="isCredit" jdbcType="INTEGER" />
+    <result column="user_all_name" property="userAllName" jdbcType="VARCHAR" />
+    <result column="user_cn_name" property="userCnName" jdbcType="VARCHAR" />
+    <result column="user_zh_name" property="userZhName" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="ip_address" property="ipAddress" jdbcType="VARCHAR" />
+    <result column="pay_password" property="payPassword" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="push_sum" property="pushSum" jdbcType="INTEGER"/>
+  </resultMap>
+
+  <select id="selectUserByToken" resultMap="BaseResultMap">
+    SELECT id,user_cn_name,status,token,ip_address FROM `user` WHERE token = #{token,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectUserBySid" resultType="com.jtd.recharge.dao.po.User">
+    SELECT id,status,token FROM `user` WHERE user_sid = #{sid,jdbcType=VARCHAR}
+  </select>
+
+<!-- 根据用户ID去查询用户表中pId-->
+  <select id="selectUserListByPId" resultType="com.jtd.recharge.dao.po.User" resultMap="BaseResultMap">
+    SELECT a.id,a.user_sid,a.p_id,a.token,a.user_all_name,a.user_cn_name,a.user_name,a.mobile,pay_password,a.contacts,a.contacts_mobile,a.sells,a.register_time,a.status
+    FROM USER a  WHERE a.p_id = #{pId}
+  </select>
+
+
+  <!--商户列表-->
+  <select id="getUserList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT a.id,a.user_sid,a.token,a.`p_id`,a.user_all_name,a.user_cn_name,a.user_name,a.mobile,a.contacts,a.contacts_mobile,a.sells,a.register_time,a.status
+    FROM USER a WHERE a.p_id IS NULL
+    <if test="id!= null">  and a.id=#{id}</if>
+    <if test="userName!= null and userName!=''">  and a.user_name =#{userName}</if>
+    <if test="userCnName!= null and userCnName!=''">  and a.user_cn_name LIKE CONCAT('%',#{userCnName},'%')</if>
+    <if test="status!= null"> and  a.status =#{status} </if>
+    <if test="sells!= null and sells!=''">  and a.sells LIKE CONCAT('%',#{sells},'%')</if>
+  </select>
+
+
+  <!--验证用户名手机号唯一-->
+  <select id="selectUserNameMobile" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.User">
+    SELECT id,user_name,mobile,p_id,contacts,pay_password,contacts_mobile,register_time,password,user_all_name,user_cn_name
+    from user where user_name=#{userName} or mobile=#{mobile} or user_cn_name=#{userCnName}
+  </select>
+
+  <!--根据用户id获取用户信息-->
+  <select id="selectUserByUserId" parameterType="com.jtd.recharge.dao.po.User"  resultMap="BaseResultMap">
+    SELECT mobile,user_name,token,status,is_credit,ip_address,push_sum FROM `user` WHERE id=#{userId};
+  </select>
+  <!--账户信息详情-->
+  <select id="selectUserById" parameterType="com.jtd.recharge.dao.po.User"  resultMap="BaseResultMap">
+    SELECT a.id,a.user_sid,a.p_id,a.token,a.user_all_name,a.user_cn_name,a.user_name,a.mobile,pay_password,a.contacts,a.contacts_mobile,a.sells,a.register_time,a.status FROM USER a WHERE id=#{id};
+  </select>
+
+  <!--查询账户所有信息-->
+  <select id="selectUserList" parameterType="com.jtd.recharge.dao.po.User"  resultMap="BaseResultMap">
+    SELECT a.id,a.user_sid,a.p_id,a.token,a.user_all_name,a.user_cn_name,a.user_name,a.mobile,a.contacts,a.contacts_mobile,a.sells,a.register_time,a.status FROM USER a
+  </select>
+
+
+  <!--商户端登录-->
+  <select id="selectUser" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.User">
+    select id,user_sid,mobile,user_name,p_id,password,contacts,pay_password,contacts_mobile,token,ip_address,is_credit,register_time,user_all_name,user_cn_name,status from user where user_name=#{userName} and password=#{password}
+  </select>
+
+  <!--商户端密码修改-->
+  <update id="updateUserPassword" parameterType="com.jtd.recharge.dao.po.User">
+    UPDATE user set password=#{password} where user_name=#{userName} or id=#{id}
+  </update>
+  <!--商户端支付密码修改-->
+  <update id="updateUserPayPassword" parameterType="com.jtd.recharge.dao.po.User">
+    UPDATE user set  pay_password=#{payPassword} where id=#{id}
+  </update>
+<!--商户端修改用户信息配置手机-->
+  <update id="updateUserMobile" parameterType="com.jtd.recharge.dao.po.User">
+      UPDATE user set  mobile=#{mobile} where id=#{id}
+  </update>
+  <update id="updateUserIpAddress" parameterType="com.jtd.recharge.dao.po.User">
+    UPDATE user
+    <set>
+      <if test="ipAddress != null" >
+        ip_address = #{ipAddress},
+      </if>
+      <if test="pushSum != null" >
+        push_sum = #{pushSum},
+      </if>
+    </set>
+     where id=#{id}
+  </update>
+
+<!--商户端添加子账户-->
+  <insert id="insertUserSon" parameterType="com.jtd.recharge.dao.po.User" useGeneratedKeys="true" keyProperty="id">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="userSid != null" >
+        user_sid,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="rechargeType != null" >
+        recharge_type,
+      </if>
+      <if test="contacts != null" >
+        contacts,
+      </if>
+      <if test="contactsMobile != null" >
+        contacts_mobile,
+      </if>
+      <if test="sells != null" >
+        sells,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="userAllName != null" >
+        user_all_name,
+      </if>
+      <if test="userCnName != null" >
+        user_cn_name,
+      </if>
+      <if test="registerTime != null" >
+        register_time,
+      </if>
+      <if test="pushSum != null" >
+        push_sum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="userSid != null" >
+        #{userSid,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeType != null" >
+        #{rechargeType,jdbcType=INTEGER},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsMobile != null" >
+        #{contactsMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="sells != null" >
+        #{sells,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="userAllName != null" >
+        #{userAllName,jdbcType=VARCHAR},
+      </if>
+      <if test="userCnName != null" >
+        #{userCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushSum != null" >
+        #{pushSum,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </insert>
+
+  <!--商户端修改账户-->
+  <update id="updateUserSon" parameterType="com.jtd.recharge.dao.po.User" >
+    update user
+    <set >
+      <if test="pId != null" >
+        p_id = #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="userSid != null" >
+        user_sid = #{userSid,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password!=''" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeType != null" >
+        recharge_type = #{rechargeType,jdbcType=INTEGER},
+      </if>
+      <if test="contacts != null" >
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsMobile != null" >
+        contacts_mobile = #{contactsMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="sells != null" >
+        sells = #{sells,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="userAllName != null" >
+        user_all_name = #{userAllName,jdbcType=VARCHAR},
+      </if>
+      <if test="userCnName != null" >
+        user_cn_name = #{userCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushSum != null" >
+        push_sum = #{pushSum},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryUserList" resultType="com.jtd.recharge.dao.po.User" resultMap="BaseResultMap">
+    SELECT u.user_sid,u.user_cn_name,u.token FROM `user` u
+    INNER JOIN user_app ua on u.id = ua.user_id AND ua.app_type in (4,5)
+    <where>
+      AND u.status = 1
+      <if test="token != null">
+        AND u.token = #{token, jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+</mapper>

@@ -1,0 +1,544 @@
+a{
+	text-decoration: none;
+}
+dl{
+	margin-bottom: 0;
+}
+.clearFloat{
+	clear: both;
+}
+/*IM即时消息*/
+.l_main{
+	position: relative;
+	width: 100%;
+	max-width: 640px;
+	min-width: 320px;
+	margin: 0 auto;
+}
+.l_header{
+	height: 3.75rem;
+	background: #abcdef;
+}
+
+.l_ji_nav{
+	width: 5.95rem;
+	margin: auto;
+	margin-top: .32rem;
+	height: 1.25rem
+}
+.l_ji_list2,.l_ji_list3{
+	margin-left: 0.05rem;
+}
+.l_ji_nav div{
+	width: 1.95rem;
+	height: 1.25rem;
+	float: left;
+}
+.l_ji_list1{
+	background:#ed424b;
+}
+.l_ji_list2{
+	background:#ed8e42;
+}
+.l_ji_list3{
+	background:#1e93f7;
+}
+.l_ji_list1,.l_ji_list2,.l_ji_list3{
+	color: #fff;
+	text-align: center;
+}
+.l_ji_list1 dt,.l_ji_list2 dt,.l_ji_list3 dt{
+	margin-top: .17rem;
+	font-size: .24rem;
+}
+.l_ji_list1 dd,.l_ji_list2 dd,.l_ji_list3 dd{
+	font-size: .20rem;
+	margin-top: 3px;
+	width: 1.25rem;
+	text-align: center;
+	margin:auto;
+}
+.fa{
+	margin-right: .05rem;
+}
+.l_ji_youshi{
+	width:5.2rem;
+	height: 8.08rem;
+	margin: auto;
+}
+.l_ji_youshi h4{
+	text-align: center;
+	font-size: .28rem;
+	margin-top: .55rem;
+	margin-bottom: 0px;
+	font-weight: 500;
+}
+.youshi_box{
+	width: 2.25rem;
+	margin-top: .4rem;
+}
+.youshi_box p img{
+	width: .90rem;
+	height: .90rem;
+	display: block;
+	margin: auto;
+}
+.youshi_box dl{
+	margin-bottom: 0px;
+}
+.youshi_box dt{
+	font-size: .25rem;
+	text-align: center;
+	margin-top: .35rem;
+	font-weight: 500;
+}
+.youshi_box dd{
+	font-size: .20rem;
+	margin-top: .25rem;
+	line-height: .3rem;
+}
+.youshi_box_even{
+	float: left;
+}
+.youshi_box_odd{
+	float: right;
+}
+.youshi_box_color2{color:#ee8d78;}
+.youshi_box_color1{color:#52823d;}
+.youshi_box_color4{color:#2884c6;}
+.youshi_box_color3{color:#e51960;}
+
+.l_ji_cj{
+	width: 5.95rem;
+	margin: auto;
+	border-top: 1px solid #dedede;
+}
+.l_ji_cj h4{
+	text-align: center;
+	font-size: .28rem;
+	margin-top: .55rem;
+	margin-bottom: 0px;
+	font-weight: 500;
+}
+.cj_box{
+	height: 1.64rem;
+	margin-top: .65rem;
+}
+.cj_box:last-child{
+	margin-bottom: .65rem;
+}
+.cj_box p{
+	width: 1.64rem;
+	float: left;
+}
+.cj_box dl{
+	width: 4.1rem;
+	float: right;
+	margin-top: .5rem;
+	margin-bottom: 0px;
+}
+.cj_box p img{
+	width: 1.64rem;
+	height: 1.64rem;
+}
+.cj_box dl dt{
+	font-size: .25rem;
+	font-weight: normal;	
+}
+.cj_box dl dd{
+	font-size: .20rem;
+	line-height: .3rem;
+	margin-top: .15rem;
+}
+/*IVR企业总机*/
+.ivr_gn{
+	width: 5.95rem;
+	height: 12.8rem;
+	margin:auto;
+	background: #eeeeee;
+}
+.ivr_gn h4{
+	text-align: center;
+	font-size: .28rem;
+	padding-top: .35rem;
+	margin-bottom: .4rem;
+	font-weight: 500;
+	margin-top: 0;
+}
+.tx_box{
+	width: 2.95rem;
+	padding: .20rem .30rem .20rem .4rem;
+	border-bottom: 1px solid #fff;
+	height: 3.8rem;
+}
+.tx_box:nth-child(odd){
+	float: left;
+}
+.tx_box:nth-child(even){
+	float: left;
+	border-right: 1px solid #fff;
+}
+.tx_box:nth-child(7){
+	border-bottom: 0rem;
+}
+.tx_box:nth-child(6){
+	border-bottom: 0rem;
+}
+.tx_box p img{
+	width: .85rem;
+	height: .75rem;
+	display: block;
+	margin: auto;
+}
+.tx_box dl{
+	text-align: center;
+	margin-top: .3rem;
+	margin-bottom: 0px;
+}
+.tx_box dl dt{
+	font-size: .24rem;
+}
+.tx_box dl dd{
+	font-size: .2rem;
+	line-height: .3rem;
+	margin-top: .15rem;
+}
+/*产品介绍*/
+
+.l_cjbox{
+	width: 6rem;
+	margin: auto;
+	margin-top: .2rem;
+}
+.l_cj_list{
+	display: block;
+	height: 1.4rem;
+	line-height: 1.4rem;
+	border-bottom: 1px solid #dedede;
+}
+.l_cj_list .cj_left img{
+	height: 1.04rem;
+	width: 1.04rem;
+}
+.cj_left{
+	float: left;
+	width: 1.04rem;
+	line-height: 1.4rem;
+}
+.cj_center{
+	float: left;
+	width: 4.1rem;
+	margin-left: .35rem;
+}
+.cj_center dl{
+	margin-bottom: 0px;
+}
+.cj_center dt{
+	font-size: .24rem;
+	padding-top: .18rem;
+	color: #323232;
+}
+.cj_center dd{
+	font-size: .2rem;
+	margin-top: .1rem;
+	color: #323232;
+}
+.cj_right{
+	float: right;
+}
+.cj_right .fa-chevron-right{
+	line-height: 1.4rem;
+	float: right;
+	color: #323232;
+}
+
+/*电话回拨*/
+.hb_text{
+	height: 1.6rem;
+	background: #fff;
+}
+.hb_text p{
+	width: 5.1rem;
+	margin: auto;
+	font-size: .2rem;
+	padding-top: .53rem;
+}
+.hb_js{
+	height: 3.85rem;
+}
+.hb_js img{
+	width: 100%;
+}
+.hb_content{
+	font-family: "微软雅黑";
+	margin-bottom: 1rem;
+}
+.hb_content h4{
+	text-align: center;
+	font-size: .28rem;
+	margin-top: .35rem;
+	margin-bottom: 0;
+	font-weight: 500;
+}
+.hb_tp{
+	margin-top: .5rem;
+}
+.hb_tp img{
+	display: block;
+	width: 3.9rem;
+	height: 2.9rem;
+	margin: auto;
+}
+.hb_tp dl{
+	width: 3.2rem;
+	margin:auto;
+}
+.hb_tp dl dt{
+	text-align: center;
+	font-size: .32rem;
+	margin-top: .2rem;
+}
+.hb_tp dl dd{
+	margin-top: .3rem;
+	font-size: .2rem;
+	font-weight: bold;
+}
+/*电话会议*/
+.l_hybox h4{
+	text-align: center;
+	font-size: .28rem;
+	margin-top: .35rem;
+	margin-bottom: 0px;
+	font-weight: 500;
+}
+.l_hy_list{
+	width: 4.2rem;
+	margin: auto;
+	text-align: center;
+	margin-top: .5rem;
+}
+.l_hy_list img{
+	display: block;
+	width: .94rem;
+	height: .94rem;
+	margin: auto;
+}
+.l_hy_list dl{
+	margin-bottom: 0;
+}
+.l_hy_list dt{
+	font-size: .25rem;
+	margin-top: .3rem;
+	font-weight: 500;
+}
+.l_hy_list dd{
+	font-size: .2rem;
+	margin-top: .24rem;
+	line-height: .3rem;
+}
+.l_hy_footer{
+	margin-top: .4rem;
+	height: 3.47rem;
+}
+.l_hy_footer img{
+	width:100%;
+}
+/*电话营销*/
+.yx_box_color2{color:#004f90;}
+.yx_box_color1{color:#ed2998;}
+.yx_box_color4{color:#00a6c7;}
+.yx_box_color3{color:#7531aa;}
+
+.l_dhyx_footer{
+	height: 8.05rem;
+}
+.l_dhyx_footer img{
+	width:100%;
+}
+
+/* 短信 */
+
+.dx_top{
+	height: 2.5rem;
+	background: #f5f5f5;
+}
+.dx_top a{
+	
+	display: block;
+	text-decoration: none;
+	color: #000;
+	text-align: center;
+	float: left;
+}
+.dx_top a:hover{
+	text-decoration: none;
+	color: #000;
+}
+.dx_top a dl{ 
+	padding-top: .25rem;
+	margin-bottom: 0;
+}
+.dx_top a img{
+	width: 1.3rem;
+	height: 1.3rem;
+	display: block;
+	margin: auto;
+}
+.dx_top a dl dd{
+	font-size: .2rem;
+	margin-top: .1rem;
+}
+.dx_a1{
+	width: 1.63rem;
+	margin-left: .23rem;
+}
+.dx_a2{
+	width: 1.63rem;
+	margin-left: .56rem;
+}
+.dx_a3{
+	width:1.81rem;
+	margin-left: .4rem;
+}
+
+.dx_td{
+	height: 2.55rem;
+	width: 5.95rem;
+	margin:auto;
+	border-bottom: 1px solid #dedede;
+}
+.dx_td h4{
+	text-align: center;
+	font-size: .28rem;
+	margin-top: .35rem;
+	margin-bottom: 0px;
+	font-weight: 500;
+}
+.dx_td img{
+	width: 100%;
+	margin-top: .4rem;
+}
+.dx_content{
+	width: 5.85rem;
+	margin: auto;
+	margin-bottom: .5rem;
+}
+.dx_content h4{
+	text-align: center;
+	font-size: .28rem;
+	margin-top: .35rem;
+	margin-bottom: 0px;
+	font-weight: 500;
+}
+.dx_con_box p img{
+	display: block;
+	width: 3.07rem;
+	height: 2.96rem;
+	margin: auto;
+	margin-top: .15rem;
+}
+.dx_con_box dl{
+	margin-bottom: 0;
+}
+.dx_con_box dt{
+	font-size: .24rem;
+	color: #2493c7;
+	text-align: center;
+	margin-top: .15rem;
+}
+.dx_con_box dd{
+	font-size: .2rem;
+	margin-top: .2rem;
+}
+/*短信通知*/
+.l_tz_nav{
+	height: 4.5rem;
+	background: #1e0035;
+}
+.l_tz_nav h4{
+	text-align: center;
+	font-size: .28rem;
+	padding-top: .35rem;
+	margin-top: 0;
+	margin-bottom: 0px;
+	font-weight: 500;
+	color: #fff;
+}
+.tz_box{
+	padding-top: .3rem;
+	width: 4.3rem;
+	margin: auto;
+}
+.tz_box a{
+	display: block;
+	width:1.55rem;
+	margin-top: .25rem;
+}
+.tz_box dl{
+	margin-bottom: 0;
+	width:1.55rem;
+}
+.tz_box a:nth-child(odd){
+	float: left;
+}
+.tz_box a:nth-child(even){
+	float: right;
+}
+.youshi_box:nth-child(odd){
+	float: right;
+}
+.youshi_box:nth-child(even){
+	float: left;
+}
+.tz_box dl dt{
+	float: left;
+}
+.tz_box dl dt img{
+	
+	width: .47rem;
+	height: .47rem;
+	display: block;
+	margin:auto;
+}
+.tz_box dl dd{
+	float: right;
+	color: #fff;
+	font-size: .2rem;
+	line-height: .47rem;
+}
+/*关于我们*/
+.l_gywm_box{
+	width: 5.95rem;
+	margin: auto;
+}
+.gywm_top{
+	padding-bottom: .2rem;
+	border-bottom: 1px solid #dedede;
+}
+.gywm_top h4{
+	display: block;
+	widows: 1.2rem;
+	border-left: .15rem solid #18bd9c;
+	padding-left: .1rem;
+	font-size: .24rem;
+}
+.gywm_top p{
+	font-size: .2rem;
+	text-indent: 2em;
+	margin-top: .35rem;
+}
+.gywm_bottom h4{
+	display: block;
+	widows: 1.2rem;
+	border-left: .15rem solid #18bd9c;
+	padding-left: .1rem;
+	font-size: .24rem;
+	margin-top: .2rem;
+}
+.gywm_bottom ul{
+	margin-bottom: .4rem;
+}
+.gywm_bottom li{
+	font-size: .2rem;
+	line-height: .7rem;
+}

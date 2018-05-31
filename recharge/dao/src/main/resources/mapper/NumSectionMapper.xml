@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.NumSectionMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.NumSection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mobile_number" property="mobileNumber" jdbcType="CHAR" />
+    <result column="mobile_province" property="mobileProvince" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="INTEGER" />
+    <result column="mobile_area" property="mobileArea" jdbcType="VARCHAR" />
+    <result column="mobile_type" property="mobileType" jdbcType="INTEGER" />
+    <result column="mobile_type_name" property="mobileTypeName" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mobile_number, mobile_province, province_id, mobile_area, mobile_type, mobile_type_name, 
+    area_code, post_code
+  </sql>
+
+  <select id="selectNumSectionByMobile" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM num_section WHERE mobile_number = #{mobile,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from num_section
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.NumSection" >
+    select
+    <include refid="Base_Column_List" />
+    from num_section
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from num_section
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.NumSection" >
+    insert into num_section (id, mobile_number, mobile_province, 
+      province_id, mobile_area, mobile_type, 
+      mobile_type_name, area_code, post_code
+      )
+    values (#{id,jdbcType=INTEGER}, #{mobileNumber,jdbcType=CHAR}, #{mobileProvince,jdbcType=VARCHAR}, 
+      #{provinceId,jdbcType=INTEGER}, #{mobileArea,jdbcType=VARCHAR}, #{mobileType,jdbcType=VARCHAR}, 
+      #{mobileTypeName,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.NumSection" >
+    insert into num_section
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mobileNumber != null" >
+        mobile_number,
+      </if>
+      <if test="mobileProvince != null" >
+        mobile_province,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="mobileArea != null" >
+        mobile_area,
+      </if>
+      <if test="mobileType != null" >
+        mobile_type,
+      </if>
+      <if test="mobileTypeName != null" >
+        mobile_type_name,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="postCode != null" >
+        post_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mobileNumber != null" >
+        #{mobileNumber,jdbcType=CHAR},
+      </if>
+      <if test="mobileProvince != null" >
+        #{mobileProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="mobileArea != null" >
+        #{mobileArea,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileType != null" >
+        #{mobileType,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileTypeName != null" >
+        #{mobileTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.NumSection" >
+    update num_section
+    <set >
+      <if test="mobileNumber != null" >
+        mobile_number = #{mobileNumber,jdbcType=CHAR},
+      </if>
+      <if test="mobileProvince != null" >
+        mobile_province = #{mobileProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="mobileArea != null" >
+        mobile_area = #{mobileArea,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileType != null" >
+        mobile_type = #{mobileType,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileTypeName != null" >
+        mobile_type_name = #{mobileTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.NumSection" >
+    update num_section
+    set mobile_number = #{mobileNumber,jdbcType=CHAR},
+      mobile_province = #{mobileProvince,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=INTEGER},
+      mobile_area = #{mobileArea,jdbcType=VARCHAR},
+      mobile_type = #{mobileType,jdbcType=VARCHAR},
+      mobile_type_name = #{mobileTypeName,jdbcType=VARCHAR},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

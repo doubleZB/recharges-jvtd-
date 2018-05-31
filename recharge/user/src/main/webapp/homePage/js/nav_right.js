@@ -1,0 +1,11 @@
+document.writeln("<div id='xuanfu'>");
+document.writeln("<div class='dianhua'>");
+document.writeln("<a href='#'>");
+document.writeln("<img src='"+path+"/homePage/images/xuanfu1.png' title=''>");
+document.writeln("<span>400-056-6681</span>");
+document.writeln("</a>");
+document.writeln("</div>");
+document.writeln("<a href='http://dwz.cn/3Jo1MK' target='_blank' title='点击咨询'><img src='"+path+"/homePage/images/xuanfu2.png' title='点击咨询' /></a>");
+document.writeln("<a href='javascript:scroll(0,0)'><img class='xuanfu3' src='"+path+"/homePage/images/xuanfu3.png' title='返回顶部'></a>");
+document.writeln("</div>");
+document.writeln("");

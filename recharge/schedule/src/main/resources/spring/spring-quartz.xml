@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- ======================== 调度触发器 ======================== -->
+    <bean id="CronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 任务调度类 -->
+        <property name="jobDetail" ref="SpringQtzJobMethod"></property>
+        <!-- 任务执行时间 -->
+        <property name="cronExpression" value="0 0/50 9-20 * * ?" ></property>
+
+    </bean>
+
+    <bean id="userStatisticsDayCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 任务调度类 -->
+        <property name="jobDetail" ref="userStatisticsDayTimeMethod"></property>
+        <!-- 任务执行时间 -->
+        <property name="cronExpression" value="0 0 1 ? * *" ></property>
+
+    </bean>
+
+    <bean id="userStatisticsMonthTimeCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 任务调度类 -->
+        <property name="jobDetail" ref="userStatisticsMonthTimeMethod"></property>
+        <!-- 任务执行时间 -->
+        <property name="cronExpression" value="0 0 1 1 * ?" ></property>
+
+    </bean>
+    <bean id="activeSelectCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 任务调度类 -->
+        <property name="jobDetail" ref="activeQuery"></property>
+        <!-- 任务执行时间 -->
+        <property name="cronExpression" value="0 33 17 * * ?" ></property>
+
+    </bean>
+
+    <bean id="channelStatisticsDayTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 任务调度类 -->
+        <property name="jobDetail" ref="channelStatisticsDayTimeMethod"></property>
+        <!-- 任务执行时间 -->
+        <property name="cronExpression" value="0 30 13 * * ?" ></property>
+
+    </bean>
+    <!-- 任务调度类 -->
+    <!-- 使用MethodInvokingJobDetailFactoryBean， 通过targetMethod指定调用方法-->
+    <bean id="SpringQtzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+
+        <!-- 任务执行类 -->
+        <property name="targetObject">
+            <ref bean="SpringQtzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>work</value><!-- 要执行的方法名称 -->
+        </property>
+    </bean>
+    <bean id="userStatisticsDayTimeMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+
+        <!-- 任务执行类 -->
+        <property name="targetObject">
+            <ref bean="userStatisticsDayTime"/>
+        </property>
+        <property name="targetMethod">
+            <value>userStatisticsDay</value><!-- 要执行的方法名称 -->
+        </property>
+    </bean>
+    <bean id="userStatisticsMonthTimeMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 任务执行类 -->
+        <property name="targetObject">
+            <ref bean="userStatisticsMonthTime"/>
+        </property>
+        <property name="targetMethod">
+            <value>userStatisticsMonth</value><!-- 要执行的方法名称 -->
+        </property>
+    </bean>
+
+    <bean id="activeQuery" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 任务执行类 -->
+        <property name="targetObject">
+            <ref bean="activeSelect"/>
+        </property>
+        <property name="targetMethod">
+            <value>activeQuery</value><!-- 要执行的方法名称 -->
+        </property>
+    </bean>
+    <bean id="channelStatisticsDayTimeMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 任务执行类 -->
+        <property name="targetObject">
+            <ref bean="channelStatisticsDayTime"/>
+        </property>
+        <property name="targetMethod">
+            <value>countChannelStatisticsDay</value><!-- 要执行的方法名称 -->
+        </property>
+    </bean>
+
+
+    <!-- 定义目标bean和bean中的方法 -->
+    <!-- 任务执行类 -->
+    <bean id="SpringQtzJob" class="com.jtd.recharge.schedule.user.UserBalanceTime"></bean>
+    <bean id="userStatisticsMonthTime" class="com.jtd.recharge.schedule.user.UserStatisticsMonthTime"></bean>
+    <bean id="userStatisticsDayTime" class="com.jtd.recharge.schedule.user.UserStatisticsDayTime"></bean>
+    <bean id="activeSelect" class="com.jtd.recharge.schedule.activeQuery.BJYDActiveSelect"></bean>
+    <bean id="channelStatisticsDayTime" class="com.jtd.recharge.schedule.channel.ChannelStatisticsDayTime"></bean>
+    <!-- ======================== 调度工厂 ======================== -->
+    <bean id="SpringJobSchedulerFactoryBean" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <!-- 调度触发器 -->
+                <ref bean="CronTriggerBean"/>
+                <ref bean="userStatisticsDayCronTriggerBean"/>
+                <ref bean="userStatisticsMonthTimeCronTriggerBean"/>
+                <ref bean="activeSelectCronTriggerBean"/>
+                <ref bean="channelStatisticsDayTriggerBean"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

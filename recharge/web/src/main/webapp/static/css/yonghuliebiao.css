@@ -1,0 +1,125 @@
+body {
+    font-size: 1.4rem;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+.am-u-sm-2 {
+    width: 120px;
+}
+
+.am-u-sm-3 {
+    width: 186px;
+}
+
+.am-tabs-bd .am-tab-panel {
+    padding: 20px;
+}
+
+am-pagination {
+    margin: 0;
+}
+
+.am-pagination li a {
+    padding: .5rem .1rem;
+    border: 0;
+}
+
+.am-cf {
+    line-height: 38px;
+}
+
+am-pagination>li>a:focus,
+.am-pagination>li>a:hover,
+.am-pagination>li>span:focus,
+.am-pagination>li>span:hover {
+    background-color: #fff;
+}
+
+.tab_list>li>div>p {
+    min-width: 140px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+	position: relative;
+    top: -4px;
+}
+
+.tab_list>li>div>p.quanxuan {
+    min-width: 70px;
+}
+
+.tab_list1>li>div>p {
+    min-width: 140px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+	position: relative;
+    top: -4px;
+}
+
+.tab_list1>li>div>p.quanxuan {
+    min-width: 70px;
+}
+
+.tab_list li {
+    display: none;
+}
+
+.tab_list li:first-child {
+    display: block;
+}
+
+.tab_list1 li {
+    display: none;
+	text-align: left;
+}
+
+.tab_list1 li:first-child {
+    display: block;
+}
+
+.tab_wu {
+    
+}
+
+.am-form-field {
+    height: 35px;
+}
+
+.select1 {
+    height: 35px;
+    border-color: #ccc;
+}
+
+.am-btn {
+    font-size: 1.4rem;
+}
+
+.am-form input[type=number],
+.am-form input[type=search],
+.am-form input[type=text],
+.am-form input[type=password],
+.am-form input[type=datetime],
+.am-form input[type=datetime-local],
+.am-form input[type=date],
+.am-form input[type=month],
+.am-form input[type=time],
+.am-form input[type=week],
+.am-form input[type=email],
+.am-form input[type=url],
+.am-form input[type=tel],
+.am-form input[type=color],
+.am-form select,
+.am-form textarea,
+.am-form-field {
+    font-size: 1.4rem;
+    line-height: inherit;
+}
+
+label {
+    font-weight: 100;
+}

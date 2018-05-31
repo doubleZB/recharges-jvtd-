@@ -1,0 +1,185 @@
+.z-header .z-name span {
+    display: none;
+}
+
+.z-spread {
+    width: 100%;
+    height: 2.4rem;
+    padding: 0 .25rem;
+}
+
+.z-spreadTit {
+    font-size: .28rem;
+    text-align: center;
+    height: 1rem;
+    line-height: 1rem;
+}
+
+.z-tb {
+    text-align: center;
+    font-size: .2rem;
+}
+
+.z-spreadContent div {
+    display: inline-block;
+    padding: 0;
+}
+
+.z-tb img {
+    width: 1.02rem;
+    height: 1.02rem;
+}
+
+.z-spreadContent .z-mk {
+    text-align: left;
+    line-height: .48rem;
+    padding-top: .15rem;
+}
+
+.z-mk a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-size: .2rem;
+    text-align: center;
+}
+
+.z-mk img {
+    width: auto;
+    height: .47rem;
+    margin-right: .05rem;
+    vertical-align: middle;
+    vertical-align: top;
+}
+
+.r {
+    background: #e74840;
+}
+
+.b {
+    background: #1c99ef;
+}
+
+.p {
+    background: #942cac;
+}
+
+.g {
+    background: #00b766;
+}
+
+.o {
+    background: #f39801;
+}
+
+.div1 {
+    width: 2.24rem;
+    height: .5rem;
+    margin: 0 0 .05rem .25rem;
+}
+
+.div2 {
+    width: 2.24rem;
+    height: .5rem;
+}
+
+.div3 {
+    width: 1.2rem;
+    height: .5rem;
+    margin-left: .25rem;
+}
+
+.div4 {
+    width: 1.7rem;
+    height: .5rem;
+}
+
+.div5 {
+    width: 1.5rem;
+    height: .5rem;
+}
+
+.zRequire {
+    width: 100%;
+    height: 4.8rem;
+    padding: 0 .25rem;
+    margin-top: .3rem;
+}
+
+.zRequire-tit {
+    width: 100%;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    font-size: .28rem;
+    color: #000;
+    text-align: center;
+    border-top: 1px solid #bfbfbf;
+}
+
+.zRequire-content {
+    font-size: .2rem;
+    width: 100%;
+    height: 1.8rem;
+}
+
+.zRequire-content a {
+    color: #3a3a3a;
+}
+
+.zRequire-content div {
+    padding: 0;
+    text-align: center;
+}
+
+.zRequire-content img {
+    width: .87rem;
+    height: .82rem;
+    margin-bottom: .14rem;
+}
+
+.zCustom {
+    width: 100%;
+    padding: .2rem .25rem .4rem .25rem;
+}
+
+.zCustom-tit {
+    width: 100%;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+}
+
+.zCustom-content img {
+    width: 1.16rem;
+    height: .48rem;
+}
+
+.zCustom-content table {
+    border: 1px solid #bfbfbf;
+    margin: 0 auto;
+}
+
+.zCustom-content table td {
+    width: 1.4rem;
+    height: .62rem;
+    text-align: center;
+}
+
+.zLink {
+    width: 100%;
+    height: 2.3rem;
+    padding: .2rem .25rem;
+    font-size: .2rem;
+    color: #121313;
+}
+
+.zLink img {
+    width: 1.73rem;
+    height: 1.72rem;
+}
+
+.zLink-content {
+    text-align: left;
+    line-height: .55rem;
+}

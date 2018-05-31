@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargePositionMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargePosition" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="business_type" property="businessType" jdbcType="INTEGER" />
+    <result column="package_size" property="packageSize" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="video_type" property="videoType" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, video_type,business_type, package_size, code, operator, amount, update_time
+  </sql>
+
+  <select id="selectPosition" resultMap="BaseResultMap" >
+    SELECT <include refid="Base_Column_List"/> FROM charge_position WHERE business_type = #{businessType,jdbcType=INTEGER} AND code = #{code,jdbcType=VARCHAR} AND operator = #{operator,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectUserPosition" resultMap="BaseResultMap">
+    SELECT p.`package_size`,p.`code`,p.`operator`,p.`amount`,c.`discount_price` FROM
+    charge_product_store c,charge_product t,charge_position p
+    WHERE c.`product_id` = t.`id` AND t.`position_code` = p.`code`
+    AND c.group_id = #{groupId,jdbcType=INTEGER}
+    AND p.`business_type` = #{businessType,jdbcType=INTEGER}
+    AND c.`status`=1
+    GROUP BY t.`position_code`
+  </select>
+
+  <select id="selectByPrimary" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargePosition"  >
+    select
+    <include refid="Base_Column_List" />
+    from charge_position
+    <where>
+      <if test="id != null" >
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="businessType != null" >
+        and business_type = #{businessType,jdbcType=INTEGER}
+      </if>
+      <if test="code != null" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="operator != null" >
+        and operator = #{operator,jdbcType=INTEGER}
+      </if>
+      <if test="amount != null" >
+        and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+
+  </select>
+</mapper>

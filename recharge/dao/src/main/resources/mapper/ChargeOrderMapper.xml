@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChargeOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChargeOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="business_type" property="businessType" jdbcType="INTEGER" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="recharge_mobile" property="rechargeMobile" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="INTEGER" />
+    <result column="province_id" property="provinceId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_cn_name" property="userCnName" jdbcType="VARCHAR" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="source" property="source" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR" />
+    <result column="customId" property="customid" jdbcType="VARCHAR" />
+    <result column="package_size" property="packageSize" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="push_status" property="pushStatus" jdbcType="INTEGER"/>
+    <result column="refund_status" property="refundStatus" jdbcType="TIMESTAMP" />
+    <result column="order_time" property="orderTimeend" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="order_return_time" property="orderReturnTime" jdbcType="DATE"/>
+    <result column="order_cost_discount" property="orderCostDiscount" jdbcType="DECIMAL" />
+    <result column="order_cost" property="orderCost" jdbcType="DECIMAL"/>
+    <result column="order_price_discount" property="orderPriceDiscount" jdbcType="DECIMAL"/>
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, business_type, order_num, recharge_mobile, operator, province_id, user_id, position_code,
+    amount, source, status, supply_id, callback_url, customId, push_status,order_time,
+    order_cost_discount,order_cost,order_price_discount
+  </sql>
+
+  <select id="selectOrderByOrderNum" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM ${table} WHERE order_num = #{orderNum,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectOrderByOrderNumAndCustomId" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM charge_order
+    WHERE 1=1
+    <if test="orderNum!=null and orderNum!=''">
+      AND   order_num = #{orderNum,jdbcType=VARCHAR}
+    </if>
+    <if test="customId!=null and customId!=''">
+      AND customId = #{customId,jdbcType=VARCHAR}
+    </if>
+    <if test="phone != null and '' != phone">
+      AND recharge_mobile = #{phone, jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <!-- 根据手机号和商户订单号查询 -->
+  <select id="selectOrderByMobileAndCustomId" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM charge_order
+    WHERE   recharge_mobile = #{mobile,jdbcType=VARCHAR}  AND customId = #{customId,jdbcType=VARCHAR}
+  </select>
+
+  <!--商户端流量订单记录-->
+  <select id="floworderList" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeOrder">
+      SELECT order_time,
+      CASE WHEN STATUS=7 THEN 1 ELSE 0 END STATUS,SUM(amount) amount FROM charge_order WHERE business_type=1  GROUP BY order_time
+  --     SELECT order_time,COUNT(STATUS) AS STATUS,SUM(amount) amount FROM charge_order WHERE business_type=1  GROUP BY order_time
+  </select>
+
+  <!--商户端流量发送记录-->
+  <select id="floworderListup" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeOrder">
+  SELECT DATE_SUB(CURDATE(),INTERVAL 1 DAY),COUNT(order_time) num, SUM(amount) numb FROM charge_order WHERE business_type=1
+  </select>
+  <!--商户端话费订单记录-->
+  <select id="chargeorderList" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeOrder">
+    SELECT order_time,
+    CASE WHEN STATUS=7 THEN 1 ELSE 0 END STATUS,SUM(amount) amount FROM charge_order WHERE business_type=2  GROUP BY order_time
+--     SELECT order_time,COUNT(STATUS) AS STATUS,SUM(amount) amount FROM charge_order WHERE business_type=2  GROUP BY order_time
+  </select>
+  <!--商户端流量发送记录-->
+  <select id="chargeorderListup" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeOrder">
+    SELECT DATE_SUB(CURDATE(),INTERVAL 1 DAY),COUNT(order_time) num, SUM(amount) numb FROM charge_order WHERE business_type=2
+  </select>
+    <!--更新订单状态 -->
+    <update id="updateStatusByOrderNum">
+      UPDATE charge_order SET `status` = #{status,jdbcType=INTEGER} ,supply_id = #{supplyId,jdbcType=INTEGER} WHERE order_num = #{orderNum,jdbcType=VARCHAR}
+    </update>
+
+  <update id="updateStatusByOrderNumList">
+    UPDATE charge_order SET `status` = #{status,jdbcType=INTEGER} ,supply_id = #{supplyId,jdbcType=INTEGER}
+     WHERE order_num    IN
+       <foreach collection="orderNums" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+  </update>
+
+
+  <!--更新订单状态 -->
+  <update id="updateStatusByOrderNums">
+    UPDATE charge_order SET `status` = #{status,jdbcType=INTEGER} WHERE order_num = #{orderNum,jdbcType=VARCHAR}
+  </update>
+
+    <!--更新回执订单状态,动态更新表 -->
+    <update id="updateReturnStatusByOrderNum" parameterType="com.jtd.recharge.dao.bean.Order">
+        UPDATE ${table} SET `status` = #{status,jdbcType=INTEGER} ,supply_id = #{supplyId,jdbcType=INTEGER},
+        refund_status = #{refundStatus,jdbcType=INTEGER},order_return_time = #{orderReturnTime,jdbcType=TIMESTAMP}
+        WHERE order_num = #{orderNum,jdbcType=VARCHAR}
+    </update>
+
+
+
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from charge_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charge_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jtd.recharge.dao.po.ChargeOrder" >
+    insert into charge_order (id, business_type, order_num,
+    recharge_mobile, operator, province_id,
+    user_id, position_code, amount,
+    source, status, supply_id,
+    callback_url, customId, order_time
+    )
+    values (#{id,jdbcType=INTEGER}, #{businessType,jdbcType=INTEGER}, #{orderNum,jdbcType=VARCHAR},
+    #{rechargeMobile,jdbcType=VARCHAR}, #{operator,jdbcType=INTEGER}, #{provinceId,jdbcType=INTEGER},
+    #{userId,jdbcType=INTEGER}, #{positionCode,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL},
+    #{source,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{supplyId,jdbcType=INTEGER},
+    #{callbackUrl,jdbcType=VARCHAR}, #{customid,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChargeOrder" >
+    insert into charge_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="businessType != null" >
+        business_type,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="rechargeMobile != null" >
+        recharge_mobile,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="positionCode != null" >
+        position_code,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="supplyId != null" >
+        supply_id,
+      </if>
+      <if test="callbackUrl != null" >
+        callback_url,
+      </if>
+      <if test="customid != null" >
+        customId,
+      </if>
+      <if test="pushStatus != null" >
+        push_status,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="orderCostDiscount != null" >
+        order_cost_discount,
+      </if>
+      <if test="orderCost != null" >
+        order_cost,
+      </if>
+      <if test="orderPriceDiscount != null">
+        order_price_discount
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="businessType != null" >
+        #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeMobile != null" >
+        #{rechargeMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="positionCode != null" >
+        #{positionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="supplyId != null" >
+        #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="callbackUrl != null" >
+        #{callbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null" >
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="pushStatus != null" >
+        #{pushStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCostDiscount != null" >
+        #{orderCostDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderCost != null" >
+        #{orderCost,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPriceDiscount != null">
+        #{orderPriceDiscount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateOrderByOrderNum" parameterType="com.jtd.recharge.dao.po.ChargeOrder" >
+    update ${table}
+    <set >
+      <if test="businessType != null" >
+        business_type = #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeMobile != null" >
+        recharge_mobile = #{rechargeMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="positionCode != null" >
+        position_code = #{positionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="supplyId != null" >
+        supply_id = #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="callbackUrl != null" >
+        callback_url = #{callbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null" >
+        customId = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="pushStatus != null" >
+        push_status = #{pushStatus,jdbcType=INTEGER},
+      </if>
+      <if test="refundStatus != null" >
+        refund_status = #{refundStatus,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_num = #{orderNum,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChargeOrder" >
+    update charge_order
+    set business_type = #{businessType,jdbcType=INTEGER},
+    order_num = #{orderNum,jdbcType=VARCHAR},
+    recharge_mobile = #{rechargeMobile,jdbcType=VARCHAR},
+    operator = #{operator,jdbcType=INTEGER},
+    province_id = #{provinceId,jdbcType=INTEGER},
+    user_id = #{userId,jdbcType=INTEGER},
+    position_code = #{positionCode,jdbcType=VARCHAR},
+    amount = #{amount,jdbcType=DECIMAL},
+    source = #{source,jdbcType=INTEGER},
+    status = #{status,jdbcType=INTEGER},
+    supply_id = #{supplyId,jdbcType=INTEGER},
+    callback_url = #{callbackUrl,jdbcType=VARCHAR},
+    customId = #{customid,jdbcType=VARCHAR},
+    order_time = #{orderTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+<!--商户端列表查询-->
+
+  <select id="getUserOrder" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeOrder" >
+    SELECT  id, business_type, order_num, recharge_mobile, operator, province_id, user_id, position_code,amount,
+    source, status, supply_id, callback_url, customId, push_status,order_time ,refund_status,remark  FROM   ${table}
+    <where>
+      <if test="businessType != null" >
+        AND business_type = #{businessType,jdbcType=INTEGER}
+      </if>
+
+      <if test="userId != null" >
+        AND user_id = #{userId,jdbcType=INTEGER}
+      </if>
+
+      <if test="rechargeMobile != null" >
+        AND recharge_mobile = #{rechargeMobile,jdbcType=VARCHAR}
+      </if>
+
+      <if test="source != null" >
+        AND source = #{source,jdbcType=INTEGER}
+      </if>
+
+      <if test="provinceId != null" >
+        AND  province_id = #{provinceId,jdbcType=INTEGER}
+      </if>
+
+
+      <if test="operator != null" >
+        AND  operator = #{operator,jdbcType=INTEGER}
+      </if>
+      <if test="supplyId != null" >
+        AND  supply_id = #{supplyId,jdbcType=INTEGER}
+      </if>
+
+      <if test="status!=null">
+        AND status =#{status,jdbcType=INTEGER}
+      </if>
+
+      <if test="statusList!=null">
+        AND status IN
+        <foreach collection="statusList" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+
+      <if test="orderTime != null" >
+        AND order_time &gt;= #{orderTime,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="orderTimeend != null" >
+        AND order_time &lt;= #{orderTimeend}
+      </if>
+      <if test="remark!=null">
+        AND remark  like #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="customid != null" >
+        AND customId = #{customid,jdbcType=VARCHAR}
+      </if>
+    </where>
+
+  </select>
+
+
+<!--商户端消费统计-->
+  <select id="getamountcount" resultType="java.lang.String" parameterType="com.jtd.recharge.dao.po.ChargeOrder" >
+
+    SELECT   SUM(amount) AS amount  FROM   ${table}
+    <where>
+      <if test="businessType != null" >
+        AND business_type = #{businessType,jdbcType=INTEGER}
+      </if>
+
+      <if test="userId != null" >
+        AND user_id = #{userId,jdbcType=INTEGER}
+      </if>
+
+      <if test="rechargeMobile != null" >
+        AND recharge_mobile = #{rechargeMobile,jdbcType=VARCHAR}
+      </if>
+
+      <if test="source != null" >
+        AND source = #{source,jdbcType=INTEGER}
+      </if>
+
+      <if test="provinceId != null" >
+        AND  province_id = #{provinceId,jdbcType=INTEGER}
+      </if>
+
+
+      <if test="operator != null" >
+        AND  operator = #{operator,jdbcType=INTEGER}
+      </if>
+      <if test="remark!=null">
+        AND remark  like #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="status!=null"> and status =#{status,jdbcType=INTEGER}</if>
+
+      <if test="orderTime != null" >
+        <![CDATA[AND order_time   >=  #{orderTime,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="orderTimeend != null" >
+        <![CDATA[ AND order_time   <= #{orderTimeend}]]>
+      </if>
+
+
+
+    </where>
+  </select>
+
+  <select id="selectUserOrder" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChargeOrder" >
+     SELECT  a.id, a.business_type, a.order_num, a.recharge_mobile, a.operator, b.value,c.package_size,a.amount,
+    a.source, a.status, a.supply_id, a.callback_url, a.customId, a.push_status,a.order_time,a.remark,d.user_cn_name  FROM  ${table}  a LEFT JOIN dict b ON a.province_id = b.id
+    LEFT JOIN charge_position c  ON a.position_code=c.code
+    LEFT JOIN USER d ON a.`user_id`=d.id
+    <where>
+    <if test="orderTime != null" >
+      AND a.order_time &gt;= #{orderTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="orderTimeend != null" >
+      AND a.order_time &lt;= #{orderTimeend}
+    </if>
+
+    <if test="businessType != null" >
+      AND a.business_type = #{businessType,jdbcType=INTEGER}
+    </if>
+
+    <if test="userId != null" >
+      AND a.user_id = #{userId,jdbcType=INTEGER}
+    </if>
+
+    <if test="rechargeMobile != null and rechargeMobile!=''" >
+      AND a.recharge_mobile = #{rechargeMobile,jdbcType=VARCHAR}
+    </if>
+
+    <if test="source != null" >
+      AND a.source = #{source,jdbcType=INTEGER}
+    </if>
+
+    <if test="provinceId != null" >
+      AND  a.province_id = #{provinceId,jdbcType=INTEGER}
+    </if>
+    <if test="operator != null" >
+      AND  a.operator = #{operator,jdbcType=INTEGER}
+    </if>
+    <if test="supplyId != null" >
+      AND  a.supply_id = #{supplyId,jdbcType=INTEGER}
+    </if>
+    <if test="status!=null">
+      AND a.status =#{status,jdbcType=INTEGER}
+    </if>
+    <if test="statusList!=null">
+      AND a.status IN
+      <foreach collection="statusList" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+    </if>
+    <if test="remark!=null and remark!=''">
+      AND a.remark  like #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="customid != null and customid!=''" >
+      AND a.customId = #{customid,jdbcType=VARCHAR}
+    </if>
+  </where>
+
+  </select>
+
+</mapper>

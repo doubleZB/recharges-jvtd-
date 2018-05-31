@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.OrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.bean.Order" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_detail" property="order_detail" jdbcType="VARCHAR" />
+    <result column="order" property="order" jdbcType="VARCHAR" />
+    <result column="business_type" property="businessType" jdbcType="INTEGER" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="INTEGER" />
+    <result column="push_status" property="pushStatus" jdbcType="INTEGER"/>
+    <result column="table" property="table" jdbcType="VARCHAR" />
+    <result column="user_all_name" property="userAllName" jdbcType="VARCHAR" />
+    <result column="user_cn_name" property="userCnName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="recharge_mobile" property="rechargeMobile" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="source" property="source" jdbcType="INTEGER" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="refund_status" property="refundStatus" jdbcType="INTEGER" />
+    <result column="artificial_refund" property="artificialRefund" jdbcType="INTEGER" />
+    <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="customId" property="customId" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="package_size" property="packageSize" jdbcType="VARCHAR" />
+    <result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+    <result column="channel_num" property="channelNum" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+    <result column="return_time" property="returnTime" jdbcType="TIMESTAMP" />
+    <result column="order_return_time" property="orderReturnTime" jdbcType="TIMESTAMP" />
+    <result column="return_rspcode" property="returnRspcode" jdbcType="VARCHAR" />
+    <result column="order_cost_discount" property="orderCostDiscount" jdbcType="DECIMAL" />
+    <result column="order_cost" property="orderCost" jdbcType="DECIMAL"/>
+    <result column="order_price_discount" property="orderPriceDiscount" jdbcType="DECIMAL"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, business_type, order_num, recharge_mobile, operator, province_id, user_id, position_code,
+    amount, source, status, supply_id, callback_url, customId, push_status,order_time,
+     order_cost_discount,order_cost,order_price_discount
+  </sql>
+
+<!--流量话费订单查询-->
+<select id="selectOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+  SELECT a.id,a.order_num,a.recharge_mobile,a.push_status,a.refund_status,a.order_price_discount,a.artificial_refund,a.customId,a.business_type,f.name supply_name,a.order_time,a.position_code,
+  a.order_time order_time1,a.order_time order_time2,a.operator,a.amount,a.source,a.order_time,
+  a.order_return_time,a.status,b.value,c.user_all_name, c.user_cn_name,c.id,e.package_size,e.amount money
+  FROM ${order} AS a JOIN dict AS b ON a.province_id=b.key
+  JOIN USER c ON a.user_id=c.id
+  JOIN charge_position e ON e.code=a.position_code
+  LEFT JOIN charge_supply f ON a.supply_id=f.id
+<where>
+  <if test="orderTimeOne!=null"> and a.order_time  &gt;=#{orderTimeOne}</if>
+  <if test="orderTimeTwo!=null"> and a.order_time  &lt;=#{orderTimeTwo}</if>
+  <if test="rechargeMobile!=null">
+   and a.recharge_mobile in
+    <foreach collection="rechargeMobile" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+  </if>
+  <if test="userCnName!='' and userCnName!=null"> and c.user_cn_name =#{userCnName}</if>
+  <if test="customId!='' and customId!=null"> and a.customId =#{customId}</if>
+  <if test="supplyName!='' and supplyName!=null"> and f.name =#{supplyName}</if>
+  <if test="operator!=null and operator!=''"> and a.operator =#{operator}</if>
+  <if test="val1!=null and val1!=''"> and b.`key` =#{val1}</if>
+  <if test="businessType!=null and businessType!=''"> and a.business_type =#{businessType}</if>
+  <if test="source!=null and source!=''"> and a.source =#{source}</if>
+  <if test="status!=null and status!=''"> and a.status =#{status}</if>
+  <if test="orderNum!=null and orderNum!=''"> and a.order_num =#{orderNum}</if>
+  <if test="pushStatus!=null and pushStatus!=''"> and a.push_status =#{pushStatus}</if>
+  <if test="positionCodes!=null">
+    AND e.code IN
+    <foreach collection="positionCodes" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+  </if>
+  <if test="artificialRefund!=null and artificialRefund!=''"> and a.artificial_refund =#{artificialRefund}</if>
+</where>
+</select>
+
+  <!--充值流水查询-->
+  <select id="selectOrders" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT a.id,a.order_num,a.recharge_mobile,a.refund_status,a.customId,a.business_type,f.name supply_name,a.order_time,a.position_code, a.order_time order_time1,a.order_time order_time2,a.operator,a.amount,a.source,a.order_time,a.status,b.value,c.user_all_name, c.user_cn_name,e.package_size
+    FROM ${order} AS a JOIN dict AS b ON a.province_id=b.key
+    JOIN USER c ON a.user_id=c.id
+    JOIN charge_position e ON e.code=a.position_code
+    LEFT JOIN charge_supply f ON a.supply_id=f.id  WHERE a.order_num=#{orderNum}
+  </select>
+
+  <!--交易额支付总额-->
+  <select id="selectOrderList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT SUM(a.amount) amount,SUM(e.amount) money FROM ${order} AS a JOIN dict AS b ON a.province_id=b.key
+    JOIN USER c ON a.user_id=c.id
+    JOIN charge_position e ON e.code=a.position_code
+    LEFT JOIN charge_supply f ON a.supply_id=f.id
+    <where>
+      <if test="orderTimeOne!=null"> and a.order_time  &gt;=#{orderTimeOne}</if>
+      <if test="orderTimeTwo!=null"> and a.order_time  &lt;=#{orderTimeTwo}</if>
+      <if test="rechargeMobile!=null">
+        and a.recharge_mobile in
+        <foreach collection="rechargeMobile" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+      <if test="userCnName!='' and userCnName!=null"> and c.user_cn_name =#{userCnName}</if>
+      <if test="customId!='' and customId!=null"> and a.customId =#{customId}</if>
+      <if test="supplyName!='' and supplyName!=null"> and f.name =#{supplyName}</if>
+      <if test="operator!=null and operator!=''"> and a.operator =#{operator}</if>
+      <if test="val1!=null and val1!=''"> and b.`key` =#{val1}</if>
+      <if test="businessType!=null and businessType!=''"> and a.business_type =#{businessType}</if>
+      <if test="source!=null and source!=''"> and a.source =#{source}</if>
+      <if test="status!=null and status!=''"> and a.status =#{status}</if>
+      <if test="orderNum!=null and orderNum!=''"> and a.order_num =#{orderNum}</if>
+      <if test="pushStatus!=null and pushStatus!=''"> and a.push_status =#{pushStatus}</if>
+      <if test="positionCodes!=null">
+        AND e.code IN
+        <foreach collection="positionCodes" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+      <if test="artificialRefund!=null and artificialRefund!=''"> and a.artificial_refund =#{artificialRefund}</if>
+    </where>
+  </select>
+
+  <!--订单流水详情-->
+  <select id="selectDatail" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT a.id,a.business_type,a.channel_num,a.mobile,a.supply_id,a.status,a.submit_time,a.return_time,a.return_rspcode,c.name as supply_name
+    FROM ${order_detail} as a JOIN ${order} as b ON b.order_num=a.order_num JOIN charge_supply AS c ON a.supply_id = c.id WHERE a.order_num=#{orderNum} ORDER BY a.submit_time DESC
+  </select>
+
+  <!--查询结果未知订单查询-->
+  <select id="selectResultUnknownOrderList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT a.id,a.order_num,a.customId,a.recharge_mobile,a.callback_url,a.business_type,a.operator,b.submit_time,(TIMESTAMPDIFF(MINUTE,b.submit_time,NOW())-10) MINUTE,b.submit_time submit_timea,b.submit_time submit_timeb,c.value,d.package_size,e.user_cn_name,e.token,f.name AS supply_name
+    FROM ${order} a
+    LEFT JOIN ${order_detail} b ON b.order_num=a.order_num
+    JOIN dict c ON a.province_id=c.key
+    JOIN charge_position d ON d.code=a.position_code
+    JOIN USER e ON e.id = a.user_id
+    JOIN charge_supply f ON f.id = a.supply_id
+    where (TIMESTAMPDIFF(MINUTE,b.submit_time,NOW())-10)>0  AND b.status=1
+    <if test="orderTimeOne!=null"> and b.submit_time  &gt;=#{orderTimeOne}</if>
+    <if test="orderTimeTwo!=null"> and b.submit_time  &lt;=#{orderTimeTwo}</if>
+    <if test="rechargeMobile!='' and rechargeMobile!=null"> and a.recharge_mobile =#{rechargeMobile}</if>
+    <if test="userCnName!='' and userCnName!=null"> and e.user_cn_name  =#{userCnName}</if>
+    <if test="supplyName!='' and supplyName!=null"> and f.name =#{supplyName}</if>
+    <if test="operator!=null and operator!=''"> and a.operator =#{operator}</if>
+    <if test="val1!=null and val1!=''"> and c.`key` =#{val1}</if>
+    <if test="positionCodes!=null">
+      AND d.code IN
+      <foreach collection="positionCodes" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+    </if>
+    <if test="businessType!=null and businessType!=''"> and a.business_type =#{businessType}</if>
+  </select>
+
+  <!--根据订单号查询订单及用户信息-->
+  <select id="selectOrderByOrderNum" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.bean.Order">
+    SELECT a.id,a.order_num,a.customId,a.recharge_mobile,a.callback_url,a.status,b.token,a.order_time
+    FROM ${order} a JOIN USER b ON b.id = a.user_id
+    WHERE a.order_num=#{orderNum}
+  </select>
+
+  <!--更新订单状态-->
+  <update id="updateOrderByStatus" parameterType="com.jtd.recharge.dao.bean.Order">
+    update ${order}
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="artificialRefund != null">
+        artificial_refund =#{artificialRefund,jdbcType=INTEGER}
+      </if>
+      <if test="refundStatus != null">
+        refund_status =#{refundStatus,jdbcType=INTEGER}
+      </if>
+    </set>
+    where order_num=#{orderNum}
+  </update>
+
+  <!--更改详情订单状态-->
+  <update id="updateOrderDetailByStatus" parameterType="com.jtd.recharge.dao.bean.Order">
+    update ${order_detail} set status = #{status} where order_num=#{orderNum}
+  </update>
+
+
+  <!--更新回执订单状态,动态更新表 -->
+  <update id="updateReturnStatusByOrderNum" parameterType="com.jtd.recharge.dao.bean.Order">
+    UPDATE ${table} SET `status` = #{status,jdbcType=INTEGER} ,supply_id = #{supplyId,jdbcType=INTEGER},
+    refund_status = #{refundStatus,jdbcType=INTEGER}
+    WHERE order_num = #{orderNum,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--流量话费销售订单查询-->
+  <select id="selectMarketOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT a.id,a.order_num,a.recharge_mobile,a.push_status,a.refund_status,a.order_price_discount,a.artificial_refund,a.customId,a.business_type,f.name supply_name,a.order_time,a.position_code,
+    a.order_time order_time1,a.order_time order_time2,a.operator,a.amount,a.source,a.order_time,
+    a.order_return_time,a.status,b.value,c.user_all_name, c.user_cn_name,c.id,e.package_size,e.amount money
+    FROM ${order} AS a JOIN dict AS b ON a.province_id=b.key
+    JOIN USER c ON a.user_id=c.id
+    JOIN charge_position e ON e.code=a.position_code
+    LEFT JOIN charge_supply f ON a.supply_id=f.id
+    <where>
+      <if test="orderTimeOne!=null"> and a.order_time  &gt;=#{orderTimeOne}</if>
+      <if test="orderTimeTwo!=null"> and a.order_time  &lt;=#{orderTimeTwo}</if>
+      <if test="rechargeMobile!=null">
+        and a.recharge_mobile in
+        <foreach collection="rechargeMobile" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+      <if test="userMarketOrderId!=null">
+        and c.id in
+        <foreach collection="userMarketOrderId" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+      <if test="userCnName!='' and userCnName!=null"> and c.user_cn_name =#{userCnName}</if>
+      <if test="customId!='' and customId!=null"> and a.customId =#{customId}</if>
+      <if test="operator!=null and operator!=''"> and a.operator =#{operator}</if>
+      <if test="val1!=null and val1!=''"> and b.`key` =#{val1}</if>
+      <if test="businessType!=null and businessType!=''"> and a.business_type =#{businessType}</if>
+      <if test="status!=null and status!=''"> and a.status =#{status}</if>
+      <if test="orderNum!=null and orderNum!=''"> and a.order_num =#{orderNum}</if>
+    </where>
+  </select>
+
+  <!--销售交易额支付总额-->
+  <select id="selectMarketOrderMoney" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT SUM(a.amount) amount,SUM(e.amount) money FROM ${order} AS a JOIN dict AS b ON a.province_id=b.key
+    JOIN USER c ON a.user_id=c.id
+    JOIN charge_position e ON e.code=a.position_code
+    LEFT JOIN charge_supply f ON a.supply_id=f.id
+    <where>
+      <if test="orderTimeOne!=null"> and a.order_time  &gt;=#{orderTimeOne}</if>
+      <if test="orderTimeTwo!=null"> and a.order_time  &lt;=#{orderTimeTwo}</if>
+      <if test="rechargeMobile!=null">
+        and a.recharge_mobile in
+        <foreach collection="rechargeMobile" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+      <if test="userMarketOrderId!=null">
+        and c.id in
+        <foreach collection="userMarketOrderId" item="item" index="index"  open="(" separator="," close=")">#{item}</foreach>
+      </if>
+      <if test="userCnName!='' and userCnName!=null"> and c.user_cn_name =#{userCnName}</if>
+      <if test="customId!='' and customId!=null"> and a.customId =#{customId}</if>
+      <if test="operator!=null and operator!=''"> and a.operator =#{operator}</if>
+      <if test="val1!=null and val1!=''"> and b.`key` =#{val1}</if>
+      <if test="businessType!=null and businessType!=''"> and a.business_type =#{businessType}</if>
+      <if test="status!=null and status!=''"> and a.status =#{status}</if>
+      <if test="orderNum!=null and orderNum!=''"> and a.order_num =#{orderNum}</if>
+    </where>
+  </select>
+
+
+
+</mapper>

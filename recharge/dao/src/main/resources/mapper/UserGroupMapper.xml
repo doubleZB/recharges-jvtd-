@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.UserGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.bean.UserGroup" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="ids" property="ids" jdbcType="INTEGER"/>
+    <result column="user_sid" property="userSid" jdbcType="VARCHAR"/>
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="flow_is_enable" property="flowIsEnable" jdbcType="INTEGER" />
+    <result column="charge_is_enable" property="chargeIsEnable" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="name" property="Name" jdbcType="VARCHAR" />
+    <result column="recharge_type" property="rechargeType" jdbcType="INTEGER" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="contacts_mobile" property="contactsMobile" jdbcType="VARCHAR" />
+    <result column="sells" property="sells" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="user_all_name" property="userAllName" jdbcType="VARCHAR" />
+    <result column="user_cn_name" property="userCnName" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="udpate_time" property="udpateTime" jdbcType="TIMESTAMP" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_balance" property="userBalance" jdbcType="DECIMAL" />
+    <result column="credit_balance" property="creditBalance" jdbcType="DECIMAL" />
+    <result column="borrow_balance" property="borrowBalance" jdbcType="DECIMAL" />
+    <result column="push_sum" property="pushSum" jdbcType="INTEGER"/>
+  </resultMap>
+
+<!--商户新增-->
+  <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.jtd.recharge.dao.bean.UserGroup" >
+  INSERT INTO USER SET user_sid=#{userSid},token=#{token},is_credit=0,push_sum=3,user_all_name=#{userAllName},user_cn_name=#{userCnName},user_name=#{userName},password=#{password},mobile=#{mobile},contacts=#{contacts},contacts_mobile=#{contactsMobile},sells=#{sells},status=#{status},register_time=now()
+  </insert>
+<!--去回显修改商户-->
+  <select id="selectUserByid" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.bean.UserGroup">
+     SELECT  a.id,a.user_all_name,a.password,a.user_cn_name,a.user_name,a.mobile,a.contacts,a.contacts_mobile,a.sells,a.register_time,a.status
+     FROM USER a where a.id=#{id}
+  </select>
+<!--修改商户-->
+  <update id="updateUserList" parameterType="com.jtd.recharge.dao.bean.UserGroup">
+     UPDATE USER SET password=#{password},mobile=#{mobile},contacts=#{contacts},contacts_mobile=#{contactsMobile},sells=#{sells},status=#{status},register_time=now() where id=#{id}
+  </update>
+  <!--密码为空的时候修改商户-->
+  <update id="updateUserLists" parameterType="com.jtd.recharge.dao.bean.UserGroup">
+    UPDATE USER SET mobile=#{mobile},contacts=#{contacts},contacts_mobile=#{contactsMobile},sells=#{sells},status=#{status},register_time=now() where id=#{id}
+  </update>
+
+</mapper>

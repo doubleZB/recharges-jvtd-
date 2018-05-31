@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtd.recharge.dao.mapper.ChannelStatisticsDayMapper" >
+  <resultMap id="BaseResultMap" type="com.jtd.recharge.dao.po.ChannelStatisticsDay" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="business_type" property="businessType" jdbcType="INTEGER" />
+    <result column="tatal_ords" property="tatalOrds" jdbcType="INTEGER" />
+    <result column="success_num" property="successNum" jdbcType="INTEGER" />
+    <result column="success_money" property="successMoney" jdbcType="DECIMAL" />
+    <result column="success_rate" property="successRate" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, supply_id, business_type, tatal_ords, success_num, success_money, success_rate, 
+    update_time
+  </sql>
+
+
+  <!--统计渠道成功订单数和金额-->
+  <select id="selectSuccessChannelTotalOrder" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT  supply_id , business_type,COUNT(id) AS success_num,SUM(amount)AS success_money
+     FROM `charge_order` WHERE STATUS=7 AND  order_time LIKE #{_parameter} GROUP BY supply_id
+  </select>
+  <!--统计渠道总订单数和金额-->
+  <select id="selectChannelTotalOrder" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT  supply_id , business_type,COUNT(id) AS tatal_ords
+    FROM `charge_order` WHERE STATUS IN (7,8) AND  order_time LIKE #{_parameter} GROUP BY supply_id
+  </select>
+
+  <!--修改渠道总订单数-->
+  <update id="updateChannelStatisticsDay" parameterType="com.jtd.recharge.dao.po.ChannelStatisticsDay">
+    UPDATE channel_statistics_day SET `tatal_ords`=#{tatalOrds,jdbcType=INTEGER}
+    WHERE supply_id=#{supplyId,jdbcType=INTEGER} AND business_type=#{businessType,jdbcType=INTEGER} AND update_time like #{updateTime,jdbcType=INTEGER};
+  </update>
+
+  <select id="selectByPrimaryKeySelective" resultMap="BaseResultMap" parameterType="com.jtd.recharge.dao.po.ChannelStatisticsDay">
+    select
+    <include refid="Base_Column_List" />
+    from channel_statistics_day
+    <where>
+      <if test="id != null">
+        AND id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="supplyId != null">
+        AND supply_id = #{supplyId,jdbcType=INTEGER}
+      </if>
+      <if test="businessType != null">
+        AND business_type = #{businessType,jdbcType=INTEGER}
+      </if>
+      <if test="tatalOrds != null">
+        AND tatal_ords = #{tatalOrds,jdbcType=INTEGER}
+      </if>
+      <if test="successNum != null">
+        AND success_num = #{successNum,jdbcType=INTEGER}
+      </if>
+      <if test="successMoney != null">
+        AND success_money = #{successMoney,jdbcType=INTEGER}
+      </if>
+      <if test="successRate != null">
+        AND success_rate = #{successRate,jdbcType=INTEGER}
+      </if>
+      <if test="updateTime != null">
+        AND update_time LIKE #{updateTime,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from channel_statistics_day
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from channel_statistics_day
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+  <insert id="insertSelective" parameterType="com.jtd.recharge.dao.po.ChannelStatisticsDay" >
+    insert into channel_statistics_day
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplyId != null" >
+        supply_id,
+      </if>
+      <if test="businessType != null" >
+        business_type,
+      </if>
+      <if test="tatalOrds != null" >
+        tatal_ords,
+      </if>
+      <if test="successNum != null" >
+        success_num,
+      </if>
+      <if test="successMoney != null" >
+        success_money,
+      </if>
+      <if test="successRate != null" >
+        success_rate,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="supplyId != null" >
+        #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="businessType != null" >
+        #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="tatalOrds != null" >
+        #{tatalOrds,jdbcType=INTEGER},
+      </if>
+      <if test="successNum != null" >
+        #{successNum,jdbcType=INTEGER},
+      </if>
+      <if test="successMoney != null" >
+        #{successMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="successRate != null" >
+        #{successRate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtd.recharge.dao.po.ChannelStatisticsDay" >
+    update channel_statistics_day
+    <set >
+      <if test="supplyId != null" >
+        supply_id = #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="businessType != null" >
+        business_type = #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="tatalOrds != null" >
+        tatal_ords = #{tatalOrds,jdbcType=INTEGER},
+      </if>
+      <if test="successNum != null" >
+        success_num = #{successNum,jdbcType=INTEGER},
+      </if>
+      <if test="successMoney != null" >
+        success_money = #{successMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="successRate != null" >
+        success_rate = #{successRate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtd.recharge.dao.po.ChannelStatisticsDay" >
+    update channel_statistics_day
+    set supply_id = #{supplyId,jdbcType=INTEGER},
+      business_type = #{businessType,jdbcType=INTEGER},
+      tatal_ords = #{tatalOrds,jdbcType=INTEGER},
+      success_num = #{successNum,jdbcType=INTEGER},
+      success_money = #{successMoney,jdbcType=DECIMAL},
+      success_rate = #{successRate,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
